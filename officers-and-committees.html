@@ -1,1 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Officers & Committees | Project GLASS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 antialiased min-h-screen flex flex-col">
 
+    <!-- HERO HEADER (IDENTICAL HOMEPAGE DESIGN LAYER & SIZES) -->
+    <div id="hero-header" class="relative text-white py-16 md:py-24 px-6 md:px-12 text-center overflow-hidden border-b border-blue-800 shadow-inner bg-gradient-to-r from-blue-900 via-indigo-950 to-slate-950">
+        
+        <!-- PHYSICAL BACKGROUND IMAGE LAYER -->
+        <img id="header-bg-image-layer" src="" alt="" class="absolute inset-0 w-full h-full object-cover opacity-100 pointer-events-none z-0 hidden">
+        
+        <!-- Dot Matrix Mesh Pattern Overlay -->
+        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#3b82f6_1px,transparent_1px)] [background-size:16px_16px] z-0"></div>
+
+        <!-- IMAGE HEADER CONTAINER -->
+        <div id="header-image-container" class="relative max-w-5xl mx-auto z-10 hidden flex justify-center items-center">
+            <img id="config-header-banner" src="" alt="Portal Banner" class="max-h-48 md:max-h-64 object-contain rounded-lg drop-shadow-lg">
+        </div>
+        
+        <!-- Fallback/Loader Text when image is parsing -->
+        <div id="header-loader" class="relative z-10 text-xs text-slate-400 font-medium animate-pulse">Loading Header Assets...</div>
+    </div>
+
+    <!-- NAVIGATION TABS -->
+    <section class="bg-white border-b border-slate-200 py-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="text-center md:text-left">
+                <h2 class="text-2xl font-bold tracking-tight text-slate-900">Official Directory</h2>
+                <p class="text-sm text-slate-500 mt-0.5">Supreme Secondary Learner Government Roster</p>
+            </div>
+            
+            <div class="flex bg-slate-100 p-1 rounded-lg border border-slate-200 text-xs font-medium text-slate-600">
+                <button onclick="showTab('executive')" id="btn-executive" class="px-4 py-2 rounded-md transition-all bg-white text-blue-600 shadow-sm font-semibold">Executives</button>
+                <button onclick="showTab('representatives')" id="btn-representatives" class="px-4 py-2 rounded-md transition-all hover:text-slate-900">Representatives</button>
+                <button onclick="showTab('committees')" id="btn-committees" class="px-4 py-2 rounded-md transition-all hover:text-slate-900">Committees</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTENT PORTAL -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10">
+
+        <!-- PANEL 1: EXECUTIVES (STRICT 1-2-2 STRUCTURAL GRID) -->
+        <div id="panel-executive" class="dir-tab-panel space-y-10">
+            <!-- Row 1: President (1) -->
+            <div id="row-pres" class="flex justify-center w-full">
+                <div class="text-xs text-slate-400 animate-pulse">Loading core roster files...</div>
+            </div>
+            
+            <!-- Row 2: Vice President & Secretary (2) -->
+            <div class="max-w-3xl mx-auto">
+                <div id="row-tier2" class="grid grid-cols-1 sm:grid-cols-2 gap-8 justify-items-center"></div>
+            </div>
+
+            <!-- Row 3: Remaining Executive Officers (2) -->
+            <div class="max-w-3xl mx-auto">
+                <div id="row-tier3" class="grid grid-cols-1 sm:grid-cols-2 gap-8 justify-items-center"></div>
+            </div>
+        </div>
+
+        <!-- PANEL 2: REPRESENTATIVES (UNCAPITALIZED HEADERS) -->
+        <div id="panel-representatives" class="dir-tab-panel space-y-6 hidden">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+                    <h4 class="text-sm font-bold text-blue-600 tracking-wide pb-2 border-b border-slate-100 mb-3">Grade 7 & 8</h4>
+                    <ul id="rep-g78-target" class="text-sm text-slate-700 space-y-2 font-medium"></ul>
+                </div>
+                <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+                    <h4 class="text-sm font-bold text-blue-600 tracking-wide pb-2 border-b border-slate-100 mb-3">Grade 9 & 10</h4>
+                    <ul id="rep-g910-target" class="text-sm text-slate-700 space-y-2 font-medium"></ul>
+                </div>
+                <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+                    <h4 class="text-sm font-bold text-indigo-600 tracking-wide pb-2 border-b border-slate-100 mb-3">Senior High</h4>
+                    <ul id="rep-shs-target" class="text-sm text-slate-700 space-y-2 font-medium"></ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- PANEL 3: COMMITTEES -->
+        <div id="panel-committees" class="dir-tab-panel space-y-3 hidden">
+            <div id="committee-accordion-target" class="space-y-3"></div>
+        </div>
+
+    </main>
+
+    <footer class="bg-slate-950 text-slate-400 text-xs py-6 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p>© 2026 Supreme Secondary Learner Government. Project GLASS Accountability Portal.</p>
+        </div>
+    </footer>
+
+    <script>
+        const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTIFgXyOttJeJGsVaLwfFtNWb-c1YCJiJ8R5siL32ykA47xYYY7b8KmPXm_42vNAbaHXOkcqEG3tRCu/pub?output=csv";
+        const GID_CONFIG = "229901204";
+        const GID_ROSTER = "416625956";
+
+        const DEFAULT_AVATAR = `<svg class="w-16 h-16 text-slate-200" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>`;
+
+        function processCSV(text) {
+            let lines = []; let row = [""]; let inQuotes = false;
+            for (let i = 0; i < text.length; i++) {
+                let c = text[i]; let next = text[i+1];
+                if (c === '"') { if (inQuotes && next === '"') { row[row.length - 1] += '"'; i++; } else { inQuotes = !inQuotes; } }
+                else if (c === ',' && !inQuotes) { row.push(''); }
+                else if ((c === '\r' || c === '\n') && !inQuotes) { if (c === '\r' && next === '\n') i++; lines.push(row); row = ['']; }
+                else { row[row.length - 1] += c; }
+            }
+            if (row.length > 1 || row[0] !== '') lines.push(row);
+            return lines;
+        }
+
+        function showTab(tabName) {
+            document.querySelectorAll('.dir-tab-panel').forEach(p => p.classList.add('hidden'));
+            document.getElementById('panel-' + tabName).classList.remove('hidden');
+            ['executive', 'representatives', 'committees'].forEach(t => {
+                const btn = document.getElementById('btn-' + t);
+                if (btn) btn.className = "px-4 py-2 rounded-md transition-all hover:text-slate-900 text-slate-600";
+            });
+            document.getElementById('btn-' + tabName).className = "px-4 py-2 rounded-md transition-all bg-white text-blue-600 shadow-sm font-semibold";
+        }
+
+        function toggleDropdown(id) {
+            const drawer = document.getElementById('drawer-' + id);
+            const chevron = document.getElementById('chev-' + id);
+            if(drawer.classList.contains('hidden')) {
+                drawer.classList.remove('hidden');
+                chevron.classList.add('rotate-180');
+            } else {
+                drawer.classList.add('hidden');
+                chevron.classList.remove('rotate-180');
+            }
+        }
+
+        function buildCard(name, role, img) {
+            const portrait = img ? `<img src="${img}" alt="${name}" class="w-full h-full object-cover">` : `<div class="w-full h-full bg-slate-100 flex items-center justify-center">${DEFAULT_AVATAR}</div>`;
+            return `
+                <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm w-full max-w-[260px] flex flex-col items-center">
+                    <div class="w-full h-64 bg-slate-50 rounded-lg overflow-hidden border border-slate-100 flex-shrink-0">
+                        ${portrait}
+                    </div>
+                    <div class="mt-3 text-center w-full">
+                        <h4 class="font-bold text-slate-800 text-base truncate">${name}</h4>
+                        <p class="text-xs font-medium text-slate-500 mt-0.5">${role}</p>
+                    </div>
+                </div>`;
+        }
+
+        async function fetchAndRenderData() {
+            // 1. INTEGRATE HERO IMAGE LOGIC FROM HOMEPAGE
+            try {
+                const res = await fetch(`${CSV_URL}&gid=${GID_CONFIG}`);
+                const rows = processCSV(await res.text());
+                let bgUrl = "";
+                let fgUrl = "";
+                
+                for(let i = 1; i < rows.length; i++) {
+                    if(!rows[i][0]) continue;
+                    let key = rows[i][0].trim();
+                    let value = rows[i][1] ? rows[i][1].trim() : "";
+                    
+                    if(key === 'HEADER_BG_IMAGE') bgUrl = value;
+                    if(key === 'HEADER_IMAGE_BANNER' || key === 'HEADER_FG_IMAGE') fgUrl = value;
+                }
+                
+                if(bgUrl) {
+                    const bgLayer = document.getElementById("header-bg-image-layer");
+                    bgLayer.src = bgUrl;
+                    bgLayer.classList.remove('hidden');
+                }
+                
+                if(fgUrl) {
+                    const fgBanner = document.getElementById("config-header-banner");
+                    fgBanner.src = fgUrl;
+                    document.getElementById("header-image-container").classList.remove('hidden');
+                    document.getElementById("header-loader").classList.add('hidden');
+                }
+            } catch(e) { console.error("Error setting up matching hero header:", e); }
+
+            // 2. ROSTER STRUCTURAL OVERHAUL
+            try {
+                const res = await fetch(`${CSV_URL}&gid=${GID_ROSTER}`);
+                const rows = processCSV(await res.text());
+
+                let execList = [];
+                let repsList = [];
+                let commList = [];
+
+                // Strict executive sorting arrays
+                const execRoles = ['president', 'vice president', 'secretary', 'treasurer', 'auditor', 'p.i.o.', 'pio', 'protocol officer'];
+
+                for(let i = 1; i < rows.length; i++) {
+                    if(!rows[i][0] || !rows[i][0].trim()) continue;
+                    
+                    let name = rows[i][0].trim();
+                    let role = rows[i][1] ? rows[i][1].trim() : "";
+                    let img = rows[i][2] ? rows[i][2].trim() : "";
+                    let lowRole = role.toLowerCase();
+
+                    let person = { name, role, img };
+
+                    if(execRoles.some(r => lowRole === r)) {
+                        execList.push(person);
+                    } else if(lowRole.includes('representative') || lowRole.includes('councilor') || lowRole.includes('grade')) {
+                        repsList.push(person);
+                    } else {
+                        commList.push(person);
+                    }
+                }
+
+                // Sort Executives Based on Protocol Ranking
+                execList.sort((a,b) => {
+                    let idxA = execRoles.indexOf(a.role.toLowerCase());
+                    let idxB = execRoles.indexOf(b.role.toLowerCase());
+                    return (idxA === -1 ? 99 : idxA) - (idxB === -1 ? 99 : idxB);
+                });
+
+                // Assign to Strict 1-2-2 Node Layout Arrays
+                const president = execList.find(p => p.role.toLowerCase().includes('president') && !p.role.toLowerCase().includes('vice'));
+                
+                // Tier 2: Vice President & Secretary
+                const tier2Roles = ['vice president', 'secretary'];
+                const tier2Array = execList.filter(p => tier2Roles.some(r => p.role.toLowerCase().includes(r)));
+                
+                // Tier 3: Everyone Else (Treasurer, Auditor, PIO, Protocol, etc.)
+                const tier3Array = execList.filter(p => p !== president && !tier2Array.includes(p));
+
+                // Injection 
+                document.getElementById('row-pres').innerHTML = president 
+                    ? buildCard(president.name, president.role, president.img) 
+                    : `<p class="text-xs text-slate-400">No President Profile Assigned.</p>`;
+
+                const t2Grid = document.getElementById('row-tier2');
+                t2Grid.innerHTML = "";
+                tier2Array.forEach(e => { t2Grid.innerHTML += buildCard(e.name, e.role, e.img); });
+
+                const t3Grid = document.getElementById('row-tier3');
+                t3Grid.innerHTML = "";
+                tier3Array.forEach(e => { t3Grid.innerHTML += buildCard(e.name, e.role, e.img); });
+
+                // Render Representatives
+                let g78HTML = "", g910HTML = "", shsHTML = "";
+                repsList.forEach(r => {
+                    let rLow = r.role.toLowerCase();
+                    let li = `<li class="truncate">• ${r.name} <span class="text-[11px] text-slate-400 font-normal">(${r.role})</span></li>`;
+                    if(rLow.includes('7') || rLow.includes('8')) g78HTML += li;
+                    else if(rLow.includes('9') || rLow.includes('10')) g910HTML += li;
+                    else shsHTML += li;
+                });
+                document.getElementById('rep-g78-target').innerHTML = g78HTML || `<li class="text-xs italic text-slate-400">To Be Appointed</li>`;
+                document.getElementById('rep-g910-target').innerHTML = g910HTML || `<li class="text-xs italic text-slate-400">To Be Appointed</li>`;
+                document.getElementById('rep-shs-target').innerHTML = shsHTML || `<li class="text-xs italic text-slate-400">To Be Appointed</li>`;
+
+                // Render Committees Accordion Structures
+                let committeeMap = {};
+                commList.forEach(c => {
+                    let cName = c.role.replace(/(chairperson|vice-chairperson|vice chairperson|co-chairperson|co-chair|member)/gi, "").replace(/[-\s]+$/, "").trim();
+                    if(!cName) cName = "General Working Committee";
+                    if(!committeeMap[cName]) committeeMap[cName] = { head: "TBD", vice: "TBD", members: [] };
+                    
+                    let roleLow = c.role.toLowerCase();
+                    if(roleLow.includes('vice') || roleLow.includes('co-chair')) committeeMap[cName].vice = c.name;
+                    else if(roleLow.includes('chair')) committeeMap[cName].head = c.name;
+                    else committeeMap[cName].members.push(c.name);
+                });
+
+                const commTarget = document.getElementById('committee-accordion-target');
+                commTarget.innerHTML = "";
+                let idx = 0;
+                for(let name in committeeMap) {
+                    idx++;
+                    let data = committeeMap[name];
+                    let mList = data.members.length === 0 ? `<li class="text-slate-400 italic">No assigned members</li>` : data.members.map(m => `<li>• ${m}</li>`).join('');
+                    commTarget.innerHTML += `
+                        <div class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+                            <button onclick="toggleDropdown('${idx}')" class="w-full px-5 py-4 flex items-center justify-between font-semibold text-slate-800 hover:bg-slate-50 transition text-sm md:text-base">
+                                <span>${name}</span>
+                                <svg id="chev-${idx}" class="w-5 h-5 text-slate-400 transform transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                            </button>
+                            <div id="drawer-${idx}" class="hidden border-t border-slate-100 bg-slate-50/50 p-5 grid grid-cols-1 md:grid-cols-2 gap-4 text-xs md:text-sm">
+                                <div class="space-y-2">
+                                    <p><span class="text-[10px] text-slate-400 font-bold uppercase block tracking-wider">Chairperson</span><span class="font-semibold text-slate-900">${data.head}</span></p>
+                                    <p><span class="text-[10px] text-slate-400 font-bold uppercase block tracking-wider">Vice-Chairperson</span><span class="font-semibold text-slate-900">${data.vice}</span></p>
+                                </div>
+                                <div>
+                                    <span class="text-[10px] text-slate-400 font-bold uppercase block tracking-wider mb-1">Committee Members</span>
+                                    <ul class="space-y-1 text-slate-700 font-medium pl-1 border-l border-slate-200">${mList}</ul>
+                                </div>
+                            </div>
+                        </div>`;
+                }
+                if(idx === 0) commTarget.innerHTML = `<p class="text-xs text-center text-slate-400 py-8 bg-white border border-slate-200 rounded-xl shadow-sm">No working committees registered inside database yet.</p>`;
+
+            } catch(e) {
+                console.error("Data pipeline processing failure:", e);
+            }
+        }
+
+        window.onload = fetchAndRenderData;
+    </script>
+</body>
+</html>
