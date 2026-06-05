@@ -8,82 +8,78 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; }
+        
+        /* Mask to replicate the soft bottom fade from the reference design */
+        .profile-fade-mask {
+            mask-image: linear-gradient(to bottom, black 75%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 75%, transparent 100%);
+        }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-900 antialiased min-h-screen flex flex-col">
+<body class="bg-slate-900 text-slate-100 antialiased min-h-screen flex flex-col">
 
-    <!-- TOP INFORMATION LAYER (Text Cleared) -->
-    <div class="bg-gradient-to-r from-blue-900 to-indigo-950 text-white text-xs tracking-widest uppercase py-2 px-6 text-center md:text-right border-b border-blue-800 flex justify-end items-center">
-        <span id="top-portal-tag">Project GLASS v1.0 (2026-2027)</span>
-    </div>
-
-    <!-- PURE IMAGE HEADER PORTAL -->
-    <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+    <header class="bg-slate-950 border-b border-slate-800 sticky top-0 z-50 shadow-md">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-center items-center">
             <img id="config-header-banner" src="https://via.placeholder.com/1200x200?text=Loading+Official+SSLG+Header..." alt="Official SSLG Banner Header" class="w-full max-h-28 md:max-h-36 object-cover rounded-lg">
         </div>
     </header>
 
-    <section class="bg-white border-b border-slate-200 py-8">
+    <section class="bg-slate-950/60 border-b border-slate-800 py-8 backdrop-blur-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center md:text-left flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
-                <span class="text-xs font-bold tracking-widest text-blue-600 uppercase">Directory Information</span>
-                <h2 class="text-3xl font-bold tracking-tight text-slate-900 mt-1">Officers and Committees</h2>
-                <p class="text-sm text-slate-500 mt-1">Official composition of the 2026-2027 Supreme Secondary Learner Government.</p>
+                <span class="text-xs font-bold tracking-widest text-blue-500 uppercase">Directory Information</span>
+                <h2 class="text-3xl font-bold tracking-tight text-white mt-1">Officers and Committees</h2>
+                <p class="text-sm text-slate-400 mt-1">Official composition of the 2026-2027 Supreme Secondary Learner Government.</p>
             </div>
             
-            <div class="flex bg-slate-100 p-1 rounded-lg border border-slate-200 self-center md:self-auto text-xs font-medium text-slate-600">
-                <button onclick="switchSection('executive')" id="btn-executive" class="px-4 py-2 rounded-md transition-all bg-white text-blue-600 shadow-sm font-semibold">Executive</button>
-                <button onclick="switchSection('representatives')" id="btn-representatives" class="px-4 py-2 rounded-md transition-all hover:text-slate-900">Legislative Reps</button>
-                <button onclick="switchSection('committees')" id="btn-committees" class="px-4 py-2 rounded-md transition-all hover:text-slate-900">Committees</button>
+            <div class="flex bg-slate-900 p-1 rounded-xl border border-slate-800 self-center md:self-auto text-xs font-medium text-slate-400">
+                <button onclick="switchSection('executive')" id="btn-executive" class="px-4 py-2 rounded-lg transition-all bg-blue-600 text-white font-semibold shadow-md">Executive</button>
+                <button onclick="switchSection('representatives')" id="btn-representatives" class="px-4 py-2 rounded-lg transition-all hover:text-white text-slate-400">Legislative Reps</button>
+                <button onclick="switchSection('committees')" id="btn-committees" class="px-4 py-2 rounded-lg transition-all hover:text-white text-slate-400">Committees</button>
             </div>
         </div>
     </section>
 
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10">
 
-        <!-- 1. EXECUTIVE COUNCIL SECTION -->
         <div id="sec-executive" class="space-y-10 architecture-section">
-            <div class="border-b border-slate-200 pb-2">
-                <h3 class="text-xs font-bold uppercase tracking-widest text-slate-400">The Executive Council</h3>
+            <div class="border-b border-slate-800 pb-2">
+                <h3 class="text-xs font-bold uppercase tracking-widest text-slate-500">The Executive Council</h3>
             </div>
 
-            <!-- Unified Vertical Rectangular Grid Layout For All Executives -->
-            <div id="executive-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-                <div class="col-span-full py-12 text-center text-xs font-medium text-slate-400 animate-pulse">Syncing executive roster blocks...</div>
+            <div id="executive-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 justify-center">
+                <div class="col-span-full py-12 text-center text-xs font-medium text-slate-500 animate-pulse">Syncing executive roster blocks...</div>
             </div>
         </div>
 
-        <!-- 2. LEGISLATIVE REPRESENTATIVES SECTION -->
         <div id="sec-representatives" class="space-y-6 hidden architecture-section">
-            <div class="border-b border-slate-200 pb-2">
-                <h3 class="text-xs font-bold uppercase tracking-widest text-slate-400">Grade-Level Representatives</h3>
+            <div class="border-b border-slate-800 pb-2">
+                <h3 class="text-xs font-bold uppercase tracking-widest text-slate-500">Grade-Level Representatives</h3>
             </div>
             
             <div id="representatives-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="col-span-full py-12 text-center text-xs font-medium text-slate-400 animate-pulse">Syncing grade-level representative panels...</div>
+                <div class="col-span-full py-12 text-center text-xs font-medium text-slate-500 animate-pulse">Syncing grade-level representative panels...</div>
             </div>
         </div>
 
-        <!-- 3. WORKING COMMITTEES SECTION -->
         <div id="sec-committees" class="space-y-6 hidden architecture-section">
-            <div class="border-b border-slate-200 pb-2">
-                <h3 class="text-xs font-bold uppercase tracking-widest text-slate-400">Ad-Hoc Working Panels</h3>
+            <div class="border-b border-slate-800 pb-2">
+                <h3 class="text-xs font-bold uppercase tracking-widest text-slate-500">Ad-Hoc Working Panels</h3>
             </div>
 
             <div id="committees-accordion-container" class="space-y-3">
-                <div class="py-12 text-center text-xs font-medium text-slate-400 animate-pulse">Assembling ad-hoc panel matrices...</div>
+                <div class="py-12 text-center text-xs font-medium text-slate-500 animate-pulse">Assembling ad-hoc panel matrices...</div>
             </div>
         </div>
 
     </main>
 
-    <footer class="bg-slate-950 text-slate-400 text-xs py-8 border-t border-slate-800 mt-12">
+    <footer class="bg-slate-950 text-slate-500 text-xs py-8 border-t border-slate-800 mt-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
             <p>© 2026 Supreme Secondary Learner Government. Built for student public accountability.</p>
             <div class="flex space-x-6">
-                <a href="#" class="hover:text-white transition">Privacy Guideline</a>
-                <a href="#" class="hover:text-white transition">Terms of Access</a>
+                <a href="#" class="hover:text-slate-300 transition">Privacy Guideline</a>
+                <a href="#" class="hover:text-slate-300 transition">Terms of Access</a>
                 <a href="#" class="hover:text-white transition">LDVTS Hub</a>
             </div>
         </div>
@@ -91,13 +87,15 @@
 
     <script>
         // ==========================================
-        // 🛠️ CONFIGURATION DATA COUPLING BINDINGS
+        // 🛠️ LIVE SPREADSHEET BINDINGS (AUTO-CONFIGURED)
         // ==========================================
         const MASTER_SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTIFgXyOttJeJGsVaLwfFtNWb-c1YCJiJ8R5siL32ykA47xYYY7b8KmPXm_42vNAbaHXOkcqEG3tRCu/pub?output=csv"; 
-        
         const CONFIG_TAB_GID = "229901204";
+        const NEWS_TAB_GID = "1683102947";
+        const METRICS_TAB_GID = "1647929887";
         const ROSTER_TAB_GID = "416625956";
-        const AVATAR_SVG = `<svg class="w-20 h-20 text-slate-300 transition-transform duration-500 group-hover:scale-110" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>`;
+
+        const AVATAR_SVG = `<svg class="w-24 h-24 text-slate-700" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>`;
 
         function parseCSV(text) {
             let lines = []; let row = [""]; let q = false;
@@ -117,11 +115,11 @@
             
             ['executive', 'representatives', 'committees'].forEach(btn => {
                 const element = document.getElementById('btn-' + btn);
-                if(element) element.className = "px-4 py-2 rounded-md transition-all hover:text-slate-900";
+                if(element) element.className = "px-4 py-2 rounded-lg transition-all hover:text-white text-slate-400";
             });
             
             const activeBtn = document.getElementById('btn-' + sectionId);
-            if(activeBtn) activeBtn.className = "px-4 py-2 rounded-md transition-all bg-white text-blue-600 shadow-sm font-semibold";
+            if(activeBtn) activeBtn.className = "px-4 py-2 rounded-lg transition-all bg-blue-600 text-white font-semibold shadow-md";
         }
 
         function toggleAccordion(panelId) {
@@ -142,12 +140,6 @@
         // 🔄 ASYNCHRONOUS INITIALIZATION ENGINE
         // ==========================================
         async function runDirectoryInitialization() {
-            if (MASTER_SHEET_URL === "" || MASTER_SHEET_URL.includes("PASTE_YOUR_LINK_HERE")) {
-                console.warn("Spreadsheet data link connection parameter unassigned.");
-                return;
-            }
-
-            // 1. Image Header Extraction Configuration Mapping
             try {
                 const res = await fetch(`${MASTER_SHEET_URL}&gid=${CONFIG_TAB_GID}`);
                 const data = parseCSV(await res.text());
@@ -160,7 +152,6 @@
                 }
             } catch (e) { console.error("Header image component load error:", e); }
 
-            // 2. Comprehensive Directory Fetching and Sorting Process (Option B Matrix)
             try {
                 const res = await fetch(`${MASTER_SHEET_URL}&gid=${ROSTER_TAB_GID}`);
                 const data = parseCSV(await res.text());
@@ -192,7 +183,6 @@
                     }
                 }
 
-                // Sorting mechanism matching priority flow
                 executiveArray.sort((a, b) => {
                     let idxA = coreExecutiveRoles.indexOf(a.role.toLowerCase());
                     let idxB = coreExecutiveRoles.indexOf(b.role.toLowerCase());
@@ -216,32 +206,23 @@
             grid.innerHTML = "";
 
             if(officers.length === 0) {
-                grid.innerHTML = `<div class="col-span-full text-center text-xs text-slate-400 py-4">No executive profiles deployed inside the sheet.</div>`;
+                grid.innerHTML = `<div class="col-span-full text-center text-xs text-slate-500 py-4">No executive profiles deployed inside the sheet.</div>`;
                 return;
             }
 
             officers.forEach((officer, index) => {
                 const imgNode = officer.imgUrl 
-                    ? `<img src="${officer.imgUrl}" alt="${officer.name}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">` 
-                    : AVATAR_SVG;
+                    ? `<img src="${officer.imgUrl}" alt="${officer.name}" class="w-full h-full object-cover profile-fade-mask">` 
+                    : `<div class="w-full h-full bg-gradient-to-tr from-slate-800 to-blue-950 flex items-center justify-center">${AVATAR_SVG}</div>`;
                 
-                const isPres = index === 0;
-                const premiumTag = isPres ? `<div class="absolute top-3 right-3 z-10 bg-blue-600 text-white px-3 py-1 text-[10px] uppercase tracking-widest font-bold font-mono rounded-md shadow-sm">Presiding Officer</div>` : '';
-                const customRoleStyling = isPres ? 'text-blue-600 font-bold' : 'text-slate-500 font-semibold';
-                const customBorder = isPres ? 'border-2 border-blue-600/40' : 'border border-slate-200/80';
-
-                // Unified crisp, vertical rectangular card template
                 grid.innerHTML += `
-                    <div class="bg-white ${customBorder} rounded-2xl overflow-hidden shadow-sm flex flex-col items-center group hover:shadow-md transition-all relative">
-                        ${premiumTag}
-                        <!-- Tall Vertical Image Canvas -->
-                        <div class="w-full h-72 bg-slate-100 flex items-center justify-center overflow-hidden border-b border-slate-100 flex-shrink-0">
+                    <div class="bg-white rounded-[2rem] p-3 shadow-xl flex flex-col items-center group transition-all duration-300 hover:-translate-y-1 w-full max-w-[290px] mx-auto border border-slate-200/10">
+                        <div class="w-full h-80 bg-gradient-to-b from-sky-400 to-blue-500 rounded-[1.6rem] overflow-hidden flex items-center justify-center relative flex-shrink-0">
                             ${imgNode}
                         </div>
-                        <!-- Information Block -->
-                        <div class="p-5 text-center w-full bg-white flex-grow flex flex-col justify-center">
-                            <h4 class="font-bold text-slate-900 text-base tracking-tight truncate w-full group-hover:text-blue-600 transition-colors">${officer.name}</h4>
-                            <p class="text-xs uppercase tracking-wider mt-1.5 ${customRoleStyling}">${officer.role}</p>
+                        <div class="pt-5 pb-4 px-2 text-center w-full bg-white rounded-b-[2rem]">
+                            <h4 class="font-bold text-black text-base md:text-lg tracking-wide uppercase line-clamp-1">${officer.name}</h4>
+                            <p class="text-xs font-bold text-blue-600 uppercase mt-1 tracking-wider">${officer.role}</p>
                         </div>
                     </div>`;
             });
@@ -260,21 +241,21 @@
             });
 
             const generateListItems = (arr) => arr.length === 0 
-                ? `<li><p class="text-xs italic text-slate-400">To Be Appointed</p></li>` 
-                : arr.map(r => `<li class="truncate text-slate-800 font-medium">• ${r.name} <span class="text-[10px] text-slate-400 font-normal">(${r.role})</span></li>`).join('');
+                ? `<li><p class="text-xs italic text-slate-500">To Be Appointed</p></li>` 
+                : arr.map(r => `<li class="truncate text-slate-300 font-medium">• ${r.name} <span class="text-[10px] text-slate-500 font-normal">(${r.role})</span></li>`).join('');
 
             grid.innerHTML = `
-                <div class="bg-white border border-slate-200 rounded-xl p-5 space-y-4 shadow-sm">
-                    <h4 class="text-xs font-bold text-blue-600 uppercase tracking-wider pb-2 border-b border-slate-100">Grade 7 & 8</h4>
-                    <ul class="text-sm text-slate-700 space-y-2 font-medium">${generateListItems(lowerHouse)}</ul>
+                <div class="bg-slate-950 border border-slate-800 rounded-2xl p-5 space-y-4 shadow-sm">
+                    <h4 class="text-xs font-bold text-blue-500 uppercase tracking-wider pb-2 border-b border-slate-800">Grade 7 & 8</h4>
+                    <ul class="text-sm text-slate-300 space-y-2 font-medium">${generateListItems(lowerHouse)}</ul>
                 </div>
-                <div class="bg-white border border-slate-200 rounded-xl p-5 space-y-4 shadow-sm">
-                    <h4 class="text-xs font-bold text-blue-600 uppercase tracking-wider pb-2 border-b border-slate-100">Grade 9 & 10</h4>
-                    <ul class="text-sm text-slate-700 space-y-2 font-medium">${generateListItems(middleHouse)}</ul>
+                <div class="bg-slate-950 border border-slate-800 rounded-2xl p-5 space-y-4 shadow-sm">
+                    <h4 class="text-xs font-bold text-blue-500 uppercase tracking-wider pb-2 border-b border-slate-800">Grade 9 & 10</h4>
+                    <ul class="text-sm text-slate-300 space-y-2 font-medium">${generateListItems(middleHouse)}</ul>
                 </div>
-                <div class="bg-white border border-slate-200 rounded-xl p-5 space-y-4 shadow-sm">
-                    <h4 class="text-xs font-bold text-indigo-600 uppercase tracking-wider pb-2 border-b border-slate-100">Senior High School</h4>
-                    <ul class="text-sm text-slate-700 space-y-2 font-medium">${generateListItems(upperHouse)}</ul>
+                <div class="bg-slate-950 border border-slate-800 rounded-2xl p-5 space-y-4 shadow-sm">
+                    <h4 class="text-xs font-bold text-indigo-400 uppercase tracking-wider pb-2 border-b border-slate-800">Senior High School</h4>
+                    <ul class="text-sm text-slate-300 space-y-2 font-medium">${generateListItems(upperHouse)}</ul>
                 </div>`;
         }
 
@@ -300,22 +281,22 @@
                 trackingIdx++;
                 const uniqueId = `dynamic-comm-${trackingIdx}`;
                 const dataBlock = groupedMap[groupName];
-                const listNodes = dataBlock.members.length === 0 ? `<li class="text-slate-400 italic">General Council Volunteers</li>` : dataBlock.members.map(m => `<li>${m}</li>`).join('');
+                const listNodes = dataBlock.members.length === 0 ? `<li class="text-slate-500 italic">General Council Volunteers</li>` : dataBlock.members.map(m => `<li>${m}</li>`).join('');
 
                 container.innerHTML += `
-                    <div class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm hover:border-slate-300 transition-all">
-                        <button onclick="toggleAccordion('${uniqueId}')" class="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-slate-50 transition-colors">
-                            <span class="font-bold text-slate-900 text-sm md:text-base">${groupName}</span>
-                            <svg id="icon-${uniqueId}" class="w-5 h-5 text-slate-400 transform transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    <div class="bg-slate-950 border border-slate-800 rounded-xl overflow-hidden shadow-sm hover:border-slate-700 transition-all">
+                        <button onclick="toggleAccordion('${uniqueId}')" class="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-slate-900 transition-colors">
+                            <span class="font-bold text-white text-sm md:text-base">${groupName}</span>
+                            <svg id="icon-${uniqueId}" class="w-5 h-5 text-slate-500 transform transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                         </button>
-                        <div id="panel-${uniqueId}" class="hidden border-t border-slate-100 bg-slate-50/50 p-6 grid grid-cols-1 md:grid-cols-2 gap-4 text-xs md:text-sm">
+                        <div id="panel-${uniqueId}" class="hidden border-t border-slate-800 bg-slate-900/40 p-6 grid grid-cols-1 md:grid-cols-2 gap-4 text-xs md:text-sm">
                             <div>
-                                <p class="mb-1"><strong class="text-slate-500 uppercase tracking-wider text-[10px] block">Chairperson</strong> <span class="font-semibold text-slate-900">${dataBlock.chair}</span></p>
-                                <p><strong class="text-slate-500 uppercase tracking-wider text-[10px] block mt-2">Vice-Chairperson</strong> <span class="font-semibold text-slate-900">${dataBlock.vice}</span></p>
+                                <p class="mb-1"><strong class="text-slate-500 uppercase tracking-wider text-[10px] block">Chairperson</strong> <span class="font-semibold text-slate-200">${dataBlock.chair}</span></p>
+                                <p><strong class="text-slate-500 uppercase tracking-wider text-[10px] block mt-2">Vice-Chairperson</strong> <span class="font-semibold text-slate-200">${dataBlock.vice}</span></p>
                             </div>
                             <div>
                                 <strong class="text-slate-500 uppercase tracking-wider text-[10px] block mb-1">Committee Members</strong>
-                                <ul class="space-y-1 text-slate-700 font-medium pl-2 border-l border-slate-200">${listNodes}</ul>
+                                <ul class="space-y-1 text-slate-300 font-medium pl-2 border-l border-slate-800">${listNodes}</ul>
                             </div>
                         </div>
                     </div>`;
