@@ -49,7 +49,7 @@
             </div>
         </div>
 
-        <!-- PANEL 2: REPRESENTATIVES (DIVIDED SUB-GROUPS) -->
+        <!-- PANEL 2: REPRESENTATIVES (CLEAN INDEPENDENT LISTS) -->
         <div id="panel-representatives" class="dir-tab-panel space-y-6 hidden">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 
@@ -208,7 +208,6 @@
                         repsList.push(person);
                     }
                     
-                    // Fallback to place anyone with a designated committee assignment string into the committee lists
                     if (rawCommitteeField) {
                         commList.push(person);
                     }
@@ -231,12 +230,13 @@
                 execGrid.innerHTML = "";
                 alternateExecs.forEach(e => { execGrid.innerHTML += buildCard(e.name, e.role, e.img); });
 
-                // Process Representatives into exact sub-grades
+                // Process Representatives with Parentheses/Roles removed
                 let subGrades = { g7: [], g8: [], g9: [], g10: [], g11: [], g12: [] };
                 
                 repsList.forEach(r => {
                     let rLow = r.role.toLowerCase();
-                    let li = `<li class="truncate text-slate-700 font-medium">• ${r.name} <span class="text-[10px] text-slate-400 font-normal">(${r.role})</span></li>`;
+                    // Clean presentation item: just the name listed plainly under the tier header
+                    let li = `<li class="truncate text-slate-700 font-medium py-0.5">• ${r.name}</li>`;
                     
                     if (rLow.includes('7')) subGrades.g7.push(li);
                     else if (rLow.includes('8')) subGrades.g8.push(li);
@@ -255,17 +255,15 @@
                 document.getElementById('rep-g11-target').innerHTML = subGrades.g11.join('') || fallbackItem;
                 document.getElementById('rep-g12-target').innerHTML = subGrades.g12.join('') || fallbackItem;
 
-                // Process Committees using Column 4 logic assignments
+                // Process Committees
                 let committeeMap = {};
                 commList.forEach(c => {
                     let fullString = c.rawCommitteeField;
                     
-                    // Identify positional structural bounds inside column 4
                     let comRole = "Member";
                     if (/chairperson/i.test(fullString) && !/vice|co-/i.test(fullString)) comRole = "Chairperson";
                     else if (/vice-chairperson|vice chairperson|co-chairperson|co-chair/i.test(fullString)) comRole = "Co-Chairperson";
                     
-                    // Strip position keywords cleanly out to find the core Committee Name
                     let cleanCommName = fullString.replace(/(chairperson|vice-chairperson|vice chairperson|co-chairperson|co-chair|member)/gi, "").replace(/[-\s]+$/, "").trim();
                     if (!cleanCommName) cleanCommName = "General Operations Committee";
 
