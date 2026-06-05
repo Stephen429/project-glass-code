@@ -36,7 +36,7 @@
         </div>
     </div>
 
-    <div class="max-w-6xl w-full mx-auto px-4 py-8 space-y-6 flex-grow">
+    <div class="max-w-6xl w-full mx-auto px-4 py-6 space-y-5 flex-grow">
         
         <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden flex flex-col sm:flex-row items-center min-h-[56px] border-l-4 border-l-blue-600">
             <div class="bg-slate-50 text-slate-700 text-[10px] font-bold uppercase tracking-widest px-5 py-3 sm:py-0 h-full flex items-center whitespace-nowrap border-b sm:border-b-0 sm:border-r border-slate-100 self-stretch justify-center">
@@ -52,49 +52,53 @@
         <div id="metrics-container" class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
             </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4">
-            <a id="gateway-link-1" href="/official-documents" target="_parent" class="group bg-white border border-slate-200 rounded-xl p-5 shadow-sm hover:border-blue-500 transition-all duration-200 flex flex-col justify-between">
-                <div>
-                    <div class="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center text-blue-600 mb-3 group-hover:bg-blue-600 group-hover:text-white transition-all">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                    </div>
-                    <h4 class="font-bold text-slate-800 text-sm group-hover:text-blue-600 transition-colors">Official Gazettes Ledger</h4>
-                    <p class="text-slate-400 text-[11px] mt-1 leading-relaxed">Public record archive of passed resolutions, executive panels session minutes, and proposals.</p>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <a id="gateway-link-1" href="/official-documents" target="_parent" class="group bg-white border border-slate-200 rounded-xl p-3.5 shadow-sm hover:border-blue-500 hover:shadow transition-all duration-200 flex items-center space-x-3">
+                <div class="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all flex-shrink-0">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                 </div>
-                <span class="text-blue-600 text-[10px] font-mono font-bold tracking-wider mt-4 inline-flex items-center group-hover:translate-x-1 transition-transform">ACCESS ARCHIVE →</span>
+                <div class="min-w-0">
+                    <h4 class="font-bold text-slate-800 text-xs tracking-tight group-hover:text-blue-600 transition-colors truncate">Official Gazettes</h4>
+                    <p class="text-slate-400 text-[10px] truncate">Public record archives & panel resolutions</p>
+                </div>
             </a>
 
-            <a id="gateway-link-2" href="/officers-and-committees" target="_parent" class="group bg-white border border-slate-200 rounded-xl p-5 shadow-sm hover:border-blue-500 transition-all duration-200 flex flex-col justify-between">
-                <div>
-                    <div class="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center text-blue-600 mb-3 group-hover:bg-blue-600 group-hover:text-white transition-all">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
-                    </div>
-                    <h4 class="font-bold text-slate-800 text-sm group-hover:text-blue-600 transition-colors">Working Committees</h4>
-                    <p class="text-slate-400 text-[11px] mt-1 leading-relaxed">Directory lines mapping organizational panels, assignment rosters, and working committee mandates.</p>
+            <a id="gateway-link-2" href="/officers-and-committees" target="_parent" class="group bg-white border border-slate-200 rounded-xl p-3.5 shadow-sm hover:border-blue-500 hover:shadow transition-all duration-200 flex items-center space-x-3">
+                <div class="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all flex-shrink-0">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
                 </div>
-                <span class="text-blue-600 text-[10px] font-mono font-bold tracking-wider mt-4 inline-flex items-center group-hover:translate-x-1 transition-transform">VIEW COUNCILS →</span>
+                <div class="min-w-0">
+                    <h4 class="font-bold text-slate-800 text-xs tracking-tight group-hover:text-blue-600 transition-colors truncate">Working Committees</h4>
+                    <p class="text-slate-400 text-[10px] truncate">Organizational panels & mandates directory</p>
+                </div>
             </a>
 
-            <a id="gateway-link-3" href="/feedback" target="_parent" class="group bg-white border border-slate-200 rounded-xl p-5 shadow-sm hover:border-blue-500 transition-all duration-200 flex flex-col justify-between">
-                <div>
-                    <div class="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center text-blue-600 mb-3 group-hover:bg-blue-600 group-hover:text-white transition-all">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
-                    </div>
-                    <h4 class="font-bold text-slate-800 text-sm group-hover:text-blue-600 transition-colors">Feedback & Desk Services</h4>
-                    <p class="text-slate-400 text-[11px] mt-1 leading-relaxed">Direct accountability feedback channels to submit formal inquiries, requests, or service reviews.</p>
+            <a id="gateway-link-3" href="/feedback" target="_parent" class="group bg-white border border-slate-200 rounded-xl p-3.5 shadow-sm hover:border-blue-500 hover:shadow transition-all duration-200 flex items-center space-x-3">
+                <div class="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all flex-shrink-0">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
                 </div>
-                <span class="text-blue-600 text-[10px] font-mono font-bold tracking-wider mt-4 inline-flex items-center group-hover:translate-x-1 transition-transform">LAUNCH DESK →</span>
+                <div class="min-w-0">
+                    <h4 class="font-bold text-slate-800 text-xs tracking-tight group-hover:text-blue-600 transition-colors truncate">Desk & Feedback Services</h4>
+                    <p class="text-slate-400 text-[10px] truncate">Direct accountability inquiry channels</p>
+                </div>
             </a>
         </div>
 
-        <div class="space-y-4">
+        <div class="space-y-3">
             <div class="flex items-center space-x-3 px-1">
                 <div class="h-1.5 w-1.5 bg-blue-600 rounded-full"></div>
                 <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest">Executive Roster Directory</h3>
             </div>
             
-            <div id="officers-roster-stack" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div id="officers-roster-stack" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                 </div>
+
+            <div id="roster-control-panel" class="hidden flex justify-center pt-2">
+                <button id="toggle-roster-btn" onclick="toggleRosterView()" class="px-5 py-2 bg-white hover:bg-slate-50 border border-slate-200 rounded-lg shadow-sm text-xs font-bold text-slate-600 hover:text-blue-600 transition-all flex items-center space-x-2 cursor-pointer">
+                    <span id="toggle-btn-text">View Full Council</span>
+                    <svg id="toggle-btn-icon" class="w-3.5 h-3.5 transform transition-transform" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                </button>
+            </div>
         </div>
 
     </div>
@@ -110,17 +114,19 @@
         const METRICS_TAB_GID = "1647929887";
         const ROSTER_TAB_GID = "416625956";
         
-        const AVATAR_PLACEHOLDER = `<svg class="w-8 h-8 text-slate-300" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>`;
+        const AVATAR_PLACEHOLDER = `<svg class="w-7 h-7 text-slate-300" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>`;
 
         let newsDataCache = [];
         let activeNewsIndex = 0;
+        let globalRosterData = [];
+        let rosterIsExpanded = false;
+        const INITIAL_ROSTER_LIMIT = 3; // Number of baseline cards shown before clicking expand
 
         const SAMPLE_NEWS = [
             ["Project GLASS Portal is live! Configure your Google Sheet tabs.", "SYSTEM"],
             ["Awaiting active data streaming synchronization link profiles.", "STATUS"]
         ];
         const SAMPLE_METRICS = [["Active Resolutions", "0"], ["Council Projects", "0"], ["Letters Processed", "0"], ["Portal Status", "Online"]];
-        const SAMPLE_ROSTER = [["Awaiting Live Roster Connection", "SSLG Executive Council", ""]];
 
         function parseCSV(text) {
             let lines = []; let row = [""]; let q = false;
@@ -136,6 +142,168 @@
 
         async function initDashboard() {
             if (MASTER_SHEET_URL === "" || MASTER_SHEET_URL.includes("PASTE_YOUR_LINK_HERE")) {
+                newsDataCache = SAMPLE_NEWS;
+                startNewsBillboardCycle();
+                renderMetrics(SAMPLE_METRICS);
+                renderRoster([["Setup Sheet Connection Required", "SSLG Panel Role", ""]]);
+                return;
+            }
+
+            // 1. Fetch Custom UI Configurations (Handles Text Overwrite Bug Fix)
+            try {
+                const res = await fetch(`${MASTER_SHEET_URL}&gid=${CONFIG_TAB_GID}`);
+                const data = parseCSV(await res.text());
+                let configMap = {};
+                for(let i=1; i<data.length; i++) {
+                    if(data[i].length >= 2 && data[i][0].trim()) configMap[data[i][0].trim()] = data[i][1].trim();
+                }
+                
+                const heroHeader = document.getElementById("hero-header");
+                const bgImageElement = document.getElementById("header-bg-image-layer");
+                
+                // Wallpaper Render Layer Setup
+                if(configMap['HEADER_BG_IMAGE'] && configMap['HEADER_BG_IMAGE'] !== "") {
+                    bgImageElement.src = configMap['HEADER_BG_IMAGE'];
+                    bgImageElement.classList.remove("hidden");
+                    heroHeader.className = "relative text-white py-16 md:py-24 px-6 md:px-12 text-center overflow-hidden border-b border-blue-800 shadow-inner bg-slate-900";
+                } else {
+                    bgImageElement.classList.add("hidden");
+                    if(configMap['HEADER_BG_COLOR'] && configMap['HEADER_BG_COLOR'] !== "") {
+                        heroHeader.className = `relative text-white py-16 md:py-24 px-6 md:px-12 text-center overflow-hidden border-b border-blue-800 shadow-inner bg-gradient-to-r ${configMap['HEADER_BG_COLOR']}`;
+                    } else {
+                        heroHeader.className = "relative text-white py-16 md:py-24 px-6 md:px-12 text-center overflow-hidden border-b border-blue-800 shadow-inner bg-gradient-to-r from-blue-900 via-indigo-950 to-slate-950";
+                    }
+                }
+
+                // Dynamic Text Overwrite Safeguard Route Routing
+                const type = configMap['HEADER_TYPE'] ? configMap['HEADER_TYPE'].toUpperCase() : 'TEXT';
+                if(type === 'IMAGE' && configMap['HEADER_IMAGE_BANNER']) {
+                    document.getElementById("header-text-container").classList.add("hidden");
+                    const bannerImg = document.getElementById("config-header-banner");
+                    bannerImg.src = configMap['HEADER_IMAGE_BANNER'];
+                    document.getElementById("header-image-container").classList.remove("hidden");
+                    heroHeader.style.padding = "1.5rem 1rem"; 
+                } else {
+                    document.getElementById("header-image-container").classList.add("hidden");
+                    document.getElementById("header-text-container").classList.remove("hidden");
+                    if(configMap['SCHOOL_NAME']) document.getElementById("config-school-name").innerText = configMap['SCHOOL_NAME'];
+                    if(configMap['PORTAL_TITLE']) document.getElementById("config-portal-title").innerText = configMap['PORTAL_TITLE'];
+                    if(configMap['PORTAL_TAGLINE']) document.getElementById("config-portal-tagline").innerText = configMap['PORTAL_TAGLINE'];
+                }
+
+                // Custom Gateway Link Paths
+                if(configMap['LINK_1_PATH']) document.getElementById("gateway-link-1").setAttribute("href", configMap['LINK_1_PATH']);
+                if(configMap['LINK_2_PATH']) document.getElementById("gateway-link-2").setAttribute("href", configMap['LINK_2_PATH']);
+                if(configMap['LINK_3_PATH']) document.getElementById("gateway-link-3").setAttribute("href", configMap['LINK_3_PATH']);
+            } catch (e) { console.error("Global config tab fetch exception:", e); }
+
+            // 2. Sync Bulletins Tab
+            try {
+                const res = await fetch(`${MASTER_SHEET_URL}&gid=${NEWS_TAB_GID}`);
+                const data = parseCSV(await res.text());
+                newsDataCache = [];
+                for(let i=1; i<data.length; i++) {
+                    if(data[i].length >= 2 && data[i][0].trim()) newsDataCache.push([data[i][0].trim(), data[i][1].trim()]);
+                }
+            } catch (e) { newsDataCache = SAMPLE_NEWS; }
+            startNewsBillboardCycle();
+
+            // 3. Sync Performance Metrics Tab
+            try {
+                const res = await fetch(`${MASTER_SHEET_URL}&gid=${METRICS_TAB_GID}`);
+                const data = parseCSV(await res.text());
+                let parsed = [];
+                for(let i=1; i<data.length; i++) {
+                    if(data[i].length >= 2 && data[i][0].trim()) parsed.push([data[i][0].trim(), data[i][1].trim()]);
+                }
+                renderMetrics(parsed.length ? parsed : SAMPLE_METRICS);
+            } catch (e) { renderMetrics(SAMPLE_METRICS); }
+
+            // 4. Sync Executive Roster Tab
+            try {
+                const res = await fetch(`${MASTER_SHEET_URL}&gid=${ROSTER_TAB_GID}`);
+                const data = parseCSV(await res.text());
+                globalRosterData = [];
+                for(let i=1; i<data.length; i++) {
+                    if(data[i].length >= 2 && data[i][0].trim()) {
+                        globalRosterData.push([data[i][0].trim(), data[i][1].trim(), data[i][2] ? data[i][2].trim() : ""]);
+                    }
+                }
+                
+                // Show control button panel if data count exceeds our view boundaries
+                if (globalRosterData.length > INITIAL_ROSTER_LIMIT) {
+                    document.getElementById("roster-control-panel").classList.remove("hidden");
+                }
+                renderRoster(globalRosterData);
+            } catch (e) { 
+                renderRoster([["Error Syncing Roster", "Check Configuration Tab", ""]]); 
+            }
+        }
+
+        function startNewsBillboardCycle() {
+            if (newsDataCache.length === 0) return;
+            const displayActiveHeadline = () => {
+                const target = document.getElementById("news-billboard-container");
+                target.style.opacity = 0; 
+                setTimeout(() => {
+                    const activeItem = newsDataCache[activeNewsIndex];
+                    target.innerHTML = `
+                        <span class="inline-block bg-blue-50 text-blue-600 border border-blue-100 font-mono text-[9px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">${activeItem[1]}</span>
+                        <span class="text-slate-700 font-medium">${activeItem[0]}</span>
+                    `;
+                    target.style.opacity = 1; 
+                    activeNewsIndex = (activeNewsIndex + 1) % newsDataCache.length;
+                }, 500); 
+            };
+            displayActiveHeadline();
+            setInterval(displayActiveHeadline, 5000); 
+        }
+
+        function renderMetrics(data) {
+            const container = document.getElementById("metrics-container");
+            container.innerHTML = "";
+            data.forEach(item => {
+                const name = item[0]; const value = item[1];
+                const isStatus = value.includes("%") || name.toLowerCase().includes("status");
+                container.innerHTML += `
+                    <div class="bg-white border border-slate-200 rounded-xl p-3 text-center shadow-sm">
+                        <span class="text-[9px] font-bold text-slate-400 uppercase tracking-widest block mb-0.5 truncate">${name}</span>
+                        <span class="text-base md:text-xl tracking-tight font-bold ${isStatus ? 'text-emerald-600' : 'text-slate-900'}">${value}</span>
+                    </div>`;
+            });
+        }
+
+        function renderRoster(data) {
+            const stack = document.getElementById("officers-roster-stack");
+            stack.innerHTML = "";
+            
+            // Filter card render arrays depending on full expansion state rules
+            const itemsToRender = rosterIsExpanded ? data : data.slice(0, INITIAL_ROSTER_LIMIT);
+
+            itemsToRender.forEach(officer => {
+                const name = officer[0]; const role = officer[1]; const imgUrl = officer[2];
+                const avatarFrameContent = imgUrl 
+                    ? `<img src="${imgUrl}" alt="${name}" class="w-full h-full object-cover relative z-10">` 
+                    : AVATAR_PLACEHOLDER;
+
+                stack.innerHTML += `
+                    <div class="bg-white border border-slate-200 rounded-xl p-3 flex items-center space-x-3.5 shadow-sm hover:shadow transition-all duration-200 relative overflow-hidden group">
+                        <div class="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-blue-50/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+                        <div class="w-11 h-11 bg-gradient-to-br from-slate-100 to-slate-200/60 rounded-lg border border-slate-200/80 shadow-inner overflow-hidden flex items-center justify-center flex-shrink-0 relative">
+                            ${avatarFrameContent}
+                        </div>
+                        <div class="flex-grow min-w-0 z-10">
+                            <h4 class="font-bold text-slate-800 text-xs tracking-tight truncate">${name}</h4>
+                            <p class="text-[10px] font-semibold text-blue-600 uppercase tracking-wider mt-0.5 truncate">${role}</p>
+                        </div>
+                    </div>`;
+            });
+        }
+
+        function toggleRosterView() {
+            rosterIsExpanded = !rosterIsExpanded;
+            const btnText = document.getElementById("toggle-btn-text");
+            const btnIcon = document.getElementById("toggle-btn-icon");des("PASTE_YOUR_LINK_HERE")) {
                 newsDataCache = SAMPLE_NEWS;
                 startNewsBillboardCycle();
                 renderMetrics(SAMPLE_METRICS);
