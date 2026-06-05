@@ -7,27 +7,28 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; margin: 0; padding: 0; }
-        /* Flat, identical homepage dual-image layered header */
-        #homepage-header-container {
-            position: relative;
-            width: 100%;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+        body { font-family: 'Inter', sans-serif; }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-900 antialiased min-h-screen flex flex-col">
 
-    <!-- HOMEPAGE IDENTICAL LAYERED HEADER (NO CURVES, NO PADDING) -->
-    <header id="homepage-header-container" class="w-full h-32 md:h-40 bg-slate-200">
-        <img id="config-foreground-banner" src="" alt="Official SSLG Banner" class="max-h-full object-contain hidden">
-        <div id="header-loader" class="text-xs text-slate-400 font-medium animate-pulse">Loading Header Assets...</div>
-    </header>
+    <!-- HERO HEADER (IDENTICAL HOMEPAGE DESIGN LAYER & SIZES) -->
+    <div id="hero-header" class="relative text-white py-16 md:py-24 px-6 md:px-12 text-center overflow-hidden border-b border-blue-800 shadow-inner bg-gradient-to-r from-blue-900 via-indigo-950 to-slate-950">
+        
+        <!-- PHYSICAL BACKGROUND IMAGE LAYER -->
+        <img id="header-bg-image-layer" src="" alt="" class="absolute inset-0 w-full h-full object-cover opacity-100 pointer-events-none z-0 hidden">
+        
+        <!-- Dot Matrix Mesh Pattern Overlay -->
+        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#3b82f6_1px,transparent_1px)] [background-size:16px_16px] z-0"></div>
+
+        <!-- IMAGE HEADER CONTAINER -->
+        <div id="header-image-container" class="relative max-w-5xl mx-auto z-10 hidden flex justify-center items-center">
+            <img id="config-header-banner" src="" alt="Portal Banner" class="max-h-48 md:max-h-64 object-contain rounded-lg drop-shadow-lg">
+        </div>
+        
+        <!-- Fallback/Loader Text when image is parsing -->
+        <div id="header-loader" class="relative z-10 text-xs text-slate-400 font-medium animate-pulse">Loading Header Assets...</div>
+    </div>
 
     <!-- NAVIGATION TABS -->
     <section class="bg-white border-b border-slate-200 py-6">
@@ -48,32 +49,37 @@
     <!-- CONTENT PORTAL -->
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10">
 
-        <!-- PANEL 1: EXECUTIVES -->
-        <div id="panel-executive" class="dir-tab-panel space-y-12">
-            <!-- Center Top President Layout -->
-            <div id="pres-target" class="flex justify-center w-full">
-                <div class="text-xs text-slate-400 animate-pulse">Loading core executive board...</div>
+        <!-- PANEL 1: EXECUTIVES (STRICT 1-2-2 STRUCTURAL GRID) -->
+        <div id="panel-executive" class="dir-tab-panel space-y-10">
+            <!-- Row 1: President (1) -->
+            <div id="row-pres" class="flex justify-center w-full">
+                <div class="text-xs text-slate-400 animate-pulse">Loading core roster files...</div>
             </div>
             
-            <!-- 2-Column Balanced Grid -->
-            <div class="max-w-4xl mx-auto">
-                <div id="exec-grid-target" class="grid grid-cols-1 sm:grid-cols-2 gap-8 justify-items-center"></div>
+            <!-- Row 2: Vice President & Secretary (2) -->
+            <div class="max-w-3xl mx-auto">
+                <div id="row-tier2" class="grid grid-cols-1 sm:grid-cols-2 gap-8 justify-items-center"></div>
+            </div>
+
+            <!-- Row 3: Remaining Executive Officers (2) -->
+            <div class="max-w-3xl mx-auto">
+                <div id="row-tier3" class="grid grid-cols-1 sm:grid-cols-2 gap-8 justify-items-center"></div>
             </div>
         </div>
 
-        <!-- PANEL 2: REPRESENTATIVES -->
+        <!-- PANEL 2: REPRESENTATIVES (UNCAPITALIZED HEADERS) -->
         <div id="panel-representatives" class="dir-tab-panel space-y-6 hidden">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
-                    <h4 class="text-sm font-bold text-blue-600 uppercase tracking-wider pb-2 border-b border-slate-100 mb-3">Grade 7 and 8</h4>
+                    <h4 class="text-sm font-bold text-blue-600 tracking-wide pb-2 border-b border-slate-100 mb-3">Grade 7 & 8</h4>
                     <ul id="rep-g78-target" class="text-sm text-slate-700 space-y-2 font-medium"></ul>
                 </div>
                 <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
-                    <h4 class="text-sm font-bold text-blue-600 uppercase tracking-wider pb-2 border-b border-slate-100 mb-3">Grade 9 and 10</h4>
+                    <h4 class="text-sm font-bold text-blue-600 tracking-wide pb-2 border-b border-slate-100 mb-3">Grade 9 & 10</h4>
                     <ul id="rep-g910-target" class="text-sm text-slate-700 space-y-2 font-medium"></ul>
                 </div>
                 <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
-                    <h4 class="text-sm font-bold text-indigo-600 uppercase tracking-wider pb-2 border-b border-slate-100 mb-3">Senior High</h4>
+                    <h4 class="text-sm font-bold text-indigo-600 tracking-wide pb-2 border-b border-slate-100 mb-3">Senior High</h4>
                     <ul id="rep-shs-target" class="text-sm text-slate-700 space-y-2 font-medium"></ul>
                 </div>
             </div>
@@ -149,7 +155,7 @@
         }
 
         async function fetchAndRenderData() {
-            // 1. HEADER SYNC (Direct, flat configuration mapping)
+            // 1. INTEGRATE HERO IMAGE LOGIC FROM HOMEPAGE
             try {
                 const res = await fetch(`${CSV_URL}&gid=${GID_CONFIG}`);
                 const rows = processCSV(await res.text());
@@ -165,18 +171,21 @@
                     if(key === 'HEADER_IMAGE_BANNER' || key === 'HEADER_FG_IMAGE') fgUrl = value;
                 }
                 
-                const container = document.getElementById("homepage-header-container");
-                if(bgUrl) container.style.backgroundImage = `url('${bgUrl}')`;
+                if(bgUrl) {
+                    const bgLayer = document.getElementById("header-bg-image-layer");
+                    bgLayer.src = bgUrl;
+                    bgLayer.classList.remove('hidden');
+                }
                 
                 if(fgUrl) {
-                    const fgImg = document.getElementById("config-foreground-banner");
-                    fgImg.src = fgUrl;
-                    fgImg.classList.remove('hidden');
+                    const fgBanner = document.getElementById("config-header-banner");
+                    fgBanner.src = fgUrl;
+                    document.getElementById("header-image-container").classList.remove('hidden');
                     document.getElementById("header-loader").classList.add('hidden');
                 }
-            } catch(e) { console.error("Header image configuration error:", e); }
+            } catch(e) { console.error("Error setting up matching hero header:", e); }
 
-            // 2. ROSTER ROUTING ENGINE
+            // 2. ROSTER STRUCTURAL OVERHAUL
             try {
                 const res = await fetch(`${CSV_URL}&gid=${GID_ROSTER}`);
                 const rows = processCSV(await res.text());
@@ -185,7 +194,7 @@
                 let repsList = [];
                 let commList = [];
 
-                // Hard structural keys for Executives
+                // Strict executive sorting arrays
                 const execRoles = ['president', 'vice president', 'secretary', 'treasurer', 'auditor', 'p.i.o.', 'pio', 'protocol officer'];
 
                 for(let i = 1; i < rows.length; i++) {
@@ -198,37 +207,46 @@
 
                     let person = { name, role, img };
 
-                    // Explicit structural classification rules
                     if(execRoles.some(r => lowRole === r)) {
                         execList.push(person);
                     } else if(lowRole.includes('representative') || lowRole.includes('councilor') || lowRole.includes('grade')) {
                         repsList.push(person);
-                    } else if(lowRole.includes('committee') || lowRole.includes('chair') || lowRole.includes('member')) {
-                        commList.push(person);
                     } else {
-                        // Fallback fallback rule protection
-                        execList.push(person);
+                        commList.push(person);
                     }
                 }
 
-                // Render Executive Hierarchy 
+                // Sort Executives Based on Protocol Ranking
                 execList.sort((a,b) => {
                     let idxA = execRoles.indexOf(a.role.toLowerCase());
                     let idxB = execRoles.indexOf(b.role.toLowerCase());
                     return (idxA === -1 ? 99 : idxA) - (idxB === -1 ? 99 : idxB);
                 });
 
-                const presProfile = execList.find(p => p.role.toLowerCase().includes('president') && !p.role.toLowerCase().includes('vice'));
-                document.getElementById('pres-target').innerHTML = presProfile 
-                    ? buildCard(presProfile.name, presProfile.role, presProfile.img) 
+                // Assign to Strict 1-2-2 Node Layout Arrays
+                const president = execList.find(p => p.role.toLowerCase().includes('president') && !p.role.toLowerCase().includes('vice'));
+                
+                // Tier 2: Vice President & Secretary
+                const tier2Roles = ['vice president', 'secretary'];
+                const tier2Array = execList.filter(p => tier2Roles.some(r => p.role.toLowerCase().includes(r)));
+                
+                // Tier 3: Everyone Else (Treasurer, Auditor, PIO, Protocol, etc.)
+                const tier3Array = execList.filter(p => p !== president && !tier2Array.includes(p));
+
+                // Injection 
+                document.getElementById('row-pres').innerHTML = president 
+                    ? buildCard(president.name, president.role, president.img) 
                     : `<p class="text-xs text-slate-400">No President Profile Assigned.</p>`;
 
-                const alternateExecs = execList.filter(p => !(p.role.toLowerCase().includes('president') && !p.role.toLowerCase().includes('vice')));
-                const execGrid = document.getElementById('exec-grid-target');
-                execGrid.innerHTML = "";
-                alternateExecs.forEach(e => { execGrid.innerHTML += buildCard(e.name, e.role, e.img); });
+                const t2Grid = document.getElementById('row-tier2');
+                t2Grid.innerHTML = "";
+                tier2Array.forEach(e => { t2Grid.innerHTML += buildCard(e.name, e.role, e.img); });
 
-                // Render Representatives Panels
+                const t3Grid = document.getElementById('row-tier3');
+                t3Grid.innerHTML = "";
+                tier3Array.forEach(e => { t3Grid.innerHTML += buildCard(e.name, e.role, e.img); });
+
+                // Render Representatives
                 let g78HTML = "", g910HTML = "", shsHTML = "";
                 repsList.forEach(r => {
                     let rLow = r.role.toLowerCase();
@@ -241,7 +259,7 @@
                 document.getElementById('rep-g910-target').innerHTML = g910HTML || `<li class="text-xs italic text-slate-400">To Be Appointed</li>`;
                 document.getElementById('rep-shs-target').innerHTML = shsHTML || `<li class="text-xs italic text-slate-400">To Be Appointed</li>`;
 
-                // Render Committees Accordion
+                // Render Committees Accordion Structures
                 let committeeMap = {};
                 commList.forEach(c => {
                     let cName = c.role.replace(/(chairperson|vice-chairperson|vice chairperson|co-chairperson|co-chair|member)/gi, "").replace(/[-\s]+$/, "").trim();
@@ -282,8 +300,7 @@
                 if(idx === 0) commTarget.innerHTML = `<p class="text-xs text-center text-slate-400 py-8 bg-white border border-slate-200 rounded-xl shadow-sm">No working committees registered inside database yet.</p>`;
 
             } catch(e) {
-                console.error("Critical roster processing error:", e);
-                document.getElementById('pres-target').innerHTML = `<div class="text-xs text-red-500 font-medium">Failed to establish active secure connection to dashboard.</div>`;
+                console.error("Data pipeline processing failure:", e);
             }
         }
 
