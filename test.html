@@ -15,10 +15,10 @@
 
     <!-- SECTION 1: DYNAMIC INSTITUTIONAL HERO HEADER -->
     <div id="hero-header" class="relative text-white py-16 md:py-24 px-6 md:px-12 text-center overflow-hidden border-b border-blue-800 shadow-inner bg-gradient-to-r from-blue-900 via-indigo-950 to-slate-950">
-        <!-- Background Image Layer (Ensure the direct link format is used here too!) -->
-        <div id="header-bg-image-layer" class="absolute inset-0 bg-cover bg-center opacity-40 mix-blend-overlay hidden"></div>
+        <!-- Background Image Layer (Forced to load properly via inline style overlay) -->
+        <div id="header-bg-image-layer" class="absolute inset-0 bg-cover bg-center opacity-40 mix-blend-overlay z-0 hidden"></div>
         <!-- Dot Matrix Mesh Pattern Overlay -->
-        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#3b82f6_1px,transparent_1px)] [background-size:16px_16px]"></div>
+        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#3b82f6_1px,transparent_1px)] [background-size:16px_16px] z-0"></div>
         
         <!-- TEXT HEADER CONTAINER -->
         <div id="header-text-container" class="relative max-w-4xl mx-auto space-y-3 z-10">
@@ -165,15 +165,20 @@
                 const heroHeader = document.getElementById("hero-header");
                 
                 // Adjust Header Background Color Style
-                if(configMap['HEADER_BG_COLOR']) {
+                if(configMap['HEADER_BG_COLOR'] && configMap['HEADER_BG_COLOR'] !== "") {
                     heroHeader.className = `relative text-white py-16 md:py-24 px-6 md:px-12 text-center overflow-hidden border-b border-blue-800 shadow-inner bg-gradient-to-r ${configMap['HEADER_BG_COLOR']}`;
+                } else {
+                    // Default fallback coloring if sheet row is empty
+                    heroHeader.className = "relative text-white py-16 md:py-24 px-6 md:px-12 text-center overflow-hidden border-b border-blue-800 shadow-inner bg-gradient-to-r from-slate-900 to-indigo-950";
                 }
                 
                 // Adjust Header Background Wallpaper Image
-                if(configMap['HEADER_BG_IMAGE']) {
+                if(configMap['HEADER_BG_IMAGE'] && configMap['HEADER_BG_IMAGE'] !== "") {
                     const bgLayer = document.getElementById("header-bg-image-layer");
                     bgLayer.style.backgroundImage = `url('${configMap['HEADER_BG_IMAGE']}')`;
                     bgLayer.classList.remove("hidden");
+                } else {
+                    document.getElementById("header-bg-image-layer").classList.add("hidden");
                 }
 
                 // Header Type Routing Toggles (TEXT vs IMAGE Graphic Banner)
@@ -185,6 +190,8 @@
                     document.getElementById("header-image-container").classList.remove("hidden");
                     heroHeader.style.padding = "1.5rem 1rem"; 
                 } else {
+                    document.getElementById("header-image-container").classList.add("hidden");
+                    document.getElementById("header-text-container").classList.remove("hidden");
                     if(configMap['SCHOOL_NAME']) document.getElementById("config-school-name").innerText = configMap['SCHOOL_NAME'];
                     if(configMap['PORTAL_TITLE']) document.getElementById("config-portal-title").innerText = configMap['PORTAL_TITLE'];
                     if(configMap['PORTAL_TAGLINE']) document.getElementById("config-portal-tagline").innerText = configMap['PORTAL_TAGLINE'];
@@ -269,7 +276,6 @@
             data.forEach(officer => {
                 const name = officer[0]; const role = officer[1]; const imgUrl = officer[2];
                 
-                // Securely compute internal avatar card structures without syntax injection leaks
                 const avatarFrameContent = imgUrl 
                     ? `<img src="${imgUrl}" alt="${name}" class="w-full h-full object-cover relative z-10">` 
                     : AVATAR_PLACEHOLDER;
