@@ -12,9 +12,9 @@
 </head>
 <body class="bg-slate-50 text-slate-900 antialiased min-h-screen flex flex-col">
 
-    <div class="bg-gradient-to-r from-blue-900 to-indigo-950 text-white text-xs tracking-widest uppercase py-2 px-6 text-center md:text-left border-b border-blue-800 flex justify-between items-center">
-        <span>Lydia D. Villangca Trade School • Official SSLG Repository</span>
-        <span class="hidden md:inline-block text-blue-300">Project GLASS v1.0 (2026-2027)</span>
+    <!-- TOP INFORMATION LAYER (Text Cleared) -->
+    <div class="bg-gradient-to-r from-blue-900 to-indigo-950 text-white text-xs tracking-widest uppercase py-2 px-6 text-center md:text-right border-b border-blue-800 flex justify-end items-center">
+        <span id="top-portal-tag">Project GLASS v1.0 (2026-2027)</span>
     </div>
 
     <!-- PURE IMAGE HEADER PORTAL -->
@@ -48,12 +48,10 @@
                 <h3 class="text-xs font-bold uppercase tracking-widest text-slate-400">The Executive Council</h3>
             </div>
 
-            <!-- Enhanced Vertical Rectangular Card Matrix with Larger Media Space -->
-            <div id="executive-primary-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-                <div class="col-span-full py-12 text-center text-xs font-medium text-slate-400 animate-pulse">Syncing primary executive roster blocks...</div>
+            <!-- Unified Vertical Rectangular Grid Layout For All Executives -->
+            <div id="executive-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                <div class="col-span-full py-12 text-center text-xs font-medium text-slate-400 animate-pulse">Syncing executive roster blocks...</div>
             </div>
-
-            <div id="executive-secondary-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4 pt-4"></div>
         </div>
 
         <!-- 2. LEGISLATIVE REPRESENTATIVES SECTION -->
@@ -214,44 +212,38 @@
         // 🎨 CARD DESIGN COMPILING BLOCKS
         // ==========================================
         function renderExecutivePanels(officers) {
-            const primaryGrid = document.getElementById("executive-primary-grid");
-            const secondaryGrid = document.getElementById("executive-secondary-grid");
-            primaryGrid.innerHTML = "";
-            secondaryGrid.innerHTML = "";
+            const grid = document.getElementById("executive-grid");
+            grid.innerHTML = "";
 
-            if(officers.length === 0) return;
+            if(officers.length === 0) {
+                grid.innerHTML = `<div class="col-span-full text-center text-xs text-slate-400 py-4">No executive profiles deployed inside the sheet.</div>`;
+                return;
+            }
 
             officers.forEach((officer, index) => {
                 const imgNode = officer.imgUrl 
                     ? `<img src="${officer.imgUrl}" alt="${officer.name}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">` 
                     : AVATAR_SVG;
                 
-                if (index < 3) {
-                    const isPres = index === 0;
-                    const premiumTag = isPres ? `<div class="absolute top-3 right-3 z-10 bg-blue-600 text-white px-3 py-1 text-[10px] uppercase tracking-widest font-bold font-mono rounded-md shadow-sm">Presiding Officer</div>` : '';
-                    const customRoleStyling = isPres ? 'text-blue-600 font-bold' : 'text-slate-500 font-semibold';
-                    const customBorder = isPres ? 'border-2 border-blue-600/40' : 'border border-slate-200/80';
+                const isPres = index === 0;
+                const premiumTag = isPres ? `<div class="absolute top-3 right-3 z-10 bg-blue-600 text-white px-3 py-1 text-[10px] uppercase tracking-widest font-bold font-mono rounded-md shadow-sm">Presiding Officer</div>` : '';
+                const customRoleStyling = isPres ? 'text-blue-600 font-bold' : 'text-slate-500 font-semibold';
+                const customBorder = isPres ? 'border-2 border-blue-600/40' : 'border border-slate-200/80';
 
-                    primaryGrid.innerHTML += `
-                        <div class="bg-white ${customBorder} rounded-2xl overflow-hidden shadow-sm flex flex-col items-center group hover:shadow-md transition-all relative">
-                            ${premiumTag}
-                            <!-- Massive Image Canvas Block -->
-                            <div class="w-full h-72 bg-slate-100 flex items-center justify-center overflow-hidden border-b border-slate-100 flex-shrink-0">
-                                ${imgNode}
-                            </div>
-                            <!-- Structural Typography Footprint -->
-                            <div class="p-6 text-center w-full bg-white flex-grow flex flex-col justify-center">
-                                <h4 class="font-bold text-slate-900 text-lg tracking-tight truncate w-full group-hover:text-blue-600 transition-colors">${officer.name}</h4>
-                                <p class="text-xs uppercase tracking-wider mt-1.5 ${customRoleStyling}">${officer.role}</p>
-                            </div>
-                        </div>`;
-                } else {
-                    secondaryGrid.innerHTML += `
-                        <div class="bg-white border border-slate-200 rounded-lg p-4 text-center hover:border-slate-300 shadow-sm transition-all group">
-                            <h5 class="font-semibold text-slate-900 text-sm tracking-tight truncate">${officer.name}</h5>
-                            <p class="text-[11px] font-medium text-slate-400 uppercase mt-0.5 tracking-wider truncate">${officer.role}</p>
-                        </div>`;
-                }
+                // Unified crisp, vertical rectangular card template
+                grid.innerHTML += `
+                    <div class="bg-white ${customBorder} rounded-2xl overflow-hidden shadow-sm flex flex-col items-center group hover:shadow-md transition-all relative">
+                        ${premiumTag}
+                        <!-- Tall Vertical Image Canvas -->
+                        <div class="w-full h-72 bg-slate-100 flex items-center justify-center overflow-hidden border-b border-slate-100 flex-shrink-0">
+                            ${imgNode}
+                        </div>
+                        <!-- Information Block -->
+                        <div class="p-5 text-center w-full bg-white flex-grow flex flex-col justify-center">
+                            <h4 class="font-bold text-slate-900 text-base tracking-tight truncate w-full group-hover:text-blue-600 transition-colors">${officer.name}</h4>
+                            <p class="text-xs uppercase tracking-wider mt-1.5 ${customRoleStyling}">${officer.role}</p>
+                        </div>
+                    </div>`;
             });
         }
 
