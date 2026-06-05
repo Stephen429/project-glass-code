@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project GLASS Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; }
         .news-fade { transition: opacity 0.5s ease-in-out; }
@@ -13,36 +13,28 @@
 </head>
 <body class="bg-slate-50 text-slate-900 min-h-screen antialiased flex flex-col">
 
-    <!-- SECTION 1: RELIABLE PHYSICAL HERO HEADER -->
-    <div id="hero-header" class="relative text-white py-16 md:py-24 px-6 md:px-12 text-center overflow-hidden border-b border-blue-800 shadow-inner bg-gradient-to-r from-blue-900 via-indigo-950 to-slate-950">
-        
-        <!-- PHYSICAL BACKGROUND IMAGE LAYER -->
-        <img id="header-bg-image-layer" src="" alt="" class="absolute inset-0 w-full h-full object-cover opacity-100 pointer-events-none z-0 hidden">
-        
-        <!-- Dot Matrix Mesh Pattern Overlay -->
-        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#3b82f6_1px,transparent_1px)] [background-size:16px_16px] z-0"></div>
-        
-        <!-- TEXT HEADER CONTAINER -->
-        <div id="header-text-container" class="relative max-w-4xl mx-auto space-y-3 z-10">
-            <span id="config-school-name" class="text-xs md:text-sm font-bold tracking-widest text-blue-400 uppercase bg-blue-950/60 px-3 py-1 rounded-full border border-blue-800/60 inline-block">
-                Lydia D. Villangca Trade School
-            </span>
-            <h1 id="config-portal-title" class="text-3xl md:text-5xl font-extrabold tracking-tight md:leading-tight">
-                PROJECT GLASS
+    <!-- REPLACEMENT ELEMENT: PREMIUM EDITORIAL NARRATIVE OPENING -->
+    <section class="w-full max-w-6xl mx-auto px-4 pt-16 pb-6">
+        <div class="border-b border-slate-200 pb-10 space-y-4">
+            <!-- Screenshot Inspired Headline Dominance -->
+            <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-900 leading-none">
+                A clear window into student leadership.
             </h1>
-            <p id="config-portal-tagline" class="text-xs md:text-sm text-slate-300 font-medium tracking-wide uppercase max-w-2xl mx-auto leading-relaxed">
-                Governance, Leadership, Accountability & Student Services
+            
+            <!-- Seamlessly Merged Paragraph Housing Project GLASS Identity -->
+            <p class="text-sm md:text-base text-slate-500 font-medium leading-relaxed max-w-3xl">
+                The Supreme Secondary Learner Government operates under a framework of complete digital visibility. Through <span class="font-bold text-slate-900">Project GLASS</span> (<span class="italic text-blue-600 font-semibold">Governance, Leadership, Accountability & Student Services</span>) and by dismantling traditional communication barriers, we ensure every policy, project tracker, and student asset is openly accessible to the student body at all times.
             </p>
         </div>
-
-        <!-- IMAGE HEADER CONTAINER -->
-        <div id="header-image-container" class="relative max-w-5xl mx-auto z-10 hidden flex justify-center items-center">
-            <img id="config-header-banner" src="" alt="Portal Banner" class="max-h-48 md:max-h-64 object-contain rounded-lg drop-shadow-lg">
-        </div>
-    </div>
+        
+        <!-- Hidden dynamic config anchors to safely sustain background calculations without console trace errors -->
+        <span id="config-school-name" class="hidden"></span>
+        <span id="config-portal-title" class="hidden"></span>
+        <span id="config-portal-tagline" class="hidden"></span>
+    </section>
 
     <!-- MAIN INTERACTIVE CONTENT LAYER -->
-    <div class="max-w-6xl w-full mx-auto px-4 py-6 space-y-5 flex-grow">
+    <div class="max-w-6xl w-full mx-auto px-4 pb-12 space-y-5 flex-grow">
         
         <!-- SECTION 2: CONDITIONAL NEWS BILLBOARD (Hidden by Default) -->
         <div id="news-billboard-wrapper" class="hidden bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden flex flex-col sm:flex-row items-center min-h-[56px] border-l-4 border-l-blue-600">
@@ -116,6 +108,34 @@
 
     </div>
 
+    <!-- YOUR CUSTOM SPECIFIED UTILITY FOOTER LAYER -->
+    <footer class="w-full bg-white border-t border-slate-200 mt-auto">
+        <div class="max-w-6xl mx-auto px-4 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <!-- Left Side: Identity & Copyright -->
+            <div class="text-center sm:text-left space-y-0.5">
+                <p class="text-[11px] font-bold text-slate-800 tracking-wide">
+                    © LDVTS Supreme Secondary Learner Government
+                </p>
+                <p class="text-[10px] font-medium text-slate-400 tracking-wider uppercase">
+                    Project G.L.A.S.S. Transparency Portal
+                </p>
+            </div>
+            
+            <!-- Right Side: Actionable Social Shortcuts via CONFIG Map Keys -->
+            <div class="flex items-center justify-center gap-x-5 text-[10px] font-bold tracking-widest uppercase">
+                <a id="footer-fb-sslg" href="#" target="_blank" class="text-slate-400 hover:text-blue-600 transition-colors flex items-center gap-1.5">
+                    <svg class="w-3.5 h-3.5 fill-currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c4.56-.93 8-4.96 8-9.75z"/></svg>
+                    <span>Facebook Page (SSLG)</span>
+                </a>
+                <span class="text-slate-200 hidden sm:inline">|</span>
+                <a id="footer-fb-school" href="#" target="_blank" class="text-slate-400 hover:text-blue-600 transition-colors flex items-center gap-1.5">
+                    <svg class="w-3.5 h-3.5 fill-currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c4.56-.93 8-4.96 8-9.75z"/></svg>
+                    <span>Facebook Page (School)</span>
+                </a>
+            </div>
+        </div>
+    </footer>
+
     <script>
         // ==========================================
         // 🛠️ CONFIGURATION SETUP
@@ -152,7 +172,7 @@
                 return;
             }
 
-            // 1. Fetch Dynamic UI Styles
+            // 1. Fetch Dynamic UI Text Map
             try {
                 const res = await fetch(`${MASTER_SHEET_URL}&gid=${CONFIG_TAB_GID}`);
                 const data = parseCSV(await res.text());
@@ -161,44 +181,23 @@
                     if(data[i].length >= 2 && data[i][0].trim()) configMap[data[i][0].trim()] = data[i][1].trim();
                 }
                 
-                const heroHeader = document.getElementById("hero-header");
-                const bgImageElement = document.getElementById("header-bg-image-layer");
-                
-                if(configMap['HEADER_BG_IMAGE'] && configMap['HEADER_BG_IMAGE'] !== "") {
-                    bgImageElement.src = configMap['HEADER_BG_IMAGE'];
-                    bgImageElement.classList.remove("hidden");
-                    heroHeader.className = "relative text-white py-16 md:py-24 px-6 md:px-12 text-center overflow-hidden border-b border-blue-800 shadow-inner bg-slate-900";
-                } else {
-                    bgImageElement.classList.add("hidden");
-                    if(configMap['HEADER_BG_COLOR'] && configMap['HEADER_BG_COLOR'] !== "") {
-                        heroHeader.className = `relative text-white py-16 md:py-24 px-6 md:px-12 text-center overflow-hidden border-b border-blue-800 shadow-inner bg-gradient-to-r ${configMap['HEADER_BG_COLOR']}`;
-                    } else {
-                        heroHeader.className = "relative text-white py-16 md:py-24 px-6 md:px-12 text-center overflow-hidden border-b border-blue-800 shadow-inner bg-gradient-to-r from-blue-900 via-indigo-950 to-slate-950";
-                    }
-                }
+                // Keep mapping elements safely to prevent potential exceptions
+                if(configMap['SCHOOL_NAME']) document.getElementById("config-school-name").innerText = configMap['SCHOOL_NAME'];
+                if(configMap['PORTAL_TITLE']) document.getElementById("config-portal-title").innerText = configMap['PORTAL_TITLE'];
+                if(configMap['PORTAL_TAGLINE']) document.getElementById("config-portal-tagline").innerText = configMap['PORTAL_TAGLINE'];
 
-                const type = configMap['HEADER_TYPE'] ? configMap['HEADER_TYPE'].toUpperCase() : 'TEXT';
-                if(type === 'IMAGE' && configMap['HEADER_IMAGE_BANNER']) {
-                    document.getElementById("header-text-container").classList.add("hidden");
-                    const bannerImg = document.getElementById("config-header-banner");
-                    bannerImg.src = configMap['HEADER_IMAGE_BANNER'];
-                    document.getElementById("header-image-container").classList.remove("hidden");
-                    heroHeader.style.padding = "1.5rem 1rem"; 
-                } else {
-                    document.getElementById("header-image-container").classList.add("hidden");
-                    document.getElementById("header-text-container").classList.remove("hidden");
-                    if(configMap['SCHOOL_NAME']) document.getElementById("config-school-name").innerText = configMap['SCHOOL_NAME'];
-                    if(configMap['PORTAL_TITLE']) document.getElementById("config-portal-title").innerText = configMap['PORTAL_TITLE'];
-                    if(configMap['PORTAL_TAGLINE']) document.getElementById("config-portal-tagline").innerText = configMap['PORTAL_TAGLINE'];
-                }
-
+                // Sync Primary Navigation Gateway Routes
                 if(configMap['LINK_1_PATH']) document.getElementById("gateway-link-1").setAttribute("href", configMap['LINK_1_PATH']);
                 if(configMap['LINK_2_PATH']) document.getElementById("gateway-link-2").setAttribute("href", configMap['LINK_2_PATH']);
                 if(configMap['LINK_3_PATH']) document.getElementById("gateway-link-3").setAttribute("href", configMap['LINK_3_PATH']);
                 if(configMap['LINK_2_PATH']) document.getElementById("view-all-officers-link").setAttribute("href", configMap['LINK_2_PATH']);
+
+                // Map your custom Facebook path variables from your sheet config tab keys:
+                if(configMap['FB_SSLG_URL']) document.getElementById("footer-fb-sslg").setAttribute("href", configMap['FB_SSLG_URL']);
+                if(configMap['FB_SCHOOL_URL']) document.getElementById("footer-fb-school").setAttribute("href", configMap['FB_SCHOOL_URL']);
             } catch (e) { console.error("Config fetch trace error:", e); }
 
-            // 2. Sync Bulletins (Isolated block - won't stop execution of below systems)
+            // 2. Sync Bulletins
             try {
                 const res = await fetch(`${MASTER_SHEET_URL}&gid=${NEWS_TAB_GID}`);
                 const data = parseCSV(await res.text());
@@ -221,7 +220,7 @@
                 console.error("News sync trace handled.", e);
             }
 
-            // 3. Sync Metrics (Completely safe from news bugs)
+            // 3. Sync Metrics
             try {
                 const res = await fetch(`${MASTER_SHEET_URL}&gid=${METRICS_TAB_GID}`);
                 const data = parseCSV(await res.text());
