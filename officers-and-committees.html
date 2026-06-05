@@ -7,22 +7,29 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; }
+        body { font-family: 'Inter', sans-serif; margin: 0; padding: 0; }
+        /* Flat, identical homepage dual-image layered header */
+        #homepage-header-container {
+            position: relative;
+            width: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-900 antialiased min-h-screen flex flex-col">
 
-    <!-- HOMEPAGE HEADER (NATURAL SCROLLING) -->
-    <header class="bg-white border-b border-slate-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-center">
-            <img id="config-header-banner" src="" alt="Official SSLG Banner Header" class="w-full h-auto max-h-36 object-cover rounded-lg hidden">
-            <div id="header-loading-placeholder" class="w-full h-24 bg-slate-100 animate-pulse rounded-lg flex items-center justify-center text-xs text-slate-400">
-                Loading Official SSLG Header...
-            </div>
-        </div>
+    <!-- HOMEPAGE IDENTICAL LAYERED HEADER (NO CURVES, NO PADDING) -->
+    <header id="homepage-header-container" class="w-full h-32 md:h-40 bg-slate-200">
+        <img id="config-foreground-banner" src="" alt="Official SSLG Banner" class="max-h-full object-contain hidden">
+        <div id="header-loader" class="text-xs text-slate-400 font-medium animate-pulse">Loading Header Assets...</div>
     </header>
 
-    <!-- SECTION CONTROLS -->
+    <!-- NAVIGATION TABS -->
     <section class="bg-white border-b border-slate-200 py-6">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
             <div class="text-center md:text-left">
@@ -30,7 +37,6 @@
                 <p class="text-sm text-slate-500 mt-0.5">Supreme Secondary Learner Government Roster</p>
             </div>
             
-            <!-- Three Navigation Buttons -->
             <div class="flex bg-slate-100 p-1 rounded-lg border border-slate-200 text-xs font-medium text-slate-600">
                 <button onclick="showTab('executive')" id="btn-executive" class="px-4 py-2 rounded-md transition-all bg-white text-blue-600 shadow-sm font-semibold">Executives</button>
                 <button onclick="showTab('representatives')" id="btn-representatives" class="px-4 py-2 rounded-md transition-all hover:text-slate-900">Representatives</button>
@@ -39,34 +45,33 @@
         </div>
     </section>
 
-    <!-- MAIN INTERFACE OVERVIEW -->
+    <!-- CONTENT PORTAL -->
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10">
 
-        <!-- SECTION 1: EXECUTIVES -->
+        <!-- PANEL 1: EXECUTIVES -->
         <div id="panel-executive" class="dir-tab-panel space-y-12">
-            <!-- Top Centered President Slot -->
-            <div id="pres-target" class="flex justify-center w-full"></div>
+            <!-- Center Top President Layout -->
+            <div id="pres-target" class="flex justify-center w-full">
+                <div class="text-xs text-slate-400 animate-pulse">Loading core executive board...</div>
+            </div>
             
-            <!-- Remaining Execs 2-Column Grid -->
+            <!-- 2-Column Balanced Grid -->
             <div class="max-w-4xl mx-auto">
                 <div id="exec-grid-target" class="grid grid-cols-1 sm:grid-cols-2 gap-8 justify-items-center"></div>
             </div>
         </div>
 
-        <!-- SECTION 2: REPRESENTATIVES -->
+        <!-- PANEL 2: REPRESENTATIVES -->
         <div id="panel-representatives" class="dir-tab-panel space-y-6 hidden">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- 7 & 8 -->
                 <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
                     <h4 class="text-sm font-bold text-blue-600 uppercase tracking-wider pb-2 border-b border-slate-100 mb-3">Grade 7 and 8</h4>
                     <ul id="rep-g78-target" class="text-sm text-slate-700 space-y-2 font-medium"></ul>
                 </div>
-                <!-- 9 & 10 -->
                 <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
                     <h4 class="text-sm font-bold text-blue-600 uppercase tracking-wider pb-2 border-b border-slate-100 mb-3">Grade 9 and 10</h4>
                     <ul id="rep-g910-target" class="text-sm text-slate-700 space-y-2 font-medium"></ul>
                 </div>
-                <!-- SHS -->
                 <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
                     <h4 class="text-sm font-bold text-indigo-600 uppercase tracking-wider pb-2 border-b border-slate-100 mb-3">Senior High</h4>
                     <ul id="rep-shs-target" class="text-sm text-slate-700 space-y-2 font-medium"></ul>
@@ -74,15 +79,14 @@
             </div>
         </div>
 
-        <!-- SECTION 3: COMMITTEES -->
+        <!-- PANEL 3: COMMITTEES -->
         <div id="panel-committees" class="dir-tab-panel space-y-3 hidden">
             <div id="committee-accordion-target" class="space-y-3"></div>
         </div>
 
     </main>
 
-    <!-- STANDARDIZED FOOTER -->
-    <footer class="bg-slate-950 text-slate-400 text-xs py-6 border-t border-slate-800 mt-12">
+    <footer class="bg-slate-950 text-slate-400 text-xs py-6 border-t border-slate-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
             <p>© 2026 Supreme Secondary Learner Government. Project GLASS Accountability Portal.</p>
         </div>
@@ -95,7 +99,6 @@
 
         const DEFAULT_AVATAR = `<svg class="w-16 h-16 text-slate-200" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>`;
 
-        // Bulletproof CSV parser splitting by quotes and commas
         function processCSV(text) {
             let lines = []; let row = [""]; let inQuotes = false;
             for (let i = 0; i < text.length; i++) {
@@ -109,11 +112,9 @@
             return lines;
         }
 
-        // Tab Switcher Engine
         function showTab(tabName) {
             document.querySelectorAll('.dir-tab-panel').forEach(p => p.classList.add('hidden'));
             document.getElementById('panel-' + tabName).classList.remove('hidden');
-            
             ['executive', 'representatives', 'committees'].forEach(t => {
                 const btn = document.getElementById('btn-' + t);
                 if (btn) btn.className = "px-4 py-2 rounded-md transition-all hover:text-slate-900 text-slate-600";
@@ -121,7 +122,6 @@
             document.getElementById('btn-' + tabName).className = "px-4 py-2 rounded-md transition-all bg-white text-blue-600 shadow-sm font-semibold";
         }
 
-        // Simple Toggle Dropdown Accordion function
         function toggleDropdown(id) {
             const drawer = document.getElementById('drawer-' + id);
             const chevron = document.getElementById('chev-' + id);
@@ -134,7 +134,6 @@
             }
         }
 
-        // Clean Exec Card Maker
         function buildCard(name, role, img) {
             const portrait = img ? `<img src="${img}" alt="${name}" class="w-full h-full object-cover">` : `<div class="w-full h-full bg-slate-100 flex items-center justify-center">${DEFAULT_AVATAR}</div>`;
             return `
@@ -149,28 +148,35 @@
                 </div>`;
         }
 
-        // MASTER ENGINE INITIALIZATION
         async function fetchAndRenderData() {
-            // 1. Fetch Header Background Configuration
+            // 1. HEADER SYNC (Direct, flat configuration mapping)
             try {
                 const res = await fetch(`${CSV_URL}&gid=${GID_CONFIG}`);
                 const rows = processCSV(await res.text());
-                let bannerUrl = "";
+                let bgUrl = "";
+                let fgUrl = "";
+                
                 for(let i = 1; i < rows.length; i++) {
-                    if(rows[i][0] && (rows[i][0].trim() === 'HEADER_BG_IMAGE' || rows[i][0].trim() === 'HEADER_IMAGE_BANNER')) {
-                        bannerUrl = rows[i][1].trim();
-                        break;
-                    }
+                    if(!rows[i][0]) continue;
+                    let key = rows[i][0].trim();
+                    let value = rows[i][1] ? rows[i][1].trim() : "";
+                    
+                    if(key === 'HEADER_BG_IMAGE') bgUrl = value;
+                    if(key === 'HEADER_IMAGE_BANNER' || key === 'HEADER_FG_IMAGE') fgUrl = value;
                 }
-                if(bannerUrl) {
-                    const imgEl = document.getElementById("config-header-banner");
-                    imgEl.src = bannerUrl;
-                    imgEl.classList.remove('hidden');
-                    document.getElementById("header-loading-placeholder").classList.add('hidden');
+                
+                const container = document.getElementById("homepage-header-container");
+                if(bgUrl) container.style.backgroundImage = `url('${bgUrl}')`;
+                
+                if(fgUrl) {
+                    const fgImg = document.getElementById("config-foreground-banner");
+                    fgImg.src = fgUrl;
+                    fgImg.classList.remove('hidden');
+                    document.getElementById("header-loader").classList.add('hidden');
                 }
-            } catch(e) { console.error("Config load error", e); }
+            } catch(e) { console.error("Header image configuration error:", e); }
 
-            // 2. Fetch and Map Roster Data
+            // 2. ROSTER ROUTING ENGINE
             try {
                 const res = await fetch(`${CSV_URL}&gid=${GID_ROSTER}`);
                 const rows = processCSV(await res.text());
@@ -179,10 +185,9 @@
                 let repsList = [];
                 let commList = [];
 
-                // Sorting index configuration array
-                const roleOrder = ['president', 'vice president', 'secretary', 'treasurer', 'auditor', 'p.i.o.', 'pio', 'protocol officer'];
+                // Hard structural keys for Executives
+                const execRoles = ['president', 'vice president', 'secretary', 'treasurer', 'auditor', 'p.i.o.', 'pio', 'protocol officer'];
 
-                // Loop through sheet data lines (Skip headers)
                 for(let i = 1; i < rows.length; i++) {
                     if(!rows[i][0] || !rows[i][0].trim()) continue;
                     
@@ -191,37 +196,39 @@
                     let img = rows[i][2] ? rows[i][2].trim() : "";
                     let lowRole = role.toLowerCase();
 
-                    let personObj = { name, role, img };
+                    let person = { name, role, img };
 
-                    if(roleOrder.some(r => lowRole === r)) {
-                        execList.push(personObj);
+                    // Explicit structural classification rules
+                    if(execRoles.some(r => lowRole === r)) {
+                        execList.push(person);
                     } else if(lowRole.includes('representative') || lowRole.includes('councilor') || lowRole.includes('grade')) {
-                        repsList.push(personObj);
+                        repsList.push(person);
+                    } else if(lowRole.includes('committee') || lowRole.includes('chair') || lowRole.includes('member')) {
+                        commList.push(person);
                     } else {
-                        commList.push(personObj);
+                        // Fallback fallback rule protection
+                        execList.push(person);
                     }
                 }
 
-                // Parse Executive Array Rendering
+                // Render Executive Hierarchy 
                 execList.sort((a,b) => {
-                    let idxA = roleOrder.indexOf(a.role.toLowerCase());
-                    let idxB = roleOrder.indexOf(b.role.toLowerCase());
+                    let idxA = execRoles.indexOf(a.role.toLowerCase());
+                    let idxB = execRoles.indexOf(b.role.toLowerCase());
                     return (idxA === -1 ? 99 : idxA) - (idxB === -1 ? 99 : idxB);
                 });
 
                 const presProfile = execList.find(p => p.role.toLowerCase().includes('president') && !p.role.toLowerCase().includes('vice'));
-                if(presProfile) {
-                    document.getElementById('pres-target').innerHTML = buildCard(presProfile.name, presProfile.role, presProfile.img);
-                } else {
-                    document.getElementById('pres-target').innerHTML = `<p class="text-xs text-slate-400">No President Profile Assigned.</p>`;
-                }
+                document.getElementById('pres-target').innerHTML = presProfile 
+                    ? buildCard(presProfile.name, presProfile.role, presProfile.img) 
+                    : `<p class="text-xs text-slate-400">No President Profile Assigned.</p>`;
 
                 const alternateExecs = execList.filter(p => !(p.role.toLowerCase().includes('president') && !p.role.toLowerCase().includes('vice')));
                 const execGrid = document.getElementById('exec-grid-target');
                 execGrid.innerHTML = "";
                 alternateExecs.forEach(e => { execGrid.innerHTML += buildCard(e.name, e.role, e.img); });
 
-                // Parse Representatives Array Rendering
+                // Render Representatives Panels
                 let g78HTML = "", g910HTML = "", shsHTML = "";
                 repsList.forEach(r => {
                     let rLow = r.role.toLowerCase();
@@ -234,53 +241,49 @@
                 document.getElementById('rep-g910-target').innerHTML = g910HTML || `<li class="text-xs italic text-slate-400">To Be Appointed</li>`;
                 document.getElementById('rep-shs-target').innerHTML = shsHTML || `<li class="text-xs italic text-slate-400">To Be Appointed</li>`;
 
-                // Parse Committees Dropdown Accordion Rendering
+                // Render Committees Accordion
                 let committeeMap = {};
                 commList.forEach(c => {
-                    // Clean panel layout name
-                    let cleanCommName = c.role.replace(/(chairperson|vice-chairperson|vice chairperson|co-chairperson|co-chair|member)/gi, "").replace(/[-\s]+$/, "").trim();
-                    if(!cleanCommName) cleanCommName = "General Working Committee";
-                    
-                    if(!committeeMap[cleanCommName]) committeeMap[cleanCommName] = { head: "TBD", vice: "TBD", members: [] };
+                    let cName = c.role.replace(/(chairperson|vice-chairperson|vice chairperson|co-chairperson|co-chair|member)/gi, "").replace(/[-\s]+$/, "").trim();
+                    if(!cName) cName = "General Working Committee";
+                    if(!committeeMap[cName]) committeeMap[cName] = { head: "TBD", vice: "TBD", members: [] };
                     
                     let roleLow = c.role.toLowerCase();
-                    if(roleLow.includes('vice') || roleLow.includes('co-chair')) committeeMap[cleanCommName].vice = c.name;
-                    else if(roleLow.includes('chair')) committeeMap[cleanCommName].head = c.name;
-                    else committeeMap[cleanCommName].members.push(c.name);
+                    if(roleLow.includes('vice') || roleLow.includes('co-chair')) committeeMap[cName].vice = c.name;
+                    else if(roleLow.includes('chair')) committeeMap[cName].head = c.name;
+                    else committeeMap[cName].members.push(c.name);
                 });
 
                 const commTarget = document.getElementById('committee-accordion-target');
                 commTarget.innerHTML = "";
-                let index = 0;
-                
-                for(let cName in committeeMap) {
-                    index++;
-                    let data = committeeMap[cName];
-                    let memberNodes = data.members.length === 0 ? `<li class="text-slate-400 italic">No assigned members</li>` : data.members.map(m => `<li>• ${m}</li>`).join('');
-                    
+                let idx = 0;
+                for(let name in committeeMap) {
+                    idx++;
+                    let data = committeeMap[name];
+                    let mList = data.members.length === 0 ? `<li class="text-slate-400 italic">No assigned members</li>` : data.members.map(m => `<li>• ${m}</li>`).join('');
                     commTarget.innerHTML += `
                         <div class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
-                            <button onclick="toggleDropdown('${index}')" class="w-full px-5 py-4 flex items-center justify-between font-semibold text-slate-800 hover:bg-slate-50 transition text-sm md:text-base">
-                                <span>${cName}</span>
-                                <svg id="chev-${index}" class="w-5 h-5 text-slate-400 transform transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                            <button onclick="toggleDropdown('${idx}')" class="w-full px-5 py-4 flex items-center justify-between font-semibold text-slate-800 hover:bg-slate-50 transition text-sm md:text-base">
+                                <span>${name}</span>
+                                <svg id="chev-${idx}" class="w-5 h-5 text-slate-400 transform transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                             </button>
-                            <div id="drawer-${index}" class="hidden border-t border-slate-100 bg-slate-50/50 p-5 grid grid-cols-1 md:grid-cols-2 gap-4 text-xs md:text-sm">
+                            <div id="drawer-${idx}" class="hidden border-t border-slate-100 bg-slate-50/50 p-5 grid grid-cols-1 md:grid-cols-2 gap-4 text-xs md:text-sm">
                                 <div class="space-y-2">
                                     <p><span class="text-[10px] text-slate-400 font-bold uppercase block tracking-wider">Chairperson</span><span class="font-semibold text-slate-900">${data.head}</span></p>
                                     <p><span class="text-[10px] text-slate-400 font-bold uppercase block tracking-wider">Vice-Chairperson</span><span class="font-semibold text-slate-900">${data.vice}</span></p>
                                 </div>
                                 <div>
                                     <span class="text-[10px] text-slate-400 font-bold uppercase block tracking-wider mb-1">Committee Members</span>
-                                    <ul class="space-y-1 text-slate-700 font-medium pl-1 border-l border-slate-200">${memberNodes}</ul>
+                                    <ul class="space-y-1 text-slate-700 font-medium pl-1 border-l border-slate-200">${mList}</ul>
                                 </div>
                             </div>
                         </div>`;
                 }
-                if(index === 0) commTarget.innerHTML = `<p class="text-xs text-center text-slate-400 py-6">No committees declared.</p>`;
+                if(idx === 0) commTarget.innerHTML = `<p class="text-xs text-center text-slate-400 py-8 bg-white border border-slate-200 rounded-xl shadow-sm">No working committees registered inside database yet.</p>`;
 
             } catch(e) {
-                console.error("Roster rendering exception", e);
-                document.getElementById('exec-grid-target').innerHTML = `<div class="col-span-full text-center text-xs text-red-500 font-medium">Failed to read roster columns from data spreadsheet.</div>`;
+                console.error("Critical roster processing error:", e);
+                document.getElementById('pres-target').innerHTML = `<div class="text-xs text-red-500 font-medium">Failed to establish active secure connection to dashboard.</div>`;
             }
         }
 
