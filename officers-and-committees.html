@@ -12,7 +12,7 @@
 </head>
 <body class="bg-slate-50 text-slate-900 antialiased min-h-screen flex flex-col">
 
-    <!-- TEXT-BASED DIRECTORY TITLE SECTION (NO HEADER IMAGES) -->
+    <!-- TEXT-BASED DIRECTORY TITLE SECTION (INSULATED PADDING BORDERS) -->
     <section class="bg-white border-b border-slate-200 py-10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
             <div class="text-center md:text-left space-y-2">
@@ -24,7 +24,7 @@
                 <p class="text-sm text-slate-500 max-w-xl font-medium">Supreme Secondary Learner Government complete active management and operations directory.</p>
             </div>
             
-            <!-- Navigation Control Tabs -->
+            <!-- FIXED EDGE CONTROLS: Structured inside responsive max-w gutters to prevent viewport collisions -->
             <div class="flex bg-slate-100 p-1 rounded-lg border border-slate-200 text-xs font-medium text-slate-600 self-center">
                 <button onclick="showTab('executive')" id="btn-executive" class="px-5 py-2.5 rounded-md transition-all bg-white text-blue-600 shadow-sm font-semibold">Executives</button>
                 <button onclick="showTab('representatives')" id="btn-representatives" class="px-5 py-2.5 rounded-md transition-all hover:text-slate-900">Representatives</button>
@@ -33,17 +33,17 @@
         </div>
     </section>
 
-    <!-- CONTENT PORTAL -->
+    <!-- MAIN INTERFACE DISPLAY PORTAL -->
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10">
 
-        <!-- PANEL 1: EXECUTIVES (STRICT 1-2-2 FLOWING SYSTEM) -->
+        <!-- PANEL 1: EXECUTIVES (STRICT 1-2-2-2 BALANCED GRID GRID SYSTEM) -->
         <div id="panel-executive" class="dir-tab-panel space-y-10">
-            <!-- Row 1: President (1) -->
+            <!-- Row 1: President Card Asset (1) -->
             <div id="row-pres" class="flex justify-center w-full">
                 <div class="text-xs text-slate-400 animate-pulse">Syncing core roster indexes...</div>
             </div>
             
-            <!-- All Other Executive Officers (Balanced 2-Column Pairs below President) -->
+            <!-- All Lower Tier Officers (Forced into balanced 2-column stacking grid below the President) -->
             <div class="max-w-3xl mx-auto">
                 <div id="exec-grid-target" class="grid grid-cols-1 sm:grid-cols-2 gap-8 justify-items-center"></div>
             </div>
@@ -135,16 +135,13 @@
                 </div>`;
         }
 
-        // FAIL-SAFE MULTI-STRATEGY CLASSIFIER ENGINE
         function classifyRole(roleString) {
             const r = roleString.toLowerCase().trim();
             
-            // 1. Check Representatives first to prevent overlap
             if (r.includes('representative') || r.includes('councilor') || r.includes('grade')) {
                 return 'representative';
             }
             
-            // 2. Strict Executive match checks
             if (r.includes('president') && !r.includes('vice') && !r.includes('co-')) {
                 return 'executive';
             }
@@ -163,7 +160,6 @@
                 return 'executive';
             }
             
-            // 3. Fallback to Working Committees
             return 'committee';
         }
 
@@ -176,7 +172,6 @@
                 let repsList = [];
                 let commList = [];
 
-                // Standardized order ranking for Executives
                 const execOrder = ['president', 'vice president', 'secretary', 'treasurer', 'auditor', 'public information', 'pio', 'p.i.o', 'protocol'];
 
                 for(let i = 1; i < rows.length; i++) {
@@ -198,27 +193,23 @@
                     }
                 }
 
-                // Sort Executive ranks based on structural protocol list
                 execList.sort((a,b) => {
                     let idxA = execOrder.findIndex(pos => a.role.toLowerCase().includes(pos));
                     let idxB = execOrder.findIndex(pos => b.role.toLowerCase().includes(pos));
                     return (idxA === -1 ? 99 : idxA) - (idxB === -1 ? 99 : idxB);
                 });
 
-                // Isolate President Card
                 const presidentNode = execList.find(p => p.role.toLowerCase().includes('president') && !p.role.toLowerCase().includes('vice'));
                 
                 document.getElementById('row-pres').innerHTML = presidentNode 
                     ? buildCard(presidentNode.name, presidentNode.role, presidentNode.img) 
                     : `<p class="text-xs text-slate-400">No President Profile Assigned.</p>`;
 
-                // Stream all other Executives into a unified grid of pairs (strict 1-2-2-2 flow)
                 const alternateExecs = execList.filter(p => p !== presidentNode);
                 const execGrid = document.getElementById('exec-grid-target');
                 execGrid.innerHTML = "";
                 alternateExecs.forEach(e => { execGrid.innerHTML += buildCard(e.name, e.role, e.img); });
 
-                // Render Representative Panels
                 let g78HTML = "", g910HTML = "", shsHTML = "";
                 repsList.forEach(r => {
                     let rLow = r.role.toLowerCase();
@@ -231,7 +222,6 @@
                 document.getElementById('rep-g910-target').innerHTML = g910HTML || `<li class="text-xs italic text-slate-400">To Be Appointed</li>`;
                 document.getElementById('rep-shs-target').innerHTML = shsHTML || `<li class="text-xs italic text-slate-400">To Be Appointed</li>`;
 
-                // Render Working Committees Dropdown
                 let committeeMap = {};
                 commList.forEach(c => {
                     let cleanCommName = c.role.replace(/(chairperson|vice-chairperson|vice chairperson|co-chairperson|co-chair|member)/gi, "").replace(/[-\s]+$/, "").trim();
@@ -273,7 +263,7 @@
                 if(accordionIdx === 0) commTarget.innerHTML = `<p class="text-xs text-center text-slate-400 py-8 bg-white border border-slate-200 rounded-xl shadow-sm">No working committees registered inside database yet.</p>`;
 
             } catch(e) {
-                console.error("Critical roster processing error handled:", e);
+                console.error("Roster assembly error:", e);
             }
         }
 
