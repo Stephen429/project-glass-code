@@ -5,353 +5,286 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Officers & Committees | Project GLASS</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-900 antialiased min-h-screen flex flex-col">
 
-    <!-- HOMEPAGE REPLICATED HEADER (NATURAL SCROLLING) -->
-    <header class="bg-white border-b border-slate-200 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-center items-center">
-            <img id="config-header-banner" src="https://via.placeholder.com/1200x200?text=Loading+Official+SSLG+Header..." alt="Official SSLG Banner Header" class="w-full max-h-28 md:max-h-36 object-cover rounded-lg">
+    <!-- HOMEPAGE HEADER (NATURAL SCROLLING) -->
+    <header class="bg-white border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-center">
+            <img id="config-header-banner" src="" alt="Official SSLG Banner Header" class="w-full h-auto max-h-36 object-cover rounded-lg hidden">
+            <div id="header-loading-placeholder" class="w-full h-24 bg-slate-100 animate-pulse rounded-lg flex items-center justify-center text-xs text-slate-400">
+                Loading Official SSLG Header...
+            </div>
         </div>
     </header>
 
-    <!-- NAVIGATION CONTROLS SECTION -->
-    <section class="bg-white border-b border-slate-200 py-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center md:text-left flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <div>
-                <span class="text-xs font-bold tracking-widest text-blue-600 uppercase">Directory Panels</span>
-                <h2 class="text-3xl font-bold tracking-tight text-slate-900 mt-1">Officers and Committees</h2>
-                <p class="text-sm text-slate-500 mt-1">Official composition of the Supreme Secondary Learner Government.</p>
+    <!-- SECTION CONTROLS -->
+    <section class="bg-white border-b border-slate-200 py-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="text-center md:text-left">
+                <h2 class="text-2xl font-bold tracking-tight text-slate-900">Official Directory</h2>
+                <p class="text-sm text-slate-500 mt-0.5">Supreme Secondary Learner Government Roster</p>
             </div>
             
-            <!-- Three Button Segment Divider -->
-            <div class="flex bg-slate-100 p-1 rounded-lg border border-slate-200 self-center md:self-auto text-xs font-medium text-slate-600">
-                <button onclick="switchSection('executive')" id="btn-executive" class="px-4 py-2 rounded-md transition-all bg-white text-blue-600 shadow-sm font-semibold">Executives</button>
-                <button onclick="switchSection('representatives')" id="btn-representatives" class="px-4 py-2 rounded-md transition-all hover:text-slate-900">Representatives</button>
-                <button onclick="switchSection('committees')" id="btn-committees" class="px-4 py-2 rounded-md transition-all hover:text-slate-900">Committees</button>
+            <!-- Three Navigation Buttons -->
+            <div class="flex bg-slate-100 p-1 rounded-lg border border-slate-200 text-xs font-medium text-slate-600">
+                <button onclick="showTab('executive')" id="btn-executive" class="px-4 py-2 rounded-md transition-all bg-white text-blue-600 shadow-sm font-semibold">Executives</button>
+                <button onclick="showTab('representatives')" id="btn-representatives" class="px-4 py-2 rounded-md transition-all hover:text-slate-900">Representatives</button>
+                <button onclick="showTab('committees')" id="btn-committees" class="px-4 py-2 rounded-md transition-all hover:text-slate-900">Committees</button>
             </div>
         </div>
     </section>
 
-    <!-- MAIN DATA DISPLAY PORTAL -->
+    <!-- MAIN INTERFACE OVERVIEW -->
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10">
 
-        <!-- 1. EXECUTIVES SECTION -->
-        <div id="sec-executive" class="space-y-12 architecture-section">
-            <!-- President Featured Showcase Slot -->
-            <div class="flex justify-center w-full">
-                <div id="president-showcase" class="w-full max-w-[300px]">
-                    <div class="py-6 text-center text-xs font-medium text-slate-400 animate-pulse">Syncing President profile from dashboard...</div>
-                </div>
-            </div>
-
-            <!-- 2-Column Grid Layout for Remaining Executives (VP, Sec, etc.) -->
+        <!-- SECTION 1: EXECUTIVES -->
+        <div id="panel-executive" class="dir-tab-panel space-y-12">
+            <!-- Top Centered President Slot -->
+            <div id="pres-target" class="flex justify-center w-full"></div>
+            
+            <!-- Remaining Execs 2-Column Grid -->
             <div class="max-w-4xl mx-auto">
-                <div id="executive-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-8 justify-items-center">
-                    <div class="col-span-full py-6 text-center text-xs font-medium text-slate-400 animate-pulse">Syncing executive hierarchy...</div>
+                <div id="exec-grid-target" class="grid grid-cols-1 sm:grid-cols-2 gap-8 justify-items-center"></div>
+            </div>
+        </div>
+
+        <!-- SECTION 2: REPRESENTATIVES -->
+        <div id="panel-representatives" class="dir-tab-panel space-y-6 hidden">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- 7 & 8 -->
+                <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+                    <h4 class="text-sm font-bold text-blue-600 uppercase tracking-wider pb-2 border-b border-slate-100 mb-3">Grade 7 and 8</h4>
+                    <ul id="rep-g78-target" class="text-sm text-slate-700 space-y-2 font-medium"></ul>
+                </div>
+                <!-- 9 & 10 -->
+                <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+                    <h4 class="text-sm font-bold text-blue-600 uppercase tracking-wider pb-2 border-b border-slate-100 mb-3">Grade 9 and 10</h4>
+                    <ul id="rep-g910-target" class="text-sm text-slate-700 space-y-2 font-medium"></ul>
+                </div>
+                <!-- SHS -->
+                <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+                    <h4 class="text-sm font-bold text-indigo-600 uppercase tracking-wider pb-2 border-b border-slate-100 mb-3">Senior High</h4>
+                    <ul id="rep-shs-target" class="text-sm text-slate-700 space-y-2 font-medium"></ul>
                 </div>
             </div>
         </div>
 
-        <!-- 2. REPRESENTATIVES SECTION -->
-        <div id="sec-representatives" class="space-y-6 hidden architecture-section">
-            <div id="representatives-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Grade 7 & 8 Panel -->
-                <div class="bg-white border border-slate-200 rounded-xl p-5 space-y-4 shadow-sm">
-                    <h4 class="text-sm font-bold text-blue-600 uppercase tracking-wider pb-2 border-b border-slate-100">Grade 7 and 8</h4>
-                    <ul id="rep-g7-g8" class="text-sm text-slate-700 space-y-2 font-medium">
-                        <li class="text-xs italic text-slate-400 animate-pulse">Loading legislative roster...</li>
-                    </ul>
-                </div>
-
-                <!-- Grade 9 & 10 Panel -->
-                <div class="bg-white border border-slate-200 rounded-xl p-5 space-y-4 shadow-sm">
-                    <h4 class="text-sm font-bold text-blue-600 uppercase tracking-wider pb-2 border-b border-slate-100">Grade 9 and 10</h4>
-                    <ul id="rep-g9-g10" class="text-sm text-slate-700 space-y-2 font-medium">
-                        <li class="text-xs italic text-slate-400 animate-pulse">Loading legislative roster...</li>
-                    </ul>
-                </div>
-
-                <!-- Senior High School Panel -->
-                <div class="bg-white border border-slate-200 rounded-xl p-5 space-y-4 shadow-sm">
-                    <h4 class="text-sm font-bold text-indigo-600 uppercase tracking-wider pb-2 border-b border-slate-100">Senior High</h4>
-                    <ul id="rep-shs" class="text-sm text-slate-700 space-y-2 font-medium">
-                        <li class="text-xs italic text-slate-400 animate-pulse">Loading legislative roster...</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <!-- 3. COMMITTEES SECTION -->
-        <div id="sec-committees" class="space-y-4 hidden architecture-section">
-            <!-- Collapsible Dropdown Layout Accordion Container -->
-            <div id="committees-accordion-container" class="space-y-3">
-                <div class="py-12 text-center text-xs font-medium text-slate-400 animate-pulse">Assembling committee databases...</div>
-            </div>
+        <!-- SECTION 3: COMMITTEES -->
+        <div id="panel-committees" class="dir-tab-panel space-y-3 hidden">
+            <div id="committee-accordion-target" class="space-y-3"></div>
         </div>
 
     </main>
 
-    <!-- FOOTER LINK PROFILE -->
-    <footer class="bg-slate-950 text-slate-400 text-xs py-8 border-t border-slate-800 mt-12">
+    <!-- STANDARDIZED FOOTER -->
+    <footer class="bg-slate-950 text-slate-400 text-xs py-6 border-t border-slate-800 mt-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p>© 2026 Supreme Secondary Learner Government. Built for student public accountability.</p>
-            <div class="flex space-x-6">
-                <a href="#" class="hover:text-white transition">Privacy Guideline</a>
-                <a href="#" class="hover:text-white transition">Terms of Access</a>
-                <a href="#" class="hover:text-white transition">LDVTS Hub</a>
-            </div>
+            <p>© 2026 Supreme Secondary Learner Government. Project GLASS Accountability Portal.</p>
         </div>
     </footer>
 
     <script>
-        // ==========================================
-        // 🛠️ GOOGLE SPREADSHEET LIVE BINDINGS
-        // ==========================================
-        const MASTER_SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTIFgXyOttJeJGsVaLwfFtNWb-c1YCJiJ8R5siL32ykA47xYYY7b8KmPXm_42vNAbaHXOkcqEG3tRCu/pub?output=csv"; 
-        const CONFIG_TAB_GID = "229901204";
-        const ROSTER_TAB_GID = "416625956";
+        const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTIFgXyOttJeJGsVaLwfFtNWb-c1YCJiJ8R5siL32ykA47xYYY7b8KmPXm_42vNAbaHXOkcqEG3tRCu/pub?output=csv";
+        const GID_CONFIG = "229901204";
+        const GID_ROSTER = "416625956";
 
-        const AVATAR_SVG = `<svg class="w-20 h-20 text-slate-200" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>`;
+        const DEFAULT_AVATAR = `<svg class="w-16 h-16 text-slate-200" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>`;
 
-        // RFC-Compliant CSV Parser
-        function parseCSV(text) {
-            let lines = []; let row = [""]; let q = false;
+        // Bulletproof CSV parser splitting by quotes and commas
+        function processCSV(text) {
+            let lines = []; let row = [""]; let inQuotes = false;
             for (let i = 0; i < text.length; i++) {
-                let c = text[i]; let n = text[i+1];
-                if (c === '"') { if (q && n === '"') { row[row.length - 1] += '"'; i++; } else { q = !q; } }
-                else if (c === ',' && !q) { row.push(''); }
-                else if ((c === '\r' || c === '\n') && !q) { if (c === '\r' && n === '\n') i++; lines.push(row); row = ['']; }
+                let c = text[i]; let next = text[i+1];
+                if (c === '"') { if (inQuotes && next === '"') { row[row.length - 1] += '"'; i++; } else { inQuotes = !inQuotes; } }
+                else if (c === ',' && !inQuotes) { row.push(''); }
+                else if ((c === '\r' || c === '\n') && !inQuotes) { if (c === '\r' && next === '\n') i++; lines.push(row); row = ['']; }
                 else { row[row.length - 1] += c; }
             }
-            if (row.length > 1 || row[0] !== '') lines.push(row); return lines;
+            if (row.length > 1 || row[0] !== '') lines.push(row);
+            return lines;
         }
 
-        // Section Toggler
-        function switchSection(sectionId) {
-            document.querySelectorAll('.architecture-section').forEach(sec => sec.classList.add('hidden'));
-            document.getElementById('sec-' + sectionId).classList.remove('hidden');
+        // Tab Switcher Engine
+        function showTab(tabName) {
+            document.querySelectorAll('.dir-tab-panel').forEach(p => p.classList.add('hidden'));
+            document.getElementById('panel-' + tabName).classList.remove('hidden');
             
-            ['executive', 'representatives', 'committees'].forEach(btn => {
-                const element = document.getElementById('btn-' + btn);
-                if(element) element.className = "px-4 py-2 rounded-md transition-all hover:text-slate-900 text-slate-600";
+            ['executive', 'representatives', 'committees'].forEach(t => {
+                const btn = document.getElementById('btn-' + t);
+                if (btn) btn.className = "px-4 py-2 rounded-md transition-all hover:text-slate-900 text-slate-600";
             });
-            
-            const activeBtn = document.getElementById('btn-' + sectionId);
-            if(activeBtn) activeBtn.className = "px-4 py-2 rounded-md transition-all bg-white text-blue-600 shadow-sm font-semibold";
+            document.getElementById('btn-' + tabName).className = "px-4 py-2 rounded-md transition-all bg-white text-blue-600 shadow-sm font-semibold";
         }
 
-        // Accordion Dropdown Toggler
-        function toggleAccordion(panelId) {
-            const panel = document.getElementById('panel-' + panelId);
-            const icon = document.getElementById('icon-' + panelId);
-            if (!panel || !icon) return;
-            
-            if (panel.classList.contains('hidden')) {
-                panel.classList.remove('hidden');
-                icon.classList.add('rotate-180');
+        // Simple Toggle Dropdown Accordion function
+        function toggleDropdown(id) {
+            const drawer = document.getElementById('drawer-' + id);
+            const chevron = document.getElementById('chev-' + id);
+            if(drawer.classList.contains('hidden')) {
+                drawer.classList.remove('hidden');
+                chevron.classList.add('rotate-180');
             } else {
-                panel.classList.add('hidden');
-                icon.classList.remove('rotate-180');
+                drawer.classList.add('hidden');
+                chevron.classList.remove('rotate-180');
             }
         }
 
-        // Card Markup Template Factory
-        function createCardMarkup(officer) {
-            const imgNode = officer.imgUrl 
-                ? `<img src="${officer.imgUrl}" alt="${officer.name}" class="w-full h-full object-cover">` 
-                : `<div class="w-full h-full bg-slate-100 flex items-center justify-center">${AVATAR_SVG}</div>`;
-            
+        // Clean Exec Card Maker
+        function buildCard(name, role, img) {
+            const portrait = img ? `<img src="${img}" alt="${name}" class="w-full h-full object-cover">` : `<div class="w-full h-full bg-slate-100 flex items-center justify-center">${DEFAULT_AVATAR}</div>`;
             return `
-                <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-200/80 flex flex-col items-center w-full max-w-[280px]">
-                    <div class="w-full h-72 bg-slate-50 rounded-xl overflow-hidden border border-slate-100 flex-shrink-0">
-                        ${imgNode}
+                <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm w-full max-w-[260px] flex flex-col items-center">
+                    <div class="w-full h-64 bg-slate-50 rounded-lg overflow-hidden border border-slate-100 flex-shrink-0">
+                        ${portrait}
                     </div>
-                    <div class="pt-4 text-center w-full">
-                        <h4 class="font-bold text-slate-800 text-base tracking-wide line-clamp-1">${officer.name}</h4>
-                        <p class="text-xs font-semibold text-slate-500 mt-0.5 tracking-wider">${officer.role}</p>
+                    <div class="mt-3 text-center w-full">
+                        <h4 class="font-bold text-slate-800 text-base truncate">${name}</h4>
+                        <p class="text-xs font-medium text-slate-500 mt-0.5">${role}</p>
                     </div>
                 </div>`;
         }
 
-        // ==========================================
-        // 🔄 ASYNCHRONOUS ENGINE INITIALIZATION
-        // ==========================================
-        async function initializeApplicationData() {
-            // Load Configurations (Header Images)
+        // MASTER ENGINE INITIALIZATION
+        async function fetchAndRenderData() {
+            // 1. Fetch Header Background Configuration
             try {
-                const res = await fetch(`${MASTER_SHEET_URL}&gid=${CONFIG_TAB_GID}`);
-                const data = parseCSV(await res.text());
-                let configMap = {};
-                for(let i=1; i<data.length; i++) {
-                    if(data[i].length >= 2 && data[i][0].trim()) configMap[data[i][0].trim()] = data[i][1].trim();
+                const res = await fetch(`${CSV_URL}&gid=${GID_CONFIG}`);
+                const rows = processCSV(await res.text());
+                let bannerUrl = "";
+                for(let i = 1; i < rows.length; i++) {
+                    if(rows[i][0] && (rows[i][0].trim() === 'HEADER_BG_IMAGE' || rows[i][0].trim() === 'HEADER_IMAGE_BANNER')) {
+                        bannerUrl = rows[i][1].trim();
+                        break;
+                    }
                 }
-                
-                let targetBanner = configMap['HEADER_BG_IMAGE'] || configMap['HEADER_IMAGE_BANNER'];
-                if(targetBanner) {
-                    document.getElementById("config-header-banner").src = targetBanner;
+                if(bannerUrl) {
+                    const imgEl = document.getElementById("config-header-banner");
+                    imgEl.src = bannerUrl;
+                    imgEl.classList.remove('hidden');
+                    document.getElementById("header-loading-placeholder").classList.add('hidden');
                 }
-            } catch (e) { console.error("Banner initialization failure:", e); }
+            } catch(e) { console.error("Config load error", e); }
 
-            // Load and Process Roster Arrays
+            // 2. Fetch and Map Roster Data
             try {
-                const res = await fetch(`${MASTER_SHEET_URL}&gid=${ROSTER_TAB_GID}`);
-                const data = parseCSV(await res.text());
-                
-                let executivesList = [];
-                let representativesList = [];
-                let committeesList = [];
+                const res = await fetch(`${CSV_URL}&gid=${GID_ROSTER}`);
+                const rows = processCSV(await res.text());
 
-                // Standard Core Order Weight Mapping Rules
-                const executiveWeightConfig = ['president', 'vice president', 'secretary', 'treasurer', 'auditor', 'p.i.o.', 'pio', 'protocol officer'];
+                let execList = [];
+                let repsList = [];
+                let commList = [];
 
-                for(let i=1; i<data.length; i++) {
-                    if(data[i].length >= 2 && data[i][0].trim()) {
-                        let name = data[i][0].trim();
-                        let role = data[i][1].trim();
-                        let imgUrl = data[i][2] ? data[i][2].trim() : "";
-                        let normalizedRole = role.toLowerCase();
+                // Sorting index configuration array
+                const roleOrder = ['president', 'vice president', 'secretary', 'treasurer', 'auditor', 'p.i.o.', 'pio', 'protocol officer'];
 
-                        let item = { name, role, imgUrl };
+                // Loop through sheet data lines (Skip headers)
+                for(let i = 1; i < rows.length; i++) {
+                    if(!rows[i][0] || !rows[i][0].trim()) continue;
+                    
+                    let name = rows[i][0].trim();
+                    let role = rows[i][1] ? rows[i][1].trim() : "";
+                    let img = rows[i][2] ? rows[i][2].trim() : "";
+                    let lowRole = role.toLowerCase();
 
-                        if (executiveWeightConfig.some(title => normalizedRole === title)) {
-                            executivesList.push(item);
-                        } else if (normalizedRole.includes('representative') || normalizedRole.includes('councilor') || normalizedRole.includes('grade')) {
-                            representativesList.push(item);
-                        } else if (normalizedRole.includes('committee') || normalizedRole.includes('panel') || normalizedRole.includes('chairperson') || normalizedRole.includes('member')) {
-                            committeesList.push(item);
-                        } else {
-                            executivesList.push(item);
-                        }
+                    let personObj = { name, role, img };
+
+                    if(roleOrder.some(r => lowRole === r)) {
+                        execList.push(personObj);
+                    } else if(lowRole.includes('representative') || lowRole.includes('councilor') || lowRole.includes('grade')) {
+                        repsList.push(personObj);
+                    } else {
+                        commList.push(personObj);
                     }
                 }
 
-                // Explicit sorting across weight structures
-                executivesList.sort((a, b) => {
-                    let weightA = executiveWeightConfig.indexOf(a.role.toLowerCase());
-                    let weightB = executiveWeightConfig.indexOf(b.role.toLowerCase());
-                    return (weightA === -1 ? 99 : weightA) - (weightB === -1 ? 99 : weightB);
+                // Parse Executive Array Rendering
+                execList.sort((a,b) => {
+                    let idxA = roleOrder.indexOf(a.role.toLowerCase());
+                    let idxB = roleOrder.indexOf(b.role.toLowerCase());
+                    return (idxA === -1 ? 99 : idxA) - (idxB === -1 ? 99 : idxB);
                 });
 
-                renderExecutivesSection(executivesList);
-                renderRepresentativesSection(representativesList);
-                renderCommitteesSection(committeesList);
+                const presProfile = execList.find(p => p.role.toLowerCase().includes('president') && !p.role.toLowerCase().includes('vice'));
+                if(presProfile) {
+                    document.getElementById('pres-target').innerHTML = buildCard(presProfile.name, presProfile.role, presProfile.img);
+                } else {
+                    document.getElementById('pres-target').innerHTML = `<p class="text-xs text-slate-400">No President Profile Assigned.</p>`;
+                }
 
-            } catch (e) { console.error("Roster compilation exception:", e); }
-        }
+                const alternateExecs = execList.filter(p => !(p.role.toLowerCase().includes('president') && !p.role.toLowerCase().includes('vice')));
+                const execGrid = document.getElementById('exec-grid-target');
+                execGrid.innerHTML = "";
+                alternateExecs.forEach(e => { execGrid.innerHTML += buildCard(e.name, e.role, e.img); });
 
-        // ==========================================
-        // 🎨 SUBSECTION DOM RENDERING ENGINES
-        // ==========================================
-        function renderExecutivesSection(officers) {
-            const showcaseBox = document.getElementById("president-showcase");
-            const gridBox = document.getElementById("executive-grid");
-            
-            showcaseBox.innerHTML = "";
-            gridBox.innerHTML = "";
-
-            if(officers.length === 0) {
-                showcaseBox.innerHTML = `<div class="text-center text-xs font-medium text-slate-400 bg-white border border-slate-200 rounded-xl py-6 shadow-sm">No President Profile Assigned.</div>`;
-                gridBox.innerHTML = `<div class="col-span-full text-center text-xs text-slate-400 py-4">No executive profiles deployed inside the sheet.</div>`;
-                return;
-            }
-
-            // Isolate President (Excluding anything matched to 'vice')
-            const presidentProfile = officers.find(o => {
-                const r = o.role.toLowerCase();
-                return r.includes('president') && !r.includes('vice');
-            });
-
-            if(presidentProfile) {
-                showcaseBox.innerHTML = createCardMarkup(presidentProfile);
-            } else {
-                showcaseBox.innerHTML = `<div class="text-center text-xs font-medium text-slate-400 bg-white border border-slate-200 rounded-xl py-6 shadow-sm">No President Profile Assigned.</div>`;
-            }
-
-            // Stream Remaining Executives into Balanced 2-Column Grid Rows
-            const subExecutives = officers.filter(o => {
-                const r = o.role.toLowerCase();
-                return !(r.includes('president') && !r.includes('vice'));
-            });
-
-            if(subExecutives.length === 0) {
-                gridBox.innerHTML = `<div class="col-span-full text-center text-xs text-slate-400 py-4">No additional officers assigned.</div>`;
-            } else {
-                subExecutives.forEach(officer => {
-                    gridBox.innerHTML += createCardMarkup(officer);
+                // Parse Representatives Array Rendering
+                let g78HTML = "", g910HTML = "", shsHTML = "";
+                repsList.forEach(r => {
+                    let rLow = r.role.toLowerCase();
+                    let li = `<li class="truncate">• ${r.name} <span class="text-[11px] text-slate-400 font-normal">(${r.role})</span></li>`;
+                    if(rLow.includes('7') || rLow.includes('8')) g78HTML += li;
+                    else if(rLow.includes('9') || rLow.includes('10')) g910HTML += li;
+                    else shsHTML += li;
                 });
+                document.getElementById('rep-g78-target').innerHTML = g78HTML || `<li class="text-xs italic text-slate-400">To Be Appointed</li>`;
+                document.getElementById('rep-g910-target').innerHTML = g910HTML || `<li class="text-xs italic text-slate-400">To Be Appointed</li>`;
+                document.getElementById('rep-shs-target').innerHTML = shsHTML || `<li class="text-xs italic text-slate-400">To Be Appointed</li>`;
+
+                // Parse Committees Dropdown Accordion Rendering
+                let committeeMap = {};
+                commList.forEach(c => {
+                    // Clean panel layout name
+                    let cleanCommName = c.role.replace(/(chairperson|vice-chairperson|vice chairperson|co-chairperson|co-chair|member)/gi, "").replace(/[-\s]+$/, "").trim();
+                    if(!cleanCommName) cleanCommName = "General Working Committee";
+                    
+                    if(!committeeMap[cleanCommName]) committeeMap[cleanCommName] = { head: "TBD", vice: "TBD", members: [] };
+                    
+                    let roleLow = c.role.toLowerCase();
+                    if(roleLow.includes('vice') || roleLow.includes('co-chair')) committeeMap[cleanCommName].vice = c.name;
+                    else if(roleLow.includes('chair')) committeeMap[cleanCommName].head = c.name;
+                    else committeeMap[cleanCommName].members.push(c.name);
+                });
+
+                const commTarget = document.getElementById('committee-accordion-target');
+                commTarget.innerHTML = "";
+                let index = 0;
+                
+                for(let cName in committeeMap) {
+                    index++;
+                    let data = committeeMap[cName];
+                    let memberNodes = data.members.length === 0 ? `<li class="text-slate-400 italic">No assigned members</li>` : data.members.map(m => `<li>• ${m}</li>`).join('');
+                    
+                    commTarget.innerHTML += `
+                        <div class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+                            <button onclick="toggleDropdown('${index}')" class="w-full px-5 py-4 flex items-center justify-between font-semibold text-slate-800 hover:bg-slate-50 transition text-sm md:text-base">
+                                <span>${cName}</span>
+                                <svg id="chev-${index}" class="w-5 h-5 text-slate-400 transform transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                            </button>
+                            <div id="drawer-${index}" class="hidden border-t border-slate-100 bg-slate-50/50 p-5 grid grid-cols-1 md:grid-cols-2 gap-4 text-xs md:text-sm">
+                                <div class="space-y-2">
+                                    <p><span class="text-[10px] text-slate-400 font-bold uppercase block tracking-wider">Chairperson</span><span class="font-semibold text-slate-900">${data.head}</span></p>
+                                    <p><span class="text-[10px] text-slate-400 font-bold uppercase block tracking-wider">Vice-Chairperson</span><span class="font-semibold text-slate-900">${data.vice}</span></p>
+                                </div>
+                                <div>
+                                    <span class="text-[10px] text-slate-400 font-bold uppercase block tracking-wider mb-1">Committee Members</span>
+                                    <ul class="space-y-1 text-slate-700 font-medium pl-1 border-l border-slate-200">${memberNodes}</ul>
+                                </div>
+                            </div>
+                        </div>`;
+                }
+                if(index === 0) commTarget.innerHTML = `<p class="text-xs text-center text-slate-400 py-6">No committees declared.</p>`;
+
+            } catch(e) {
+                console.error("Roster rendering exception", e);
+                document.getElementById('exec-grid-target').innerHTML = `<div class="col-span-full text-center text-xs text-red-500 font-medium">Failed to read roster columns from data spreadsheet.</div>`;
             }
         }
 
-        function renderRepresentativesSection(reps) {
-            const g7g8Box = document.getElementById("rep-g7-g8");
-            const g9g10Box = document.getElementById("rep-g9-g10");
-            const shsBox = document.getElementById("rep-shs");
-
-            g7g8Box.innerHTML = "";
-            g9g10Box.innerHTML = "";
-            shsBox.innerHTML = "";
-
-            let house78 = [], house910 = [], houseSHS = [];
-
-            reps.forEach(rep => {
-                const roleLower = rep.role.toLowerCase();
-                if(roleLower.includes("7") || roleLower.includes("8")) house78.push(rep);
-                else if(roleLower.includes("9") || roleLower.includes("10")) house910.push(rep);
-                else houseSHS.push(rep);
-            });
-
-            const makeListElements = (targetArray) => targetArray.length === 0 
-                ? `<li><p class="text-xs italic text-slate-400">To Be Appointed</p></li>` 
-                : targetArray.map(r => `<li class="truncate text-slate-800 font-medium">• ${r.name} <span class="text-[11px] text-slate-400 font-normal">(${r.role})</span></li>`).join('');
-
-            g7g8Box.innerHTML = makeListElements(house78);
-            g9g10Box.innerHTML = makeListElements(house910);
-            shsBox.innerHTML = makeListElements(houseSHS);
-        }
-
-        function renderCommitteesSection(commMembers) {
-            const container = document.getElementById("committees-accordion-container");
-            container.innerHTML = "";
-            
-            if(commMembers.length === 0) {
-                container.innerHTML = `<div class="text-center text-xs text-slate-400 py-8">No working committees registered inside the sheet.</div>`;
-                return;
-            }
-
-            let groupedMap = {};
-            commMembers.forEach(member => {
-                let commName = member.role.replace(/(chairperson|vice-chairperson|vice chairperson|co-chairperson|co-chair|member)/gi, "").replace(/[-\s]+$/, "").trim();
-                if(!commName) commName = "General Ad-Hoc Working Group";
-                if(!groupedMap[commName]) groupedMap[commName] = { chair: "TBD", vice: "TBD", members: [] };
-
-                let normalizedRole = member.role.toLowerCase();
-                if(normalizedRole.includes("vice") || normalizedRole.includes("co-chair")) groupedMap[commName].vice = member.name;
-                else if(normalizedRole.includes("chair")) groupedMap[commName].chair = member.name;
-                else groupedMap[commName].members.push(member.name);
-            });
-
-            let indexTracker = 0;
-            for(let groupName in groupedMap) {
-                indexTracker++;
-                const panelId = `comm-panel-${indexTracker}`;
-                const dataset = groupedMap[groupName];
-                const listingNodes = dataset.members.length === 0 
-                    ? `<li class="text-slate-400 italic">General Council Volunteers</li>` 
-                    : dataset.members.map(m => `<li>${m}</li>`).join('');
-
-                container.innerHTML += `
-                    <div class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm hover:border-slate-300 transition-all">
-                        <!-- Dropdown Heading Bar Trigger -->
-                        <button onclick="toggleAccordion('${panelId}')" class="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-slate-50 transition-colors">
-                            <span class="font-bold text-slate-900 text-sm md:text-base">${groupName}</span>
-                            <svg id="icon-${panelId}" class="w-5 h-5 text-slate-400 transform transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-                        </button>
-                        <!-- Dropdown Drawer Panel -->
-                        <div id="panel-${panelId}" class="hidden border-t border-slate-100 bg-slate-50/50 p-6 grid grid-cols-1 md:grid-cols-2 gap-4 text-xs md:text-sm">
-                            <div>
-                     
+        window.onload = fetchAndRenderData;
+    </script>
+</body>
+</html>
