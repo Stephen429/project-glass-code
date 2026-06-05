@@ -13,14 +13,12 @@
 </head>
 <body class="bg-slate-50 text-slate-900 min-h-screen antialiased flex flex-col">
 
-    <!-- SECTION 1: DYNAMIC INSTITUTIONAL HERO HEADER -->
     <div id="hero-header" class="relative text-white py-16 md:py-24 px-6 md:px-12 text-center overflow-hidden border-b border-blue-800 shadow-inner bg-gradient-to-r from-blue-900 via-indigo-950 to-slate-950">
-        <!-- Background Image Layer (Hardcoded Bypass) -->
-<div id="header-bg-image-layer" class="absolute inset-0 bg-cover bg-center opacity-40 mix-blend-overlay z-0" style="background-image: url('https://lh3.googleusercontent.com/d/135iedDQ1nyKQwitmKHd2N7bHG_G9E3BN');"></div>
-        <!-- Dot Matrix Mesh Pattern Overlay -->
+        
+        <img id="header-bg-image-layer" src="" alt="" class="absolute inset-0 w-full h-full object-cover opacity-30 pointer-events-none z-0 hidden">
+        
         <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#3b82f6_1px,transparent_1px)] [background-size:16px_16px] z-0"></div>
         
-        <!-- TEXT HEADER CONTAINER -->
         <div id="header-text-container" class="relative max-w-4xl mx-auto space-y-3 z-10">
             <span id="config-school-name" class="text-xs md:text-sm font-bold tracking-widest text-blue-400 uppercase bg-blue-950/60 px-3 py-1 rounded-full border border-blue-800/60 inline-block">
                 Lydia D. Villangca Trade School
@@ -33,16 +31,13 @@
             </p>
         </div>
 
-        <!-- IMAGE HEADER CONTAINER -->
         <div id="header-image-container" class="relative max-w-5xl mx-auto z-10 hidden flex justify-center items-center">
             <img id="config-header-banner" src="" alt="Portal Banner" class="max-h-48 md:max-h-64 object-contain rounded-lg drop-shadow-lg">
         </div>
     </div>
 
-    <!-- MAIN INTERACTIVE CONTENT LAYER -->
     <div class="max-w-6xl w-full mx-auto px-4 py-8 space-y-6 flex-grow">
         
-        <!-- SECTION 2: 5-SECOND TIMED NEWS HEADLINE BILLBOARD -->
         <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden flex flex-col sm:flex-row items-center min-h-[56px] border-l-4 border-l-blue-600">
             <div class="bg-slate-50 text-slate-700 text-[10px] font-bold uppercase tracking-widest px-5 py-3 sm:py-0 h-full flex items-center whitespace-nowrap border-b sm:border-b-0 sm:border-r border-slate-100 self-stretch justify-center">
                 📢 Latest Bulletin
@@ -54,12 +49,9 @@
             </div>
         </div>
 
-        <!-- SECTION 3: LIVE METRICS STRIP -->
         <div id="metrics-container" class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
-            <!-- Rendered via Sheet -->
-        </div>
+            </div>
 
-        <!-- SECTION 4: INTERACTIVE NAVIGATION GATEWAY HUB -->
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4">
             <a id="gateway-link-1" href="/official-documents" target="_parent" class="group bg-white border border-slate-200 rounded-xl p-5 shadow-sm hover:border-blue-500 transition-all duration-200 flex flex-col justify-between">
                 <div>
@@ -69,7 +61,7 @@
                     <h4 class="font-bold text-slate-800 text-sm group-hover:text-blue-600 transition-colors">Official Gazettes Ledger</h4>
                     <p class="text-slate-400 text-[11px] mt-1 leading-relaxed">Public record archive of passed resolutions, executive panels session minutes, and proposals.</p>
                 </div>
-                <span class="text-blue-600 text-[10px] font-mono font-bold tracking-wider mt-4 inline-flex items-center group-hover:translate-x-1 transition-transform">ACCESS ARCHIVE &rarr;</span>
+                <span class="text-blue-600 text-[10px] font-mono font-bold tracking-wider mt-4 inline-flex items-center group-hover:translate-x-1 transition-transform">ACCESS ARCHIVE →</span>
             </a>
 
             <a id="gateway-link-2" href="/officers-and-committees" target="_parent" class="group bg-white border border-slate-200 rounded-xl p-5 shadow-sm hover:border-blue-500 transition-all duration-200 flex flex-col justify-between">
@@ -80,7 +72,7 @@
                     <h4 class="font-bold text-slate-800 text-sm group-hover:text-blue-600 transition-colors">Working Committees</h4>
                     <p class="text-slate-400 text-[11px] mt-1 leading-relaxed">Directory lines mapping organizational panels, assignment rosters, and working committee mandates.</p>
                 </div>
-                <span class="text-blue-600 text-[10px] font-mono font-bold tracking-wider mt-4 inline-flex items-center group-hover:translate-x-1 transition-transform">VIEW COUNCILS &rarr;</span>
+                <span class="text-blue-600 text-[10px] font-mono font-bold tracking-wider mt-4 inline-flex items-center group-hover:translate-x-1 transition-transform">VIEW COUNCILS →</span>
             </a>
 
             <a id="gateway-link-3" href="/feedback" target="_parent" class="group bg-white border border-slate-200 rounded-xl p-5 shadow-sm hover:border-blue-500 transition-all duration-200 flex flex-col justify-between">
@@ -91,11 +83,10 @@
                     <h4 class="font-bold text-slate-800 text-sm group-hover:text-blue-600 transition-colors">Feedback & Desk Services</h4>
                     <p class="text-slate-400 text-[11px] mt-1 leading-relaxed">Direct accountability feedback channels to submit formal inquiries, requests, or service reviews.</p>
                 </div>
-                <span class="text-blue-600 text-[10px] font-mono font-bold tracking-wider mt-4 inline-flex items-center group-hover:translate-x-1 transition-transform">LAUNCH DESK &rarr;</span>
+                <span class="text-blue-600 text-[10px] font-mono font-bold tracking-wider mt-4 inline-flex items-center group-hover:translate-x-1 transition-transform">LAUNCH DESK →</span>
             </a>
         </div>
 
-        <!-- SECTION 5: HORIZONTAL EXECUTIVE ROSTER MANAGEMENT LAYER -->
         <div class="space-y-4">
             <div class="flex items-center space-x-3 px-1">
                 <div class="h-1.5 w-1.5 bg-blue-600 rounded-full"></div>
@@ -103,8 +94,7 @@
             </div>
             
             <div id="officers-roster-stack" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <!-- Rendered via Sheet -->
-            </div>
+                </div>
         </div>
 
     </div>
@@ -153,7 +143,7 @@
                 return;
             }
 
-            // Fetch and apply Dynamic UI / Custom Header configurations
+            // Fetch and apply Dynamic UI configurations
             try {
                 const res = await fetch(`${MASTER_SHEET_URL}&gid=${CONFIG_TAB_GID}`);
                 const data = parseCSV(await res.text());
@@ -164,21 +154,20 @@
                 
                 const heroHeader = document.getElementById("hero-header");
                 
-                // Adjust Header Background Color Style
+                // Adjust Header Background Color Style smoothly
                 if(configMap['HEADER_BG_COLOR'] && configMap['HEADER_BG_COLOR'] !== "") {
                     heroHeader.className = `relative text-white py-16 md:py-24 px-6 md:px-12 text-center overflow-hidden border-b border-blue-800 shadow-inner bg-gradient-to-r ${configMap['HEADER_BG_COLOR']}`;
                 } else {
-                    // Default fallback coloring if sheet row is empty
-                    heroHeader.className = "relative text-white py-16 md:py-24 px-6 md:px-12 text-center overflow-hidden border-b border-blue-800 shadow-inner bg-gradient-to-r from-slate-900 to-indigo-950";
+                    heroHeader.className = "relative text-white py-16 md:py-24 px-6 md:px-12 text-center overflow-hidden border-b border-blue-800 shadow-inner bg-gradient-to-r from-blue-900 via-indigo-950 to-slate-950";
                 }
                 
-                // Adjust Header Background Wallpaper Image
+                // Adjust Physical Header Background Image Tag
+                const bgImageElement = document.getElementById("header-bg-image-layer");
                 if(configMap['HEADER_BG_IMAGE'] && configMap['HEADER_BG_IMAGE'] !== "") {
-                    const bgLayer = document.getElementById("header-bg-image-layer");
-                    bgLayer.style.backgroundImage = `url('${configMap['HEADER_BG_IMAGE']}')`;
-                    bgLayer.classList.remove("hidden");
+                    bgImageElement.src = configMap['HEADER_BG_IMAGE'];
+                    bgImageElement.classList.remove("hidden");
                 } else {
-                    document.getElementById("header-bg-image-layer").classList.add("hidden");
+                    bgImageElement.classList.add("hidden");
                 }
 
                 // Header Type Routing Toggles (TEXT vs IMAGE Graphic Banner)
