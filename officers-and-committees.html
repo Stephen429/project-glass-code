@@ -12,7 +12,7 @@
 </head>
 <body class="bg-slate-50 text-slate-900 antialiased min-h-screen flex flex-col">
 
-    <!-- TEXT-BASED DIRECTORY TITLE SECTION (INSULATED PADDING BORDERS) -->
+    <!-- TEXT-BASED DIRECTORY TITLE SECTION -->
     <section class="bg-white border-b border-slate-200 py-10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
             <div class="text-center md:text-left space-y-2">
@@ -24,7 +24,7 @@
                 <p class="text-sm text-slate-500 max-w-xl font-medium">Supreme Secondary Learner Government complete active management and operations directory.</p>
             </div>
             
-            <!-- FIXED EDGE CONTROLS: Structured inside responsive max-w gutters to prevent viewport collisions -->
+            <!-- Navigation Tabs Container Layout -->
             <div class="flex bg-slate-100 p-1 rounded-lg border border-slate-200 text-xs font-medium text-slate-600 self-center">
                 <button onclick="showTab('executive')" id="btn-executive" class="px-5 py-2.5 rounded-md transition-all bg-white text-blue-600 shadow-sm font-semibold">Executives</button>
                 <button onclick="showTab('representatives')" id="btn-representatives" class="px-5 py-2.5 rounded-md transition-all hover:text-slate-900">Representatives</button>
@@ -33,37 +33,62 @@
         </div>
     </section>
 
-    <!-- MAIN INTERFACE DISPLAY PORTAL -->
+    <!-- MAIN DISPLAY INTERFACE -->
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10">
 
-        <!-- PANEL 1: EXECUTIVES (STRICT 1-2-2-2 BALANCED GRID GRID SYSTEM) -->
+        <!-- PANEL 1: EXECUTIVES (STRICT 1-2-2-2 SYSTEM) -->
         <div id="panel-executive" class="dir-tab-panel space-y-10">
-            <!-- Row 1: President Card Asset (1) -->
+            <!-- Row 1: President -->
             <div id="row-pres" class="flex justify-center w-full">
                 <div class="text-xs text-slate-400 animate-pulse">Syncing core roster indexes...</div>
             </div>
             
-            <!-- All Lower Tier Officers (Forced into balanced 2-column stacking grid below the President) -->
+            <!-- Lower Executive Grid -->
             <div class="max-w-3xl mx-auto">
                 <div id="exec-grid-target" class="grid grid-cols-1 sm:grid-cols-2 gap-8 justify-items-center"></div>
             </div>
         </div>
 
-        <!-- PANEL 2: REPRESENTATIVES -->
+        <!-- PANEL 2: REPRESENTATIVES (DIVIDED SUB-GROUPS) -->
         <div id="panel-representatives" class="dir-tab-panel space-y-6 hidden">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
-                    <h4 class="text-sm font-bold text-blue-600 tracking-wide pb-2 border-b border-slate-100 mb-3">Grade 7 & 8</h4>
-                    <ul id="rep-g78-target" class="text-sm text-slate-700 space-y-2 font-medium"></ul>
+                
+                <!-- Grade 7 & 8 Card Holder -->
+                <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-4">
+                    <div>
+                        <h4 class="text-sm font-bold text-blue-600 tracking-wide pb-1 border-b border-slate-100 mb-2">Grade 7</h4>
+                        <ul id="rep-g7-target" class="text-sm text-slate-700 space-y-1 font-medium min-h-[2rem]"></ul>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-bold text-blue-600 tracking-wide pb-1 border-b border-slate-100 mb-2">Grade 8</h4>
+                        <ul id="rep-g8-target" class="text-sm text-slate-700 space-y-1 font-medium min-h-[2rem]"></ul>
+                    </div>
                 </div>
-                <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
-                    <h4 class="text-sm font-bold text-blue-600 tracking-wide pb-2 border-b border-slate-100 mb-3">Grade 9 & 10</h4>
-                    <ul id="rep-g910-target" class="text-sm text-slate-700 space-y-2 font-medium"></ul>
+
+                <!-- Grade 9 & 10 Card Holder -->
+                <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-4">
+                    <div>
+                        <h4 class="text-sm font-bold text-blue-600 tracking-wide pb-1 border-b border-slate-100 mb-2">Grade 9</h4>
+                        <ul id="rep-g9-target" class="text-sm text-slate-700 space-y-1 font-medium min-h-[2rem]"></ul>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-bold text-blue-600 tracking-wide pb-1 border-b border-slate-100 mb-2">Grade 10</h4>
+                        <ul id="rep-g10-target" class="text-sm text-slate-700 space-y-1 font-medium min-h-[2rem]"></ul>
+                    </div>
                 </div>
-                <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
-                    <h4 class="text-sm font-bold text-indigo-600 tracking-wide pb-2 border-b border-slate-100 mb-3">Senior High</h4>
-                    <ul id="rep-shs-target" class="text-sm text-slate-700 space-y-2 font-medium"></ul>
+
+                <!-- Senior High Card Holder -->
+                <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-4">
+                    <div>
+                        <h4 class="text-sm font-bold text-indigo-600 tracking-wide pb-1 border-b border-slate-100 mb-2">Grade 11</h4>
+                        <ul id="rep-g11-target" class="text-sm text-slate-700 space-y-1 font-medium min-h-[2rem]"></ul>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-bold text-indigo-600 tracking-wide pb-1 border-b border-slate-100 mb-2">Grade 12</h4>
+                        <ul id="rep-g12-target" class="text-sm text-slate-700 space-y-1 font-medium min-h-[2rem]"></ul>
+                    </div>
                 </div>
+
             </div>
         </div>
 
@@ -137,29 +162,21 @@
 
         function classifyRole(roleString) {
             const r = roleString.toLowerCase().trim();
-            
             if (r.includes('representative') || r.includes('councilor') || r.includes('grade')) {
                 return 'representative';
             }
-            
             if (r.includes('president') && !r.includes('vice') && !r.includes('co-')) {
                 return 'executive';
             }
-            
             if (
-                r.includes('vice president') || 
-                r.includes('vice-president') ||
+                r.includes('vice president') || r.includes('vice-president') ||
                 (r.includes('secretary') && !r.includes('committee')) ||
-                r.includes('treasurer') ||
-                r.includes('auditor') ||
-                r.includes('pio') ||
-                r.includes('p.i.o') ||
-                r.includes('public information') ||
-                r.includes('protocol')
+                r.includes('treasurer') || r.includes('auditor') ||
+                r.includes('pio') || r.includes('p.i.o') ||
+                r.includes('public information') || r.includes('protocol')
             ) {
                 return 'executive';
             }
-            
             return 'committee';
         }
 
@@ -180,19 +197,24 @@
                     let name = rows[i][0].trim();
                     let role = rows[i][1] ? rows[i][1].trim() : "";
                     let img = rows[i][2] ? rows[i][2].trim() : "";
+                    let rawCommitteeField = rows[i][3] ? rows[i][3].trim() : "";
 
-                    let person = { name, role, img };
+                    let person = { name, role, img, rawCommitteeField };
                     let category = classifyRole(role);
 
                     if (category === 'executive') {
                         execList.push(person);
                     } else if (category === 'representative') {
                         repsList.push(person);
-                    } else {
+                    }
+                    
+                    // Fallback to place anyone with a designated committee assignment string into the committee lists
+                    if (rawCommitteeField) {
                         commList.push(person);
                     }
                 }
 
+                // Process Executives
                 execList.sort((a,b) => {
                     let idxA = execOrder.findIndex(pos => a.role.toLowerCase().includes(pos));
                     let idxB = execOrder.findIndex(pos => b.role.toLowerCase().includes(pos));
@@ -200,7 +222,6 @@
                 });
 
                 const presidentNode = execList.find(p => p.role.toLowerCase().includes('president') && !p.role.toLowerCase().includes('vice'));
-                
                 document.getElementById('row-pres').innerHTML = presidentNode 
                     ? buildCard(presidentNode.name, presidentNode.role, presidentNode.img) 
                     : `<p class="text-xs text-slate-400">No President Profile Assigned.</p>`;
@@ -210,27 +231,50 @@
                 execGrid.innerHTML = "";
                 alternateExecs.forEach(e => { execGrid.innerHTML += buildCard(e.name, e.role, e.img); });
 
-                let g78HTML = "", g910HTML = "", shsHTML = "";
+                // Process Representatives into exact sub-grades
+                let subGrades = { g7: [], g8: [], g9: [], g10: [], g11: [], g12: [] };
+                
                 repsList.forEach(r => {
                     let rLow = r.role.toLowerCase();
-                    let li = `<li class="truncate">• ${r.name} <span class="text-[11px] text-slate-400 font-normal">(${r.role})</span></li>`;
-                    if(rLow.includes('7') || rLow.includes('8')) g78HTML += li;
-                    else if(rLow.includes('9') || rLow.includes('10')) g910HTML += li;
-                    else shsHTML += li;
+                    let li = `<li class="truncate text-slate-700 font-medium">• ${r.name} <span class="text-[10px] text-slate-400 font-normal">(${r.role})</span></li>`;
+                    
+                    if (rLow.includes('7')) subGrades.g7.push(li);
+                    else if (rLow.includes('8')) subGrades.g8.push(li);
+                    else if (rLow.includes('9')) subGrades.g9.push(li);
+                    else if (rLow.includes('10')) subGrades.g10.push(li);
+                    else if (rLow.includes('11')) subGrades.g11.push(li);
+                    else if (rLow.includes('12')) subGrades.g12.push(li);
                 });
-                document.getElementById('rep-g78-target').innerHTML = g78HTML || `<li class="text-xs italic text-slate-400">To Be Appointed</li>`;
-                document.getElementById('rep-g910-target').innerHTML = g910HTML || `<li class="text-xs italic text-slate-400">To Be Appointed</li>`;
-                document.getElementById('rep-shs-target').innerHTML = shsHTML || `<li class="text-xs italic text-slate-400">To Be Appointed</li>`;
 
+                const fallbackItem = `<li class="text-xs italic text-slate-400 font-normal">To Be Determined</li>`;
+                
+                document.getElementById('rep-g7-target').innerHTML = subGrades.g7.join('') || fallbackItem;
+                document.getElementById('rep-g8-target').innerHTML = subGrades.g8.join('') || fallbackItem;
+                document.getElementById('rep-g9-target').innerHTML = subGrades.g9.join('') || fallbackItem;
+                document.getElementById('rep-g10-target').innerHTML = subGrades.g10.join('') || fallbackItem;
+                document.getElementById('rep-g11-target').innerHTML = subGrades.g11.join('') || fallbackItem;
+                document.getElementById('rep-g12-target').innerHTML = subGrades.g12.join('') || fallbackItem;
+
+                // Process Committees using Column 4 logic assignments
                 let committeeMap = {};
                 commList.forEach(c => {
-                    let cleanCommName = c.role.replace(/(chairperson|vice-chairperson|vice chairperson|co-chairperson|co-chair|member)/gi, "").replace(/[-\s]+$/, "").trim();
-                    if(!cleanCommName) cleanCommName = "General Working Committee";
-                    if(!committeeMap[cleanCommName]) committeeMap[cleanCommName] = { head: "TBD", vice: "TBD", members: [] };
+                    let fullString = c.rawCommitteeField;
                     
-                    let roleLow = c.role.toLowerCase();
-                    if(roleLow.includes('vice') || roleLow.includes('co-chair')) committeeMap[cleanCommName].vice = c.name;
-                    else if(roleLow.includes('chair')) committeeMap[cleanCommName].head = c.name;
+                    // Identify positional structural bounds inside column 4
+                    let comRole = "Member";
+                    if (/chairperson/i.test(fullString) && !/vice|co-/i.test(fullString)) comRole = "Chairperson";
+                    else if (/vice-chairperson|vice chairperson|co-chairperson|co-chair/i.test(fullString)) comRole = "Co-Chairperson";
+                    
+                    // Strip position keywords cleanly out to find the core Committee Name
+                    let cleanCommName = fullString.replace(/(chairperson|vice-chairperson|vice chairperson|co-chairperson|co-chair|member)/gi, "").replace(/[-\s]+$/, "").trim();
+                    if (!cleanCommName) cleanCommName = "General Operations Committee";
+
+                    if (!committeeMap[cleanCommName]) {
+                        committeeMap[cleanCommName] = { heads: [], vlices: [], members: [] };
+                    }
+
+                    if (comRole === "Chairperson") committeeMap[cleanCommName].heads.push(c.name);
+                    else if (comRole === "Co-Chairperson") committeeMap[cleanCommName].vlices.push(c.name);
                     else committeeMap[cleanCommName].members.push(c.name);
                 });
 
@@ -241,7 +285,11 @@
                 for(let name in committeeMap) {
                     accordionIdx++;
                     let data = committeeMap[name];
-                    let mList = data.members.length === 0 ? `<li class="text-slate-400 italic">No assigned members</li>` : data.members.map(m => `<li>• ${m}</li>`).join('');
+                    
+                    let headText = data.heads.length > 0 ? data.heads.join(', ') : "To Be Determined";
+                    let viceText = data.vlices.length > 0 ? data.vlices.join(', ') : "To Be Determined";
+                    let mList = data.members.length === 0 ? `<li class="text-slate-400 italic font-normal">To Be Determined</li>` : data.members.map(m => `<li>• ${m}</li>`).join('');
+                    
                     commTarget.innerHTML += `
                         <div class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
                             <button onclick="toggleDropdown('${accordionIdx}')" class="w-full px-5 py-4 flex items-center justify-between font-semibold text-slate-800 hover:bg-slate-50 transition text-sm md:text-base">
@@ -249,9 +297,9 @@
                                 <svg id="chev-${accordionIdx}" class="w-5 h-5 text-slate-400 transform transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                             </button>
                             <div id="drawer-${accordionIdx}" class="hidden border-t border-slate-100 bg-slate-50/50 p-5 grid grid-cols-1 md:grid-cols-2 gap-4 text-xs md:text-sm">
-                                <div class="space-y-2">
-                                    <p><span class="text-[10px] text-slate-400 font-bold uppercase block tracking-wider">Chairperson</span><span class="font-semibold text-slate-900">${data.head}</span></p>
-                                    <p><span class="text-[10px] text-slate-400 font-bold uppercase block tracking-wider">Vice-Chairperson</span><span class="font-semibold text-slate-900">${data.vice}</span></p>
+                                <div class="space-y-3">
+                                    <p><span class="text-[10px] text-slate-400 font-bold uppercase block tracking-wider">Chairperson</span><span class="font-semibold text-slate-900">${headText}</span></p>
+                                    <p><span class="text-[10px] text-slate-400 font-bold uppercase block tracking-wider">Co-Chairperson</span><span class="font-semibold text-slate-900">${viceText}</span></p>
                                 </div>
                                 <div>
                                     <span class="text-[10px] text-slate-400 font-bold uppercase block tracking-wider mb-1">Committee Members</span>
