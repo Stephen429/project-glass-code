@@ -28,10 +28,10 @@
                 Lydia D. Villangca Trade School
             </span>
             <h1 id="config-portal-title" class="text-3xl md:text-5xl font-extrabold tracking-tight md:leading-tight">
-                SUPREME SECONDARY LEARNER GOVERNMENT
+                PROJECT GLASS
             </h1>
             <p id="config-portal-tagline" class="text-xs md:text-sm text-slate-300 font-medium tracking-wide uppercase max-w-2xl mx-auto leading-relaxed">
-                Competence • Leadership • Compassion
+                Governance, Leadership, Accountability & Student Services
             </p>
         </div>
 
@@ -44,7 +44,7 @@
     <!-- MAIN INTERACTIVE CONTENT LAYER -->
     <div class="max-w-6xl w-full mx-auto px-4 py-6 space-y-5 flex-grow">
         
-        <!-- SECTION 2: CONDITIONAL 5-SECOND TIMED NEWS HEADLINE BILLBOARD (Hidden by Default) -->
+        <!-- SECTION 2: CONDITIONAL NEWS BILLBOARD (Hidden by Default) -->
         <div id="news-billboard-wrapper" class="hidden bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden flex flex-col sm:flex-row items-center min-h-[56px] border-l-4 border-l-blue-600">
             <div class="bg-slate-50 text-slate-700 text-[10px] font-bold uppercase tracking-widest px-5 py-3 sm:py-0 h-full flex items-center whitespace-nowrap border-b sm:border-b-0 sm:border-r border-slate-100 self-stretch justify-center">
                 Latest Bulletin
@@ -126,7 +126,7 @@
         const NEWS_TAB_GID = "1683102947";
         const METRICS_TAB_GID = "1647929887";
         const ROSTER_TAB_GID = "416625956";
-
+        
         const AVATAR_PLACEHOLDER = `<svg class="w-7 h-7 text-slate-300" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>`;
 
         let newsDataCache = [];
@@ -198,29 +198,30 @@
                 if(configMap['LINK_2_PATH']) document.getElementById("view-all-officers-link").setAttribute("href", configMap['LINK_2_PATH']);
             } catch (e) { console.error("Config fetch trace error:", e); }
 
-            // 2. Sync Bulletins (With Absolute Empty Tab Visibility Check)
+            // 2. Sync Bulletins (Isolated block - won't stop execution of below systems)
             try {
                 const res = await fetch(`${MASTER_SHEET_URL}&gid=${NEWS_TAB_GID}`);
                 const data = parseCSV(await res.text());
                 newsDataCache = [];
                 for(let i=1; i<data.length; i++) {
                     if(data[i].length >= 2 && data[i][0].trim()) {
-                        // Skip system instructions or template setup lines if they exist
                         if(data[i][0].includes("Configure your Google Sheet") || data[i][0].includes("Awaiting active data streaming")) continue;
                         newsDataCache.push([data[i][0].trim(), data[i][1].trim()]);
                     }
                 }
-            } catch (e) { newsDataCache = []; }
-            
-            // Unhide and kick off loop only if actual live bulletins exist
-            if (newsDataCache.length > 0) {
-                document.getElementById("news-billboard-wrapper").classList.remove("hidden");
-                startNewsBillboardCycle();
-            } else {
+                
+                if (newsDataCache.length > 0) {
+                    document.getElementById("news-billboard-wrapper").classList.remove("hidden");
+                    startNewsBillboardCycle();
+                } else {
+                    document.getElementById("news-billboard-wrapper").classList.add("hidden");
+                }
+            } catch (e) { 
                 document.getElementById("news-billboard-wrapper").classList.add("hidden");
+                console.error("News sync trace handled.", e);
             }
 
-            // 3. Sync Metrics
+            // 3. Sync Metrics (Completely safe from news bugs)
             try {
                 const res = await fetch(`${MASTER_SHEET_URL}&gid=${METRICS_TAB_GID}`);
                 const data = parseCSV(await res.text());
@@ -229,7 +230,9 @@
                     if(data[i].length >= 2 && data[i][0].trim()) parsed.push([data[i][0].trim(), data[i][1].trim()]);
                 }
                 renderMetrics(parsed.length ? parsed : [["Active Resolutions", "0"], ["Council Projects", "0"], ["Letters Processed", "0"], ["Portal Status", "Online"]]);
-            } catch (e) { }
+            } catch (e) { 
+                renderMetrics([["Active Resolutions", "0"], ["Council Projects", "0"], ["Letters Processed", "0"], ["Portal Status", "Online"]]);
+            }
 
             // 4. Sync Roster Renders
             try {
@@ -251,15 +254,18 @@
             if (newsDataCache.length === 0) return;
             const displayActiveHeadline = () => {
                 const target = document.getElementById("news-billboard-container");
+                if(!target) return;
                 target.style.opacity = 0; 
                 setTimeout(() => {
                     const activeItem = newsDataCache[activeNewsIndex];
-                    target.innerHTML = `
-                        <span class="inline-block bg-blue-50 text-blue-600 border border-blue-100 font-mono text-[9px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">${activeItem[1]}</span>
-                        <span class="text-slate-700 font-medium">${activeItem[0]}</span>
-                    `;
-                    target.style.opacity = 1; 
-                    activeNewsIndex = (activeNewsIndex + 1) % newsDataCache.length;
+                    if(activeItem) {
+                        target.innerHTML = `
+                            <span class="inline-block bg-blue-50 text-blue-600 border border-blue-100 font-mono text-[9px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">${activeItem[1]}</span>
+                            <span class="text-slate-700 font-medium">${activeItem[0]}</span>
+                        `;
+                        target.style.opacity = 1; 
+                        activeNewsIndex = (activeNewsIndex + 1) % newsDataCache.length;
+                    }
                 }, 500); 
             };
             displayActiveHeadline();
@@ -299,4 +305,13 @@
                         </div>
                         <div class="flex-grow min-w-0 z-10">
                             <h4 class="font-bold text-slate-800 text-xs tracking-tight truncate">${name}</h4>
-                            <p class="text-[10px] font-semibold text-blue-600 uppercase tracking-wid
+                            <p class="text-[10px] font-semibold text-blue-600 uppercase tracking-wider mt-0.5 truncate">${role}</p>
+                        </div>
+                    </div>`;
+            });
+        }
+
+        window.onload = initDashboard;
+    </script>
+</body>
+</html>
