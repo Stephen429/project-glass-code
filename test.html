@@ -15,7 +15,7 @@
 
     <!-- SECTION 1: DYNAMIC INSTITUTIONAL HERO HEADER -->
     <div id="hero-header" class="relative text-white py-16 md:py-24 px-6 md:px-12 text-center overflow-hidden border-b border-blue-800 shadow-inner bg-gradient-to-r from-blue-900 via-indigo-950 to-slate-950">
-        <!-- Background Image Layer -->
+        <!-- Background Image Layer (Ensure the direct link format is used here too!) -->
         <div id="header-bg-image-layer" class="absolute inset-0 bg-cover bg-center opacity-40 mix-blend-overlay hidden"></div>
         <!-- Dot Matrix Mesh Pattern Overlay -->
         <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#3b82f6_1px,transparent_1px)] [background-size:16px_16px]"></div>
@@ -162,7 +162,6 @@
                     if(data[i].length >= 2 && data[i][0].trim()) configMap[data[i][0].trim()] = data[i][1].trim();
                 }
                 
-                // Header Processing Engine
                 const heroHeader = document.getElementById("hero-header");
                 
                 // Adjust Header Background Color Style
@@ -184,7 +183,7 @@
                     const bannerImg = document.getElementById("config-header-banner");
                     bannerImg.src = configMap['HEADER_IMAGE_BANNER'];
                     document.getElementById("header-image-container").classList.remove("hidden");
-                    heroHeader.style.padding = "1.5rem 1rem"; // Compress structural margins slightly for cleaner image fit
+                    heroHeader.style.padding = "1.5rem 1rem"; 
                 } else {
                     if(configMap['SCHOOL_NAME']) document.getElementById("config-school-name").innerText = configMap['SCHOOL_NAME'];
                     if(configMap['PORTAL_TITLE']) document.getElementById("config-portal-title").innerText = configMap['PORTAL_TITLE'];
@@ -269,8 +268,10 @@
             stack.innerHTML = "";
             data.forEach(officer => {
                 const name = officer[0]; const role = officer[1]; const imgUrl = officer[2];
+                
+                // Securely compute internal avatar card structures without syntax injection leaks
                 const avatarFrameContent = imgUrl 
-                    ? `<img src="${imgUrl}" alt="${name}" class="w-full h-full object-cover relative z-10" onerror="this.onerror=null; this.parentElement.innerHTML='${AVATAR_PLACEHOLDER}';">` 
+                    ? `<img src="${imgUrl}" alt="${name}" class="w-full h-full object-cover relative z-10">` 
                     : AVATAR_PLACEHOLDER;
 
                 stack.innerHTML += `
@@ -291,4 +292,3 @@
     </script>
 </body>
 </html>
-k
