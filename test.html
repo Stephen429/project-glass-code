@@ -155,44 +155,4 @@
         window.onload = initDashboard;
     </script>
 </body>
-    </html>(r => r.text()).then(t => renderRoster(validateData(parseCSV(t), 2).slice(1)));
-        }
-
-        function startNewsBillboardCycle() {
-            const target = document.getElementById("news-billboard-container");
-            const update = () => {
-                target.style.opacity = 0;
-                setTimeout(() => {
-                    target.innerHTML = `<span class="bg-blue-50 text-blue-600 text-[9px] font-bold px-2 py-0.5 rounded uppercase">${newsDataCache[activeNewsIndex][1]}</span> <span class="ml-2">${newsDataCache[activeNewsIndex][0]}</span>`;
-                    target.style.opacity = 1;
-                    activeNewsIndex = (activeNewsIndex + 1) % newsDataCache.length;
-                }, 500);
-            };
-            update(); setInterval(update, 5000);
-        }
-
-        function renderMetrics(data) {
-            const container = document.getElementById("metrics-container");
-            data.forEach((item, i) => {
-                const div = document.createElement("div");
-                div.className = "bg-white border border-slate-200 rounded-xl p-3 text-center shadow-sm animate-in";
-                div.style.animationDelay = `${i * 0.1}s`;
-                div.innerHTML = `<span class="text-[9px] text-slate-400 font-bold uppercase block mb-0.5">${item[0]}</span><span class="text-xl font-bold">${item[1]}</span>`;
-                container.appendChild(div);
-            });
-        }
-
-        function renderRoster(data) {
-            const stack = document.getElementById("officers-roster-stack");
-            data.slice(0, 3).forEach((off, i) => {
-                const div = document.createElement("div");
-                div.className = "bg-white border border-slate-200 rounded-xl p-3 flex items-center space-x-3 shadow-sm animate-in";
-                div.style.animationDelay = `${i * 0.15}s`;
-                div.innerHTML = `<div class="w-11 h-11 bg-slate-100 rounded-lg overflow-hidden flex items-center justify-center">${off[2] ? `<img src="${off[2]}" class="w-full h-full object-cover">` : AVATAR_PLACEHOLDER}</div><div><h4 class="font-bold text-xs">${off[0]}</h4><p class="text-[10px] text-blue-600 font-bold uppercase">${off[1]}</p></div>`;
-                div.appendChild(div);
-            });
-        }
-        window.onload = initDashboard;
-    </script>
-</body>
 </html>
