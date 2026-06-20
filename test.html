@@ -24,17 +24,17 @@
             </a>
             <nav class="hidden md:flex items-center space-x-6 text-xs font-bold uppercase text-slate-500">
                 <a id="nav-1" href="#">Gazettes</a>
-                <a id="nav-2" href="#">Committees</a>
+                <a id="nav-2" href="#">Officers</a>
                 <a id="nav-3" href="#">Feedback</a>
                 <a id="nav-4" href="#">Clubs</a>
             </nav>
             <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="md:hidden"><i data-lucide="menu"></i></button>
         </div>
         <div id="mobile-menu" class="hidden md:hidden border-t border-slate-100 p-4 space-y-4 text-xs font-bold uppercase text-slate-500">
-            <a id="mobile-nav-1" href="#">Gazettes</a>
-            <a id="mobile-nav-2" href="#">Committees</a>
-            <a id="mobile-nav-3" href="#">Feedback</a>
-            <a id="mobile-nav-4" href="#">Clubs</a>
+            <a id="mnav-1" href="#">Gazettes</a>
+            <a id="mnav-2" href="#">Officers</a>
+            <a id="mnav-3" href="#">Feedback</a>
+            <a id="mnav-4" href="#">Clubs</a>
         </div>
     </header>
 
@@ -118,19 +118,17 @@
                 document.getElementById('header-text').classList.add('hidden');
             }
 
-            // Map Nav and Buttons explicitly
-            const links = {
-                'nav-1': 'LINK_1_PATH', 'nav-2': 'LINK_2_PATH', 'nav-3': 'LINK_3_PATH', 'nav-4': 'LINK_4_PATH',
-                'mobile-nav-1': 'LINK_1_PATH', 'mobile-nav-2': 'LINK_2_PATH', 'mobile-nav-3': 'LINK_3_PATH', 'mobile-nav-4': 'LINK_4_PATH',
-                'btn-clubs': 'LINK_4_PATH', 'btn-about': 'LINK_5_PATH', 'btn-roster': 'LINK_6_PATH', 'btn-docs': 'LINK_7_PATH', 'btn-feedback': 'LINK_8_PATH'
+            // Direct Mapping
+            const assign = (ids, key) => {
+                ids.forEach(id => { const el = document.getElementById(id); if(el && config[key]) el.href = config[key]; });
             };
 
-            for (const [id, key] of Object.entries(links)) {
-                const el = document.getElementById(id);
-                if(el && config[key]) el.href = config[key];
-            }
+            assign(['nav-1', 'mnav-1', 'btn-docs'], 'LINK_1_PATH');
+            assign(['nav-2', 'mnav-2', 'btn-roster'], 'LINK_2_PATH');
+            assign(['nav-3', 'mnav-3', 'btn-feedback'], 'LINK_3_PATH');
+            assign(['nav-4', 'mnav-4', 'btn-clubs'], 'LINK_4_PATH');
+            assign(['btn-about'], 'LINK_5_PATH');
 
-            // Data loading remains
             fetch(`${MASTER_SHEET_URL}&gid=${NEWS_GID}`).then(r => r.text()).then(t => {
                 const news = t.split('\n').slice(1).filter(r => r.length > 2);
                 if(news.length > 0) {
