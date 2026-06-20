@@ -28,12 +28,14 @@
                 <a id="nav-link-committees" href="#" class="hover:text-blue-600">Committees</a>
                 <a href="https://sites.google.com/view/project-glass-sslg/home" class="btn-pulse bg-blue-600 text-white px-4 py-2 rounded-lg transition-all shadow-lg shadow-blue-200">Portal Index</a>
             </nav>
-            <button class="md:hidden text-slate-500" onclick="document.getElementById('mobile-nav').classList.toggle('hidden')">Menu</button>
+            <button class="md:hidden p-2" onclick="document.getElementById('mobile-nav').classList.toggle('hidden')">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
         </div>
         <div id="mobile-nav" class="hidden md:hidden bg-white border-t border-slate-100 p-4 space-y-3 text-xs font-bold uppercase text-slate-500">
             <a href="#" class="block hover:text-blue-600">Home</a>
-            <a href="#" class="block hover:text-blue-600">Gazettes</a>
-            <a href="https://sites.google.com/view/project-glass-sslg/home" class="block text-blue-600">Portal Index</a>
+            <a id="mobile-link-gazettes" href="#" class="block hover:text-blue-600">Gazettes</a>
+            <a id="mobile-link-committees" href="#" class="block hover:text-blue-600">Committees</a>
         </div>
     </header>
 
@@ -52,16 +54,28 @@
             <div id="metrics-container" class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mt-8"></div>
         </section>
 
+        <section class="overflow-hidden">
+            <div class="max-w-6xl mx-auto px-4 mb-6">
+                <h2 class="text-2xl font-extrabold tracking-tight">SSLG in Action</h2>
+                <p class="text-sm text-slate-500 font-medium">Moments from the student government's programs and projects.</p>
+            </div>
+            <div class="flex gap-4 scroll-animate w-[200%]">
+                <div class="flex-shrink-0 w-80"><img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800" class="h-64 w-full object-cover rounded-3xl shadow-sm"></div>
+                <div class="flex-shrink-0 w-80"><img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=800" class="h-64 w-full object-cover rounded-3xl shadow-sm"></div>
+                <div class="flex-shrink-0 w-80"><img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?w=800" class="h-64 w-full object-cover rounded-3xl shadow-sm"></div>
+            </div>
+        </section>
+
         <section class="bg-white p-6 rounded-xl border-b-4 border-b-blue-600 shadow-sm max-w-4xl mx-auto">
             <h4 class="text-[10px] font-bold text-blue-600 uppercase tracking-widest mb-2">The Preamble</h4>
             <p class="text-sm leading-relaxed text-slate-600 italic">We, the learners of Lydia D. Villangca Trade School, imploring the aid of Divine Providence, believing in the need for a better organized Supreme Secondary Learner Government (SSLG) and in the development of the learners as future leaders of the nation, do hereby promulgate and adopt this Constitution and By-Laws of the Supreme Secondary Learner Government for Secondary Schools that shall advance, implement, and maintain our goals and aspirations, embody the ideals and principles of freedom, equality, justice, and democracy, and promote the welfare of all students and the academic standards of our Alma Mater.</p>
         </section>
 
-        <section class="max-w-6xl mx-auto px-4 space-y-3">
+        <section class="max-w-6xl mx-auto px-4 space-y-3 pb-12">
             <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest">Executive Leadership</h3>
-            <div id="president-spotlight" class="hidden bg-blue-600 text-white p-6 rounded-2xl flex items-center space-x-4 shadow-lg shadow-blue-200 border-b-4 border-b-blue-800">
-                <div id="pres-img" class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center font-bold text-xl"></div>
-                <div><h4 class="font-bold text-lg" id="pres-name"></h4><p class="text-blue-100 text-sm">SSLG President</p></div>
+            <div id="president-spotlight" class="hidden bg-slate-900 text-white p-6 rounded-2xl flex items-center space-x-4 shadow-lg">
+                <div id="pres-img" class="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center font-bold text-xl"></div>
+                <div><h4 class="font-bold text-lg" id="pres-name"></h4><p class="text-slate-400 text-sm">SSLG President</p></div>
             </div>
             <div id="officers-roster-stack" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"></div>
             <div class="flex justify-center pt-4"><a id="view-all-officers-link" href="#" class="px-6 py-2 bg-white border border-slate-200 rounded-full text-xs font-bold text-slate-600 hover:border-blue-600 hover:text-blue-600 transition-all">View Full Roster</a></div>
@@ -88,13 +102,14 @@
         }
 
         async function initDashboard() {
-            // Config & News
             fetch(`${MASTER_SHEET_URL}&gid=${CONFIG_TAB_GID}`).then(r => r.text()).then(t => {
                 let data = validateData(parseCSV(t), 2);
                 let configMap = {}; data.forEach(r => configMap[r[0].trim()] = r[1].trim());
                 if(configMap['LINK_2_PATH']) {
                     document.getElementById("nav-link-gazettes").setAttribute("href", configMap['LINK_1_PATH'] || "#");
                     document.getElementById("nav-link-committees").setAttribute("href", configMap['LINK_2_PATH']);
+                    document.getElementById("mobile-link-gazettes").setAttribute("href", configMap['LINK_1_PATH'] || "#");
+                    document.getElementById("mobile-link-committees").setAttribute("href", configMap['LINK_2_PATH']);
                     document.getElementById("view-all-officers-link").setAttribute("href", configMap['LINK_2_PATH']);
                 }
             });
@@ -102,8 +117,8 @@
                 let news = validateData(parseCSV(t), 2).slice(1);
                 if(news.length > 0) {
                     document.getElementById("news-billboard-wrapper").classList.remove("hidden");
-                    setInterval(() => {
-                        let n = news[Math.floor(Math.random() * news.length)];
+                    let i = 0; setInterval(() => {
+                        let n = news[i++ % news.length];
                         document.getElementById("news-billboard-container").innerHTML = `<span class="bg-blue-50 text-blue-600 px-2 rounded uppercase">${n[1]}</span> ${n[0]}`;
                     }, 5000);
                 }
@@ -124,13 +139,13 @@
                 if(pres) {
                     document.getElementById("president-spotlight").classList.remove("hidden");
                     document.getElementById("pres-name").innerText = pres[0];
-                    document.getElementById("pres-img").innerHTML = pres[2] ? `<img src="${pres[2]}" class="w-full h-full rounded-full object-cover">` : pres[0][0];
+                    document.getElementById("pres-img").innerText = pres[0][0];
                 }
                 const stack = document.getElementById("officers-roster-stack");
-                roster.filter(r => !r[1].toLowerCase().includes('president')).slice(0, 3).forEach(off => {
+                roster.filter(r => !r[1].toLowerCase().includes('president')).forEach(off => {
                     const div = document.createElement("div");
-                    div.className = "bg-white border-b-4 border-b-blue-600 rounded-xl p-3 flex items-center space-x-3 shadow-sm animate-in";
-                    div.innerHTML = `<div class="w-10 h-10 bg-slate-100 rounded-lg overflow-hidden flex items-center justify-center">${off[2]?`<img src="${off[2]}" class="w-full h-full object-cover">`:off[0][0]}</div><div><h4 class="font-bold text-xs">${off[0]}</h4><p class="text-[9px] text-blue-600 font-bold uppercase">${off[1]}</p></div>`;
+                    div.className = "bg-white border border-slate-200 rounded-xl p-3 flex items-center space-x-3 shadow-sm animate-in";
+                    div.innerHTML = `<div class="w-10 h-10 bg-slate-100 rounded-lg overflow-hidden flex items-center justify-center font-bold text-slate-500">${off[0][0]}</div><div><h4 class="font-bold text-xs">${off[0]}</h4><p class="text-[9px] text-blue-600 font-bold uppercase">${off[1]}</p></div>`;
                     stack.appendChild(div);
                 });
             });
