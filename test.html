@@ -11,6 +11,8 @@
         .animate-in { opacity: 0; animation: fadeUp 0.8s ease-out forwards; }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         .news-fade { transition: opacity 0.5s ease-in-out; }
+        .btn-pulse:hover { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .8; transform: scale(1.05); } }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-900 pb-20">
@@ -21,17 +23,21 @@
                 <img id="header-logo" src="" class="h-8 hidden" alt="Logo">
                 <span id="header-text" class="text-xl font-black tracking-tighter">PROJECT<span class="text-blue-600">GLASS</span></span>
             </a>
-            <nav class="hidden md:flex space-x-6 text-xs font-bold uppercase text-slate-500">
-                <a href="#home">Home</a>
-                <a id="nav-link-gazettes" href="#">Gazettes</a>
-                <a id="nav-link-committees" href="#">Committees</a>
+            <nav class="hidden md:flex items-center space-x-6 text-xs font-bold uppercase text-slate-500">
+                <a href="#home" class="hover:text-blue-600">Home</a>
+                <a id="nav-link-gazettes" href="#" class="hover:text-blue-600">Gazettes</a>
+                <a id="nav-link-committees" href="#" class="hover:text-blue-600">Committees</a>
+                <a id="nav-link-feedback" href="#" class="hover:text-blue-600">Feedback</a>
+                <a href="https://sites.google.com/view/project-glass-sslg/home" class="btn-pulse bg-blue-600 text-white px-4 py-2 rounded-lg transition-all shadow-lg shadow-blue-200">Portal Index</a>
             </nav>
             <button class="md:hidden text-xl" onclick="document.getElementById('mobile-nav').classList.toggle('hidden')">☰</button>
         </div>
         <div id="mobile-nav" class="hidden md:hidden bg-white border-t p-4 space-y-3 text-xs font-bold uppercase text-slate-500">
             <a href="#" class="block">Home</a>
-            <a id="mobile-link-gazettes" href="#">Gazettes</a>
-            <a id="mobile-link-committees" href="#">Committees</a>
+            <a id="mobile-link-gazettes" href="#" class="block">Gazettes</a>
+            <a id="mobile-link-committees" href="#" class="block">Committees</a>
+            <a id="mobile-link-feedback" href="#" class="block">Feedback</a>
+            <a href="https://sites.google.com/view/project-glass-sslg/home" class="block text-blue-600">Portal Index</a>
         </div>
     </header>
 
@@ -46,11 +52,6 @@
             </div>
 
             <div id="metrics-container" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
-        </section>
-
-        <section class="animate-in bg-white border border-slate-200 rounded-3xl p-8 shadow-sm border-b-4 border-b-blue-600">
-            <h4 class="text-[10px] font-bold text-blue-600 uppercase tracking-widest mb-4">Constitution Preamble</h4>
-            <p class="text-slate-600 italic leading-relaxed">We, the learners of Lydia D. Villangca Trade School, imploring the aid of Divine Providence, believing in the need for a better organized Supreme Secondary Learner Government (SSLG) and in the development of the learners as future leaders of the nation, do hereby promulgate and adopt this Constitution and By-Laws of the Supreme Secondary Learner Government for Secondary Schools that shall advance, implement, and maintain our goals and aspirations, embody the ideals and principles of freedom, equality, justice, and democracy, and promote the welfare of all students and the academic standards of our Alma Mater.</p>
         </section>
 
         <section class="animate-in">
@@ -73,10 +74,23 @@
         const CONFIG_GID = "229901204", NEWS_GID = "1683102947", METRICS_GID = "1647929887", ROSTER_GID = "416625956";
 
         async function init() {
-            // Configuration & Header
             const confRes = await fetch(`${MASTER_SHEET_URL}&gid=${CONFIG_GID}`);
             const confData = (await confRes.text()).split('\n').map(r => r.split(','));
             const config = Object.fromEntries(confData.map(r => [r[0]?.trim(), r[1]?.trim()]));
+
+            // Navigation Links
+            if(config.LINK_1_PATH) {
+                document.getElementById('nav-link-gazettes').href = config.LINK_1_PATH;
+                document.getElementById('mobile-link-gazettes').href = config.LINK_1_PATH;
+            }
+            if(config.LINK_2_PATH) {
+                document.getElementById('nav-link-committees').href = config.LINK_2_PATH;
+                document.getElementById('mobile-link-committees').href = config.LINK_2_PATH;
+            }
+            if(config.LINK_3_PATH) {
+                document.getElementById('nav-link-feedback').href = config.LINK_3_PATH;
+                document.getElementById('mobile-link-feedback').href = config.LINK_3_PATH;
+            }
 
             if(config.IMG_LOGO_URL) {
                 const img = document.getElementById('header-logo');
@@ -84,7 +98,6 @@
                 document.getElementById('header-text').classList.add('hidden');
             }
 
-            // News Ticker
             fetch(`${MASTER_SHEET_URL}&gid=${NEWS_GID}`).then(r => r.text()).then(t => {
                 const news = t.split('\n').slice(1).filter(r => r.length > 2);
                 if(news.length > 0) {
@@ -96,7 +109,6 @@
                 }
             });
 
-            // Metrics Tracker
             fetch(`${MASTER_SHEET_URL}&gid=${METRICS_GID}`).then(r => r.text()).then(t => {
                 const rows = t.split('\n').slice(1);
                 const container = document.getElementById('metrics-container');
@@ -106,7 +118,6 @@
                 });
             });
 
-            // SSLG Action Carousel
             const imgs = config.ACTION_IMAGES?.split('|') || [];
             const count = parseInt(config.ACT_IMG_COUNT) || 3;
             const carousel = document.getElementById('action-carousel');
@@ -114,7 +125,6 @@
                 carousel.innerHTML += `<div class="flex-shrink-0 w-80 h-64 bg-slate-200 rounded-3xl overflow-hidden"><img src="${url.trim()}" class="w-full h-full object-cover"></div>`;
             });
 
-            // Executive Roster
             fetch(`${MASTER_SHEET_URL}&gid=${ROSTER_GID}`).then(r => r.text()).then(t => {
                 const rows = t.split('\n').slice(1);
                 const stack = document.getElementById('officers-roster-stack');
