@@ -1,120 +1,100 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Officers & Committees | Project GLASS</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap');
         body { font-family: 'Inter', sans-serif; }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-900 antialiased min-h-screen flex flex-col">
+<body class="bg-white text-slate-900">
 
-    <!-- TEXT-BASED DIRECTORY TITLE SECTION -->
-    <section class="bg-white border-b border-slate-200 py-10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
-            <div class="text-center md:text-left space-y-2">
-                <div class="inline-flex items-center gap-1.5 bg-blue-50 text-blue-700 text-xs font-bold tracking-wider uppercase px-2.5 py-1 rounded-md border border-blue-200">
-                    <span class="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span>
-                    Official Roster
-                </div>
-                <h1 class="text-3xl font-extrabold tracking-tight text-slate-900 md:text-4xl">Officers & Committees</h1>
-                <p class="text-sm text-slate-500 max-w-xl font-medium">Supreme Secondary Learner Government complete active management and operations directory.</p>
-            </div>
-            
-            <!-- Navigation Tabs Container Layout -->
-            <div class="flex bg-slate-100 p-1 rounded-lg border border-slate-200 text-xs font-medium text-slate-600 self-center">
-                <button onclick="showTab('executive')" id="btn-executive" class="px-5 py-2.5 rounded-md transition-all bg-white text-blue-600 shadow-sm font-semibold">Executives</button>
-                <button onclick="showTab('representatives')" id="btn-representatives" class="px-5 py-2.5 rounded-md transition-all hover:text-slate-900">Representatives</button>
-                <button onclick="showTab('committees')" id="btn-committees" class="px-5 py-2.5 rounded-md transition-all hover:text-slate-900">Committees</button>
-            </div>
+    <header class="border-b border-slate-100 sticky top-0 z-50 bg-white">
+        <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+            <a href="index.html" class="flex items-center">
+                <span class="text-xl font-black tracking-tighter">PROJECT<span class="text-blue-600">GLASS</span></span>
+            </a>
+            <nav class="hidden md:flex items-center space-x-6 text-xs font-bold uppercase text-slate-500">
+                <a href="index.html">Home</a>
+                <a id="nav-1" href="#">Gazettes</a>
+                <a id="nav-2" href="#">Officers</a>
+                <a id="nav-3" href="#">Feedback</a>
+                <a id="nav-4" href="#">Clubs</a>
+            </nav>
+            <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="md:hidden"><i data-lucide="menu"></i></button>
         </div>
-    </section>
+        <div id="mobile-menu" class="hidden md:hidden border-t border-slate-100 bg-white p-4 space-y-4 text-xs font-bold uppercase text-slate-500 flex flex-col">
+            <a href="index.html">Home</a>
+            <a id="mnav-1" href="#">Gazettes</a>
+            <a id="mnav-2" href="#">Officers</a>
+            <a id="mnav-3" href="#">Feedback</a>
+            <a id="mnav-4" href="#">Clubs</a>
+        </div>
+    </header>
 
-    <!-- MAIN DISPLAY INTERFACE -->
-    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <main class="max-w-6xl mx-auto px-4 py-12">
+        <section class="mb-12">
+            <h1 class="text-4xl font-black tracking-tight mb-2">Officers & Committees</h1>
+            <div class="flex flex-col sm:flex-row gap-1 mt-8 p-1 bg-slate-50 border border-slate-100 rounded-2xl w-full sm:w-fit">
+                <button onclick="showTab('executive')" id="btn-executive" class="px-5 py-2 rounded-xl font-bold text-[10px] uppercase bg-white text-blue-600 shadow-sm transition-all w-full sm:w-auto">Executives</button>
+                <button onclick="showTab('representatives')" id="btn-representatives" class="px-5 py-2 rounded-xl font-bold text-[10px] uppercase text-slate-500 hover:text-slate-900 transition-all w-full sm:w-auto">Representatives</button>
+                <button onclick="showTab('committees')" id="btn-committees" class="px-5 py-2 rounded-xl font-bold text-[10px] uppercase text-slate-500 hover:text-slate-900 transition-all w-full sm:w-auto">Committees</button>
+            </div>
+        </section>
 
-        <!-- PANEL 1: EXECUTIVES (STRICT 1-2-2-2 SYSTEM) -->
         <div id="panel-executive" class="dir-tab-panel space-y-10">
-            <!-- Row 1: President -->
-            <div id="row-pres" class="flex justify-center w-full">
-                <div class="text-xs text-slate-400 animate-pulse">Syncing core roster indexes...</div>
-            </div>
-            
-            <!-- Lower Executive Grid -->
-            <div class="max-w-3xl mx-auto">
-                <div id="exec-grid-target" class="grid grid-cols-1 sm:grid-cols-2 gap-8 justify-items-center"></div>
-            </div>
+            <div id="row-pres" class="flex justify-center"></div>
+            <div id="exec-grid-target" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"></div>
         </div>
 
-        <!-- PANEL 2: REPRESENTATIVES (CLEAN INDEPENDENT LISTS) -->
-        <div id="panel-representatives" class="dir-tab-panel space-y-6 hidden">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                
-                <!-- Grade 7 & 8 Card Holder -->
-                <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-4">
-                    <div>
-                        <h4 class="text-sm font-bold text-blue-600 tracking-wide pb-1 border-b border-slate-100 mb-2">Grade 7</h4>
-                        <ul id="rep-g7-target" class="text-sm text-slate-700 space-y-1 font-medium min-h-[2rem]"></ul>
-                    </div>
-                    <div>
-                        <h4 class="text-sm font-bold text-blue-600 tracking-wide pb-1 border-b border-slate-100 mb-2">Grade 8</h4>
-                        <ul id="rep-g8-target" class="text-sm text-slate-700 space-y-1 font-medium min-h-[2rem]"></ul>
-                    </div>
-                </div>
-
-                <!-- Grade 9 & 10 Card Holder -->
-                <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-4">
-                    <div>
-                        <h4 class="text-sm font-bold text-blue-600 tracking-wide pb-1 border-b border-slate-100 mb-2">Grade 9</h4>
-                        <ul id="rep-g9-target" class="text-sm text-slate-700 space-y-1 font-medium min-h-[2rem]"></ul>
-                    </div>
-                    <div>
-                        <h4 class="text-sm font-bold text-blue-600 tracking-wide pb-1 border-b border-slate-100 mb-2">Grade 10</h4>
-                        <ul id="rep-g10-target" class="text-sm text-slate-700 space-y-1 font-medium min-h-[2rem]"></ul>
-                    </div>
-                </div>
-
-                <!-- Senior High Card Holder -->
-                <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-4">
-                    <div>
-                        <h4 class="text-sm font-bold text-indigo-600 tracking-wide pb-1 border-b border-slate-100 mb-2">Grade 11</h4>
-                        <ul id="rep-g11-target" class="text-sm text-slate-700 space-y-1 font-medium min-h-[2rem]"></ul>
-                    </div>
-                    <div>
-                        <h4 class="text-sm font-bold text-indigo-600 tracking-wide pb-1 border-b border-slate-100 mb-2">Grade 12</h4>
-                        <ul id="rep-g12-target" class="text-sm text-slate-700 space-y-1 font-medium min-h-[2rem]"></ul>
-                    </div>
-                </div>
-
-            </div>
+        <div id="panel-representatives" class="dir-tab-panel hidden grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div id="rep-g7-8" class="bg-slate-50 p-5 rounded-2xl border border-slate-100"></div>
+            <div id="rep-g9-10" class="bg-slate-50 p-5 rounded-2xl border border-slate-100"></div>
+            <div id="rep-g11-12" class="bg-slate-50 p-5 rounded-2xl border border-slate-100"></div>
         </div>
 
-        <!-- PANEL 3: COMMITTEES -->
-        <div id="panel-committees" class="dir-tab-panel space-y-3 hidden">
-            <div id="committee-accordion-target" class="space-y-3"></div>
+        <div id="panel-committees" class="dir-tab-panel hidden space-y-4">
+            <div id="committee-accordion-target" class="space-y-4"></div>
         </div>
-
     </main>
 
-    <footer class="bg-slate-950 text-slate-400 text-xs py-6 border-t border-slate-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p>© 2026 Supreme Secondary Learner Government. Project GLASS Accountability Portal.</p>
-        </div>
+    <footer class="border-t border-slate-100 py-12 text-center text-slate-400">
+        <p class="text-xs font-bold uppercase">&copy; 2026 Project GLASS | Supreme Secondary Learner Government</p>
     </footer>
 
     <script>
         const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTIFgXyOttJeJGsVaLwfFtNWb-c1YCJiJ8R5siL32ykA47xYYY7b8KmPXm_42vNAbaHXOkcqEG3tRCu/pub?output=csv";
         const GID_ROSTER = "416625956";
+        const CONFIG_GID = "229901204";
 
-        const DEFAULT_AVATAR = `<svg class="w-16 h-16 text-slate-200" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>`;
+        async function init() {
+            const confRes = await fetch(`${CSV_URL}&gid=${CONFIG_GID}`);
+            const confData = (await confRes.text()).split('\n').map(r => r.split(','));
+            const config = Object.fromEntries(confData.map(r => [r[0]?.trim(), r[1]?.trim()]));
+            ['nav', 'mnav'].forEach(p => {
+                ['1','2','3','4'].forEach(n => {
+                    const el = document.getElementById(`${p}-${n}`);
+                    if(el && config[`LINK_${n}_PATH`]) el.href = config[`LINK_${n}_PATH`];
+                });
+            });
+            fetchRoster();
+        }
+
+        function showTab(t) {
+            document.querySelectorAll('.dir-tab-panel').forEach(p => p.classList.add('hidden'));
+            document.getElementById('panel-' + t).classList.remove('hidden');
+            document.querySelectorAll('[id^="btn-"]').forEach(b => b.className = "px-5 py-2 rounded-xl font-bold text-[10px] uppercase text-slate-500 hover:text-slate-900 transition-all w-full sm:w-auto");
+            document.getElementById('btn-' + t).className = "px-5 py-2 rounded-xl font-bold text-[10px] uppercase bg-white text-blue-600 shadow-sm transition-all w-full sm:w-auto";
+        }
 
         function processCSV(text) {
-            let lines = []; let row = [""]; let inQuotes = false;
+            let lines = [], row = [""], inQuotes = false;
             for (let i = 0; i < text.length; i++) {
-                let c = text[i]; let next = text[i+1];
+                let c = text[i], next = text[i+1];
                 if (c === '"') { if (inQuotes && next === '"') { row[row.length - 1] += '"'; i++; } else { inQuotes = !inQuotes; } }
                 else if (c === ',' && !inQuotes) { row.push(''); }
                 else if ((c === '\r' || c === '\n') && !inQuotes) { if (c === '\r' && next === '\n') i++; lines.push(row); row = ['']; }
@@ -124,196 +104,31 @@
             return lines;
         }
 
-        function showTab(tabName) {
-            document.querySelectorAll('.dir-tab-panel').forEach(p => p.classList.add('hidden'));
-            document.getElementById('panel-' + tabName).classList.remove('hidden');
-            ['executive', 'representatives', 'committees'].forEach(t => {
-                const btn = document.getElementById('btn-' + t);
-                if (btn) btn.className = "px-5 py-2.5 rounded-md transition-all hover:text-slate-900 text-slate-600";
-            });
-            document.getElementById('btn-' + tabName).className = "px-5 py-2.5 rounded-md transition-all bg-white text-blue-600 shadow-sm font-semibold";
-        }
+        async function fetchRoster() {
+            const res = await fetch(`${CSV_URL}&gid=${GID_ROSTER}`);
+            const rows = processCSV(await res.text());
+            let execList = [], repsList = [];
 
-        function toggleDropdown(id) {
-            const drawer = document.getElementById('drawer-' + id);
-            const chevron = document.getElementById('chev-' + id);
-            if(drawer.classList.contains('hidden')) {
-                drawer.classList.remove('hidden');
-                chevron.classList.add('rotate-180');
-            } else {
-                drawer.classList.add('hidden');
-                chevron.classList.remove('rotate-180');
+            for(let i = 1; i < rows.length; i++) {
+                if(!rows[i][0]) continue;
+                let role = rows[i][1]?.toLowerCase() || "";
+                let person = { name: rows[i][0].trim(), role: rows[i][1]?.trim(), img: rows[i][2]?.trim() };
+                if (role.includes('president') || role.includes('secretary') || role.includes('treasurer') || role.includes('auditor') || role.includes('pio')) execList.push(person);
+                else if (role.includes('rep') || role.includes('grade')) repsList.push(person);
             }
+
+            const pres = execList.find(p => p.role.toLowerCase().includes('president') && !p.role.toLowerCase().includes('vice'));
+            document.getElementById('row-pres').innerHTML = pres ? `<div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm text-center w-64"><div class="w-24 h-24 bg-slate-100 rounded-full mx-auto mb-4 overflow-hidden"><img src="${pres.img}" class="w-full h-full object-cover"></div><h4 class="font-bold text-sm">${pres.name}</h4><p class="text-[10px] text-blue-600 font-bold uppercase">${pres.role}</p></div>` : "";
+            document.getElementById('exec-grid-target').innerHTML = execList.filter(p => p !== pres).map(e => `<div class="bg-white p-6 rounded-3xl border border-slate-100 text-center"><h4 class="font-bold text-sm">${e.name}</h4><p class="text-[10px] text-blue-600 font-bold uppercase">${e.role}</p></div>`).join('');
+            
+            const renderRep = (list) => list.map(r => `<div class="mb-3"><div class="text-sm font-bold text-slate-900 leading-tight">${r.name}</div><div class="text-[10px] uppercase font-bold text-blue-600">${r.role}</div></div>`).join('');
+            document.getElementById('rep-g7-8').innerHTML = `<h3 class="text-[10px] font-black text-slate-400 uppercase mb-3">Grades 7-8</h3>` + renderRep(repsList.filter(r => r.role.match(/[78]/)));
+            document.getElementById('rep-g9-10').innerHTML = `<h3 class="text-[10px] font-black text-slate-400 uppercase mb-3">Grades 9-10</h3>` + renderRep(repsList.filter(r => r.role.match(/[9]|10/)));
+            document.getElementById('rep-g11-12').innerHTML = `<h3 class="text-[10px] font-black text-slate-400 uppercase mb-3">Grades 11-12</h3>` + renderRep(repsList.filter(r => r.role.match(/11|12/)));
+            
+            lucide.createIcons();
         }
-
-        function buildCard(name, role, img) {
-            const portrait = img ? `<img src="${img}" alt="${name}" class="w-full h-full object-cover">` : `<div class="w-full h-full bg-slate-100 flex items-center justify-center">${DEFAULT_AVATAR}</div>`;
-            return `
-                <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm w-full max-w-[260px] flex flex-col items-center">
-                    <div class="w-full h-64 bg-slate-50 rounded-lg overflow-hidden border border-slate-100 flex-shrink-0">
-                        ${portrait}
-                    </div>
-                    <div class="mt-3 text-center w-full">
-                        <h4 class="font-bold text-slate-800 text-base truncate">${name}</h4>
-                        <p class="text-xs font-medium text-slate-500 mt-0.5">${role}</p>
-                    </div>
-                </div>`;
-        }
-
-        function classifyRole(roleString) {
-            const r = roleString.toLowerCase().trim();
-            if (r.includes('representative') || r.includes('councilor') || r.includes('grade')) {
-                return 'representative';
-            }
-            if (r.includes('president') && !r.includes('vice') && !r.includes('co-')) {
-                return 'executive';
-            }
-            if (
-                r.includes('vice president') || r.includes('vice-president') ||
-                (r.includes('secretary') && !r.includes('committee')) ||
-                r.includes('treasurer') || r.includes('auditor') ||
-                r.includes('pio') || r.includes('p.i.o') ||
-                r.includes('public information') || r.includes('protocol')
-            ) {
-                return 'executive';
-            }
-            return 'committee';
-        }
-
-        async function fetchAndRenderData() {
-            try {
-                const res = await fetch(`${CSV_URL}&gid=${GID_ROSTER}`);
-                const rows = processCSV(await res.text());
-
-                let execList = [];
-                let repsList = [];
-                let commList = [];
-
-                const execOrder = ['president', 'vice president', 'secretary', 'treasurer', 'auditor', 'public information', 'pio', 'p.i.o', 'protocol'];
-
-                for(let i = 1; i < rows.length; i++) {
-                    if(!rows[i][0] || !rows[i][0].trim()) continue;
-                    
-                    let name = rows[i][0].trim();
-                    let role = rows[i][1] ? rows[i][1].trim() : "";
-                    let img = rows[i][2] ? rows[i][2].trim() : "";
-                    let rawCommitteeField = rows[i][3] ? rows[i][3].trim() : "";
-
-                    let person = { name, role, img, rawCommitteeField };
-                    let category = classifyRole(role);
-
-                    if (category === 'executive') {
-                        execList.push(person);
-                    } else if (category === 'representative') {
-                        repsList.push(person);
-                    }
-                    
-                    if (rawCommitteeField) {
-                        commList.push(person);
-                    }
-                }
-
-                // Process Executives
-                execList.sort((a,b) => {
-                    let idxA = execOrder.findIndex(pos => a.role.toLowerCase().includes(pos));
-                    let idxB = execOrder.findIndex(pos => b.role.toLowerCase().includes(pos));
-                    return (idxA === -1 ? 99 : idxA) - (idxB === -1 ? 99 : idxB);
-                });
-
-                const presidentNode = execList.find(p => p.role.toLowerCase().includes('president') && !p.role.toLowerCase().includes('vice'));
-                document.getElementById('row-pres').innerHTML = presidentNode 
-                    ? buildCard(presidentNode.name, presidentNode.role, presidentNode.img) 
-                    : `<p class="text-xs text-slate-400">No President Profile Assigned.</p>`;
-
-                const alternateExecs = execList.filter(p => p !== presidentNode);
-                const execGrid = document.getElementById('exec-grid-target');
-                execGrid.innerHTML = "";
-                alternateExecs.forEach(e => { execGrid.innerHTML += buildCard(e.name, e.role, e.img); });
-
-                // Process Representatives with Parentheses/Roles removed
-                let subGrades = { g7: [], g8: [], g9: [], g10: [], g11: [], g12: [] };
-                
-                repsList.forEach(r => {
-                    let rLow = r.role.toLowerCase();
-                    // Clean presentation item: just the name listed plainly under the tier header
-                    let li = `<li class="truncate text-slate-700 font-medium py-0.5">• ${r.name}</li>`;
-                    
-                    if (rLow.includes('7')) subGrades.g7.push(li);
-                    else if (rLow.includes('8')) subGrades.g8.push(li);
-                    else if (rLow.includes('9')) subGrades.g9.push(li);
-                    else if (rLow.includes('10')) subGrades.g10.push(li);
-                    else if (rLow.includes('11')) subGrades.g11.push(li);
-                    else if (rLow.includes('12')) subGrades.g12.push(li);
-                });
-
-                const fallbackItem = `<li class="text-xs italic text-slate-400 font-normal">To Be Determined</li>`;
-                
-                document.getElementById('rep-g7-target').innerHTML = subGrades.g7.join('') || fallbackItem;
-                document.getElementById('rep-g8-target').innerHTML = subGrades.g8.join('') || fallbackItem;
-                document.getElementById('rep-g9-target').innerHTML = subGrades.g9.join('') || fallbackItem;
-                document.getElementById('rep-g10-target').innerHTML = subGrades.g10.join('') || fallbackItem;
-                document.getElementById('rep-g11-target').innerHTML = subGrades.g11.join('') || fallbackItem;
-                document.getElementById('rep-g12-target').innerHTML = subGrades.g12.join('') || fallbackItem;
-
-                // Process Committees
-                let committeeMap = {};
-                commList.forEach(c => {
-                    let fullString = c.rawCommitteeField;
-                    
-                    let comRole = "Member";
-                    if (/chairperson/i.test(fullString) && !/vice|co-/i.test(fullString)) comRole = "Chairperson";
-                    else if (/vice-chairperson|vice chairperson|co-chairperson|co-chair/i.test(fullString)) comRole = "Co-Chairperson";
-                    
-                    let cleanCommName = fullString.replace(/(chairperson|vice-chairperson|vice chairperson|co-chairperson|co-chair|member)/gi, "").replace(/[-\s]+$/, "").trim();
-                    if (!cleanCommName) cleanCommName = "General Operations Committee";
-
-                    if (!committeeMap[cleanCommName]) {
-                        committeeMap[cleanCommName] = { heads: [], vlices: [], members: [] };
-                    }
-
-                    if (comRole === "Chairperson") committeeMap[cleanCommName].heads.push(c.name);
-                    else if (comRole === "Co-Chairperson") committeeMap[cleanCommName].vlices.push(c.name);
-                    else committeeMap[cleanCommName].members.push(c.name);
-                });
-
-                const commTarget = document.getElementById('committee-accordion-target');
-                commTarget.innerHTML = "";
-                let accordionIdx = 0;
-                
-                for(let name in committeeMap) {
-                    accordionIdx++;
-                    let data = committeeMap[name];
-                    
-                    let headText = data.heads.length > 0 ? data.heads.join(', ') : "To Be Determined";
-                    let viceText = data.vlices.length > 0 ? data.vlices.join(', ') : "To Be Determined";
-                    let mList = data.members.length === 0 ? `<li class="text-slate-400 italic font-normal">To Be Determined</li>` : data.members.map(m => `<li>• ${m}</li>`).join('');
-                    
-                    commTarget.innerHTML += `
-                        <div class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
-                            <button onclick="toggleDropdown('${accordionIdx}')" class="w-full px-5 py-4 flex items-center justify-between font-semibold text-slate-800 hover:bg-slate-50 transition text-sm md:text-base">
-                                <span>${name}</span>
-                                <svg id="chev-${accordionIdx}" class="w-5 h-5 text-slate-400 transform transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-                            </button>
-                            <div id="drawer-${accordionIdx}" class="hidden border-t border-slate-100 bg-slate-50/50 p-5 grid grid-cols-1 md:grid-cols-2 gap-4 text-xs md:text-sm">
-                                <div class="space-y-3">
-                                    <p><span class="text-[10px] text-slate-400 font-bold uppercase block tracking-wider">Chairperson</span><span class="font-semibold text-slate-900">${headText}</span></p>
-                                    <p><span class="text-[10px] text-slate-400 font-bold uppercase block tracking-wider">Co-Chairperson</span><span class="font-semibold text-slate-900">${viceText}</span></p>
-                                </div>
-                                <div>
-                                    <span class="text-[10px] text-slate-400 font-bold uppercase block tracking-wider mb-1">Committee Members</span>
-                                    <ul class="space-y-1 text-slate-700 font-medium pl-1 border-l border-slate-200">${mList}</ul>
-                                </div>
-                            </div>
-                        </div>`;
-                }
-                if(accordionIdx === 0) commTarget.innerHTML = `<p class="text-xs text-center text-slate-400 py-8 bg-white border border-slate-200 rounded-xl shadow-sm">No working committees registered inside database yet.</p>`;
-
-            } catch(e) {
-                console.error("Roster assembly error:", e);
-            }
-        }
-
-        window.onload = fetchAndRenderData;
+        init();
     </script>
 </body>
 </html>
