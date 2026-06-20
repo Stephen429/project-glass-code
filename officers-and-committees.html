@@ -6,134 +6,107 @@
     <title>Officers & Committees | Project GLASS</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap');
-        body { font-family: 'Inter', sans-serif; }
-    </style>
+    <style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap'); body { font-family: 'Inter', sans-serif; }</style>
 </head>
-<body class="bg-white text-slate-900">
+<body class="bg-slate-50 text-slate-900">
 
-    <header class="border-b border-slate-100 sticky top-0 z-50 bg-white">
+    <!-- SHARED HEADER -->
+    <header class="border-b border-slate-100 bg-white sticky top-0 z-50">
         <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-            <a href="index.html" class="flex items-center">
-                <span class="text-xl font-black tracking-tighter">PROJECT<span class="text-blue-600">GLASS</span></span>
-            </a>
+            <a href="index.html" class="flex items-center text-xl font-black tracking-tighter">PROJECT<span class="text-blue-600">GLASS</span></a>
             <nav class="hidden md:flex items-center space-x-6 text-xs font-bold uppercase text-slate-500">
                 <a href="index.html">Home</a>
-                <a id="nav-1" href="#">Gazettes</a>
-                <a id="nav-2" href="#">Officers</a>
-                <a id="nav-3" href="#">Feedback</a>
-                <a id="nav-4" href="#">Clubs</a>
+                <a href="#">Gazettes</a>
+                <a href="#">Officers</a>
+                <a href="#">Feedback</a>
+                <a href="#">Clubs</a>
             </nav>
-            <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="md:hidden"><i data-lucide="menu"></i></button>
-        </div>
-        <div id="mobile-menu" class="hidden md:hidden border-t border-slate-100 bg-white p-4 space-y-4 text-xs font-bold uppercase text-slate-500 flex flex-col">
-            <a href="index.html">Home</a>
-            <a id="mnav-1" href="#">Gazettes</a>
-            <a id="mnav-2" href="#">Officers</a>
-            <a id="mnav-3" href="#">Feedback</a>
-            <a id="mnav-4" href="#">Clubs</a>
         </div>
     </header>
 
     <main class="max-w-6xl mx-auto px-4 py-12">
-        <section class="mb-10">
-            <h1 class="text-3xl font-black tracking-tight mb-6">Officers & Committees</h1>
-            <div id="tabs" class="flex bg-slate-100 p-1 rounded-lg border border-slate-200 text-xs font-medium text-slate-600 w-fit">
-                <button onclick="showTab('executive')" id="btn-executive" class="px-5 py-2.5 rounded-md transition-all bg-white text-blue-600 shadow-sm font-semibold">Executives</button>
-                <button onclick="showTab('representatives')" id="btn-representatives" class="px-5 py-2.5 rounded-md transition-all hover:text-slate-900">Representatives</button>
-                <button onclick="showTab('committees')" id="btn-committees" class="px-5 py-2.5 rounded-md transition-all hover:text-slate-900">Committees</button>
-            </div>
-        </section>
-
-        <div id="panel-executive" class="dir-tab-panel space-y-10">
-            <div id="row-pres" class="flex justify-center"></div>
-            <div id="exec-grid-target" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"></div>
+        <h1 class="text-3xl font-black mb-6">Officers & Committees</h1>
+        <div class="flex bg-slate-200 p-1 rounded-lg border border-slate-300 w-fit mb-8 text-xs font-bold uppercase">
+            <button onclick="showTab('executive')" id="btn-executive" class="px-5 py-2.5 rounded-md bg-white text-blue-600 shadow-sm">Executives</button>
+            <button onclick="showTab('representatives')" id="btn-representatives" class="px-5 py-2.5 rounded-md">Representatives</button>
+            <button onclick="showTab('committees')" id="btn-committees" class="px-5 py-2.5 rounded-md">Committees</button>
         </div>
 
-        <div id="panel-representatives" class="dir-tab-panel hidden grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div id="rep-g7-8" class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-4"></div>
-            <div id="rep-g9-10" class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-4"></div>
-            <div id="rep-g11-12" class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-4"></div>
+        <!-- EXECUTIVES -->
+        <div id="panel-executive" class="dir-tab-panel">
+            <div id="row-pres" class="flex justify-center mb-10"></div>
+            <div id="exec-grid-target" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
         </div>
 
-        <div id="panel-committees" class="dir-tab-panel hidden space-y-4">
-            <div id="committee-accordion-target" class="space-y-4"></div>
+        <!-- REPRESENTATIVES -->
+        <div id="panel-representatives" class="dir-tab-panel hidden grid md:grid-cols-3 gap-6">
+            <div id="rep-g7-8" class="bg-white border p-5 rounded-xl"></div>
+            <div id="rep-g9-10" class="bg-white border p-5 rounded-xl"></div>
+            <div id="rep-g11-12" class="bg-white border p-5 rounded-xl"></div>
         </div>
+
+        <!-- COMMITTEES -->
+        <div id="panel-committees" class="dir-tab-panel hidden space-y-4" id="committee-accordion-target"></div>
     </main>
 
     <script>
         const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTIFgXyOttJeJGsVaLwfFtNWb-c1YCJiJ8R5siL32ykA47xYYY7b8KmPXm_42vNAbaHXOkcqEG3tRCu/pub?output=csv";
         const GID_ROSTER = "416625956";
-        const CONFIG_GID = "229901204";
-
-        async function init() {
-            const res = await fetch(`${CSV_URL}&gid=${CONFIG_GID}`);
-            const data = (await res.text()).split('\n').map(r => r.split(','));
-            const config = Object.fromEntries(data.map(r => [r[0]?.trim(), r[1]?.trim()]));
-            ['nav', 'mnav'].forEach(p => {
-                ['1','2','3','4'].forEach(n => {
-                    const el = document.getElementById(`${p}-${n}`);
-                    if(el && config[`LINK_${n}_PATH`]) el.href = config[`LINK_${n}_PATH`];
-                });
-            });
-            fetchRoster();
-        }
 
         function showTab(t) {
             document.querySelectorAll('.dir-tab-panel').forEach(p => p.classList.add('hidden'));
             document.getElementById('panel-' + t).classList.remove('hidden');
-            ['executive', 'representatives', 'committees'].forEach(tab => {
-                const btn = document.getElementById('btn-' + tab);
-                btn.className = (tab === t) ? "px-5 py-2.5 rounded-md transition-all bg-white text-blue-600 shadow-sm font-semibold" : "px-5 py-2.5 rounded-md transition-all hover:text-slate-900";
-            });
-        }
-
-        function toggleDropdown(id) {
-            const drawer = document.getElementById('drawer-' + id);
-            drawer.classList.toggle('hidden');
         }
 
         async function fetchRoster() {
             const res = await fetch(`${CSV_URL}&gid=${GID_ROSTER}`);
-            const text = await res.text();
-            const rows = text.split('\n').map(r => r.split(','));
-            
-            let execList = [], repsList = [], commMap = {};
+            const rows = (await res.text()).split('\n').map(r => r.split(','));
+            let execs = [], reps = {7:[], 8:[], 9:[], 10:[], 11:[], 12:[]}, comms = {};
 
             for(let i = 1; i < rows.length; i++) {
-                if(!rows[i][0]) continue;
-                let [name, role, img, comm] = [rows[i][0].trim(), rows[i][1]?.trim(), rows[i][2]?.trim(), rows[i][3]?.trim()];
+                let [name, role, img, commRaw] = [rows[i][0]?.trim(), rows[i][1]?.trim(), rows[i][2]?.trim(), rows[i][3]?.trim()];
+                if(!name) continue;
                 
-                if (role.toLowerCase().includes('president') || role.toLowerCase().includes('secretary') || role.toLowerCase().includes('treasurer')) {
-                    execList.push({name, role, img});
-                } else if (role.toLowerCase().includes('rep') || role.toLowerCase().includes('grade')) {
-                    repsList.push({name, role});
+                let rl = role.toLowerCase();
+                if(rl.includes('president') || rl.includes('secretary') || rl.includes('treasurer') || rl.includes('auditor') || rl.includes('pio') || rl.includes('protocol')) execs.push({name, role, img});
+                else if(rl.includes('grade')) {
+                    let g = rl.match(/\d+/);
+                    if(g && reps[g[0]]) reps[g[0]].push(name);
                 }
-                if (comm) {
-                    if (!commMap[comm]) commMap[comm] = [];
-                    commMap[comm].push({name, role});
+                if(commRaw) {
+                    let parts = commRaw.split('|');
+                    let commName = parts[0].trim();
+                    let commRole = (parts[1] || "Member").trim();
+                    if(!comms[commName]) comms[commName] = {Chairperson:[], "Co-Chairperson":[], Member:[]};
+                    if(comms[commName][commRole]) comms[commName][commRole].push(name);
                 }
             }
 
-            // Render Executives (with photos)
-            const pres = execList.find(p => p.role.toLowerCase().includes('president'));
-            document.getElementById('row-pres').innerHTML = pres ? `<div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm text-center w-60"><div class="w-20 h-20 bg-slate-100 rounded-lg mx-auto mb-3 overflow-hidden"><img src="${pres.img}" class="w-full h-full object-cover"></div><h4 class="font-bold">${pres.name}</h4><p class="text-xs text-blue-600 font-bold">${pres.role}</p></div>` : "";
-            document.getElementById('exec-grid-target').innerHTML = execList.filter(p => p !== pres).map(e => `<div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm text-center"><div class="w-16 h-16 bg-slate-100 rounded-lg mx-auto mb-3 overflow-hidden"><img src="${e.img}" class="w-full h-full object-cover"></div><h4 class="font-bold">${e.name}</h4><p class="text-xs text-blue-600 font-bold">${e.role}</p></div>`).join('');
+            // Render Executives (Rounded Square)
+            const pres = execs.find(e => e.role.toLowerCase().includes('president') && !e.role.toLowerCase().includes('vice'));
+            document.getElementById('row-pres').innerHTML = pres ? `<div class="text-center"><div class="w-24 h-24 bg-slate-200 rounded-xl overflow-hidden mx-auto mb-2"><img src="${pres.img}" class="w-full h-full object-cover"></div><p class="font-bold">${pres.name}</p><p class="text-xs text-blue-600">${pres.role}</p></div>` : "";
+            document.getElementById('exec-grid-target').innerHTML = execs.filter(e => e !== pres).map(e => `<div class="bg-white p-4 rounded-xl border text-center"><div class="w-16 h-16 bg-slate-200 rounded-lg overflow-hidden mx-auto mb-2"><img src="${e.img}" class="w-full h-full object-cover"></div><p class="font-bold text-sm">${e.name}</p><p class="text-[10px] uppercase text-slate-500">${e.role}</p></div>`).join('');
 
-            // Render Reps (Groups)
-            const renderR = (list) => list.map(r => `<li class="text-sm py-1">• ${r.name} <span class="text-slate-400 text-xs">${r.role}</span></li>`).join('');
-            document.getElementById('rep-g7-8').innerHTML = `<h4 class="text-sm font-bold text-blue-600 border-b mb-2">Grades 7-8</h4><ul>` + renderR(repsList.filter(r => r.role.match(/[78]/))) + `</ul>`;
-            document.getElementById('rep-g9-10').innerHTML = `<h4 class="text-sm font-bold text-blue-600 border-b mb-2">Grades 9-10</h4><ul>` + renderR(repsList.filter(r => r.role.match(/[9]|10/))) + `</ul>`;
-            document.getElementById('rep-g11-12').innerHTML = `<h4 class="text-sm font-bold text-indigo-600 border-b mb-2">Grades 11-12</h4><ul>` + renderR(repsList.filter(r => r.role.match(/11|12/))) + `</ul>`;
+            // Render Reps
+            const renderG = (g1, g2) => `
+                <h3 class="font-black text-slate-400 text-[10px] uppercase mb-2">Grade ${g1}</h3>
+                <ul class="mb-4">${reps[g1].map(n => `<li class="text-sm border-b py-1">${n}</li>`).join('')}</ul>
+                <h3 class="font-black text-slate-400 text-[10px] uppercase mb-2">Grade ${g2}</h3>
+                <ul class="mb-4">${reps[g2].map(n => `<li class="text-sm border-b py-1">${n}</li>`).join('')}</ul>`;
+            document.getElementById('rep-g7-8').innerHTML = renderG(7, 8);
+            document.getElementById('rep-g9-10').innerHTML = renderG(9, 10);
+            document.getElementById('rep-g11-12').innerHTML = renderG(11, 12);
 
             // Render Committees
-            const commTarget = document.getElementById('committee-accordion-target');
-            Object.keys(commMap).forEach((name, i) => {
-                commTarget.innerHTML += `<div class="bg-white border rounded-xl shadow-sm"><button onclick="toggleDropdown(${i})" class="w-full p-4 text-left font-bold">${name}</button><div id="drawer-${i}" class="hidden p-4 border-t text-sm">` + commMap[name].map(m => `<div>${m.name} (${m.role})</div>`).join('') + `</div></div>`;
-            });
+            const cTarget = document.getElementById('committee-accordion-target');
+            for(let name in comms) {
+                cTarget.innerHTML += `<div class="bg-white border rounded-xl p-5"><h4 class="font-bold border-b pb-2 mb-2">${name}</h4>
+                <p class="text-[10px] font-bold text-slate-400 uppercase">Chair: ${comms[name].Chairperson.join(', ') || 'TBD'}</p>
+                <p class="text-[10px] font-bold text-slate-400 uppercase">Co-Chair: ${comms[name]["Co-Chairperson"].join(', ') || 'TBD'}</p>
+                <p class="text-sm mt-2">${comms[name].Member.join(', ')}</p></div>`;
+            }
         }
-        init();
+        fetchRoster();
     </script>
 </body>
 </html>
