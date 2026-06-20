@@ -74,7 +74,7 @@
         <section class="max-w-6xl mx-auto px-4 space-y-3 pb-12">
             <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest">Executive Leadership</h3>
             <div id="president-spotlight" class="hidden bg-slate-900 text-white p-6 rounded-2xl flex items-center space-x-4 shadow-lg">
-                <div id="pres-img" class="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center font-bold text-xl"></div>
+                <div id="pres-img" class="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center font-bold text-xl overflow-hidden"></div>
                 <div><h4 class="font-bold text-lg" id="pres-name"></h4><p class="text-slate-400 text-sm">SSLG President</p></div>
             </div>
             <div id="officers-roster-stack" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"></div>
@@ -87,8 +87,9 @@
     <script>
         const MASTER_SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTIFgXyOttJeJGsVaLwfFtNWb-c1YCJiJ8R5siL32ykA47xYYY7b8KmPXm_42vNAbaHXOkcqEG3tRCu/pub?output=csv"; 
         const CONFIG_TAB_GID = "229901204", NEWS_TAB_GID = "1683102947", METRICS_TAB_GID = "1647929887", ROSTER_TAB_GID = "416625956";
-        const validateData = (data, minCols) => data.filter(row => row.length >= minCols && row[0]?.trim() !== "");
+        const AVATAR_PLACEHOLDER = `<svg class="w-10 h-10 text-slate-300" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>`;
 
+        const validateData = (data, minCols) => data.filter(row => row.length >= minCols && row[0]?.trim() !== "");
         function parseCSV(text) {
             let lines = [], row = [""], q = false;
             for (let i = 0; i < text.length; i++) {
@@ -135,17 +136,20 @@
             });
             fetch(`${MASTER_SHEET_URL}&gid=${ROSTER_TAB_GID}`).then(r => r.text()).then(t => {
                 let roster = validateData(parseCSV(t), 2).slice(1);
-                let pres = roster.find(r => r[1].toLowerCase().includes('president'));
+                // Find strict match for "President"
+                let pres = roster.find(r => r[1].trim().toLowerCase() === 'president');
                 if(pres) {
                     document.getElementById("president-spotlight").classList.remove("hidden");
                     document.getElementById("pres-name").innerText = pres[0];
-                    document.getElementById("pres-img").innerText = pres[0][0];
+                    document.getElementById("pres-img").innerHTML = pres[2] ? `<img src="${pres[2]}" class="w-full h-full object-cover">` : pres[0][0];
                 }
                 const stack = document.getElementById("officers-roster-stack");
-                roster.filter(r => !r[1].toLowerCase().includes('president')).forEach(off => {
+                // Filter excluding president, stop at treasurer
+                const targetRoles = ['vice president', 'secretary', 'treasurer'];
+                roster.filter(r => targetRoles.includes(r[1].trim().toLowerCase())).forEach(off => {
                     const div = document.createElement("div");
                     div.className = "bg-white border border-slate-200 rounded-xl p-3 flex items-center space-x-3 shadow-sm animate-in";
-                    div.innerHTML = `<div class="w-10 h-10 bg-slate-100 rounded-lg overflow-hidden flex items-center justify-center font-bold text-slate-500">${off[0][0]}</div><div><h4 class="font-bold text-xs">${off[0]}</h4><p class="text-[9px] text-blue-600 font-bold uppercase">${off[1]}</p></div>`;
+                    div.innerHTML = `<div class="w-10 h-10 bg-slate-100 rounded-lg overflow-hidden flex items-center justify-center">${off[2] ? `<img src="${off[2]}" class="w-full h-full object-cover">` : off[0][0]}</div><div><h4 class="font-bold text-xs">${off[0]}</h4><p class="text-[9px] text-blue-600 font-bold uppercase">${off[1]}</p></div>`;
                     stack.appendChild(div);
                 });
             });
