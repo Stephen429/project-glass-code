@@ -61,7 +61,7 @@
                 <div><h4 class="font-bold text-xl" id="pres-name"></h4><p class="text-blue-100">SSLG President</p></div>
             </div>
             <div id="officers-roster-stack" class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6"></div>
-            <a id="nav-6" href="#" class="inline-block border-2 border-slate-900 text-slate-900 px-6 py-3 rounded-xl font-bold text-sm hover:bg-slate-900 hover:text-white transition-all">View Full Roster</a>
+            <a id="btn-roster" href="#" class="inline-block border-2 border-slate-900 text-slate-900 px-6 py-3 rounded-xl font-bold text-sm hover:bg-slate-900 hover:text-white transition-all">View Full Roster</a>
         </section>
 
         <section class="animate-in">
@@ -75,25 +75,25 @@
                 <i data-lucide="shield" class="text-blue-600 mb-4 w-8 h-8"></i>
                 <h2 class="text-xl font-bold mb-2">Clubs</h2>
                 <p class="text-slate-500 text-sm mb-6">Explore our diverse range of student-led organizations.</p>
-                <a id="nav-4-portal" href="#" class="inline-block bg-blue-600 text-white px-6 py-3 rounded-xl font-bold text-sm hover:bg-blue-700">View Clubs</a>
+                <a id="btn-clubs" href="#" class="inline-block bg-blue-600 text-white px-6 py-3 rounded-xl font-bold text-sm hover:bg-blue-700">View All Clubs</a>
             </div>
             <div class="p-8 rounded-3xl border border-slate-100 shadow-sm">
                 <i data-lucide="file-text" class="text-blue-600 mb-4 w-8 h-8"></i>
                 <h2 class="text-xl font-bold mb-2">Documents</h2>
                 <p class="text-slate-500 text-sm mb-6">Access official bylaws, gazettes, and project records.</p>
-                <a id="nav-7" href="#" class="inline-block bg-blue-600 text-white px-6 py-3 rounded-xl font-bold text-sm hover:bg-blue-700">View Files</a>
+                <a id="btn-docs" href="#" class="inline-block bg-blue-600 text-white px-6 py-3 rounded-xl font-bold text-sm hover:bg-blue-700">View Files</a>
             </div>
             <div class="p-8 rounded-3xl border border-slate-100 shadow-sm">
                 <i data-lucide="message-square" class="text-blue-600 mb-4 w-8 h-8"></i>
                 <h2 class="text-xl font-bold mb-2">Feedback</h2>
                 <p class="text-slate-500 text-sm mb-6">Your voice matters. Share your thoughts with us.</p>
-                <a id="nav-8" href="#" class="inline-block bg-blue-600 text-white px-6 py-3 rounded-xl font-bold text-sm hover:bg-blue-700">Submit Form</a>
+                <a id="btn-feedback" href="#" class="inline-block bg-blue-600 text-white px-6 py-3 rounded-xl font-bold text-sm hover:bg-blue-700">Submit Form</a>
             </div>
             <div class="p-8 rounded-3xl border border-slate-100 shadow-sm">
                 <i data-lucide="info" class="text-blue-600 mb-4 w-8 h-8"></i>
                 <h2 class="text-xl font-bold mb-2">About Us</h2>
                 <p class="text-slate-500 text-sm mb-6">Our mission and vision for the student body.</p>
-                <a id="nav-5" href="#" class="inline-block bg-blue-600 text-white px-6 py-3 rounded-xl font-bold text-sm hover:bg-blue-700">Learn More</a>
+                <a id="btn-about" href="#" class="inline-block bg-blue-600 text-white px-6 py-3 rounded-xl font-bold text-sm hover:bg-blue-700">Learn More</a>
             </div>
         </section>
     </main>
@@ -118,18 +118,19 @@
                 document.getElementById('header-text').classList.add('hidden');
             }
 
-            for(let i = 1; i <= 8; i++) {
-                const el = document.getElementById(`nav-${i}`);
-                const mel = document.getElementById(`mobile-nav-${i}`);
-                if(el && config[`LINK_${i}_PATH`]) el.href = config[`LINK_${i}_PATH`];
-                if(mel && config[`LINK_${i}_PATH`]) mel.href = config[`LINK_${i}_PATH`];
-            }
-            if(config.LINK_4_PATH) document.getElementById('nav-4-portal').href = config.LINK_4_PATH;
-            if(config.LINK_5_PATH) document.getElementById('nav-5').href = config.LINK_5_PATH;
-            if(config.LINK_6_PATH) document.getElementById('nav-6').href = config.LINK_6_PATH;
-            if(config.LINK_7_PATH) document.getElementById('nav-7').href = config.LINK_7_PATH;
-            if(config.LINK_8_PATH) document.getElementById('nav-8').href = config.LINK_8_PATH;
+            // Map Nav and Buttons explicitly
+            const links = {
+                'nav-1': 'LINK_1_PATH', 'nav-2': 'LINK_2_PATH', 'nav-3': 'LINK_3_PATH', 'nav-4': 'LINK_4_PATH',
+                'mobile-nav-1': 'LINK_1_PATH', 'mobile-nav-2': 'LINK_2_PATH', 'mobile-nav-3': 'LINK_3_PATH', 'mobile-nav-4': 'LINK_4_PATH',
+                'btn-clubs': 'LINK_4_PATH', 'btn-about': 'LINK_5_PATH', 'btn-roster': 'LINK_6_PATH', 'btn-docs': 'LINK_7_PATH', 'btn-feedback': 'LINK_8_PATH'
+            };
 
+            for (const [id, key] of Object.entries(links)) {
+                const el = document.getElementById(id);
+                if(el && config[key]) el.href = config[key];
+            }
+
+            // Data loading remains
             fetch(`${MASTER_SHEET_URL}&gid=${NEWS_GID}`).then(r => r.text()).then(t => {
                 const news = t.split('\n').slice(1).filter(r => r.length > 2);
                 if(news.length > 0) {
