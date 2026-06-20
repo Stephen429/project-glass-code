@@ -13,7 +13,7 @@
         .news-fade { transition: opacity 0.5s ease-in-out; }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-900">
+<body class="bg-slate-50 text-slate-900 pb-20">
 
     <header class="bg-white border-b border-slate-200 sticky top-0 z-50">
         <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
@@ -31,16 +31,20 @@
         <div id="mobile-nav" class="hidden md:hidden bg-white border-t p-4 space-y-3 text-xs font-bold uppercase text-slate-500">
             <a href="#" class="block">Home</a>
             <a id="mobile-link-gazettes" href="#">Gazettes</a>
+            <a id="mobile-link-committees" href="#">Committees</a>
         </div>
     </header>
 
     <main class="max-w-6xl mx-auto px-4 py-12 space-y-16">
         <section class="animate-in">
             <h1 class="text-5xl font-black tracking-tight mb-4">A clear window into student leadership.</h1>
+            <p class="text-slate-500 max-w-2xl mb-8">The Supreme Secondary Learner Government operates under a framework of complete digital visibility. Through <span class="font-bold text-slate-900">Project GLASS</span> (<span class="italic text-blue-600 font-semibold">Governance, Leadership, Accountability & Student Services</span>), we ensure every policy and student asset is openly accessible.</p>
+            
             <div id="news-billboard-wrapper" class="hidden bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden flex items-center border-b-4 border-b-blue-600 mb-8">
                 <div class="bg-slate-50 text-[10px] font-bold uppercase px-5 py-3 border-r border-slate-100">Latest</div>
                 <div id="news-billboard-container" class="news-fade p-4 text-sm font-medium"></div>
             </div>
+
             <div id="metrics-container" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
         </section>
 
@@ -69,6 +73,7 @@
         const CONFIG_GID = "229901204", NEWS_GID = "1683102947", METRICS_GID = "1647929887", ROSTER_GID = "416625956";
 
         async function init() {
+            // Configuration & Header
             const confRes = await fetch(`${MASTER_SHEET_URL}&gid=${CONFIG_GID}`);
             const confData = (await confRes.text()).split('\n').map(r => r.split(','));
             const config = Object.fromEntries(confData.map(r => [r[0]?.trim(), r[1]?.trim()]));
@@ -79,7 +84,7 @@
                 document.getElementById('header-text').classList.add('hidden');
             }
 
-            // News
+            // News Ticker
             fetch(`${MASTER_SHEET_URL}&gid=${NEWS_GID}`).then(r => r.text()).then(t => {
                 const news = t.split('\n').slice(1).filter(r => r.length > 2);
                 if(news.length > 0) {
@@ -91,7 +96,17 @@
                 }
             });
 
-            // Action Carousel
+            // Metrics Tracker
+            fetch(`${MASTER_SHEET_URL}&gid=${METRICS_GID}`).then(r => r.text()).then(t => {
+                const rows = t.split('\n').slice(1);
+                const container = document.getElementById('metrics-container');
+                rows.forEach(r => {
+                    const [label, val] = r.split(',');
+                    if(label) container.innerHTML += `<div class="bg-white p-4 rounded-2xl border border-slate-200"><span class="text-[10px] uppercase font-bold text-slate-400">${label}</span><div class="text-xl font-black">${val}</div></div>`;
+                });
+            });
+
+            // SSLG Action Carousel
             const imgs = config.ACTION_IMAGES?.split('|') || [];
             const count = parseInt(config.ACT_IMG_COUNT) || 3;
             const carousel = document.getElementById('action-carousel');
@@ -99,16 +114,21 @@
                 carousel.innerHTML += `<div class="flex-shrink-0 w-80 h-64 bg-slate-200 rounded-3xl overflow-hidden"><img src="${url.trim()}" class="w-full h-full object-cover"></div>`;
             });
 
-            // Roster & Metrics logic here... (truncated for brevity but included in your logic)
+            // Executive Roster
             fetch(`${MASTER_SHEET_URL}&gid=${ROSTER_GID}`).then(r => r.text()).then(t => {
                 const rows = t.split('\n').slice(1);
-                const pres = rows.find(r => r.split(',')[1]?.trim().toLowerCase() === 'president');
-                if(pres) {
-                    const [name, role, img] = pres.split(',');
-                    document.getElementById('president-spotlight').classList.remove('hidden');
-                    document.getElementById('pres-name').innerText = name;
-                    document.getElementById('pres-img').innerHTML = img ? `<img src="${img.trim()}" class="w-full h-full object-cover">` : name[0];
-                }
+                const stack = document.getElementById('officers-roster-stack');
+                rows.forEach(r => {
+                    const [name, role, img] = r.split(',');
+                    if (!name) return;
+                    if (role.trim().toLowerCase() === 'president') {
+                        document.getElementById('president-spotlight').classList.remove('hidden');
+                        document.getElementById('pres-name').innerText = name;
+                        document.getElementById('pres-img').innerHTML = img ? `<img src="${img.trim()}" class="w-full h-full object-cover">` : name[0];
+                    } else if (['vice president', 'secretary', 'treasurer'].includes(role.trim().toLowerCase())) {
+                        stack.innerHTML += `<div class="bg-white p-4 rounded-2xl border border-slate-200 flex items-center gap-4"><div class="w-12 h-12 rounded-xl bg-slate-100 overflow-hidden"><img src="${img?.trim()}" class="w-full h-full object-cover"></div><div><div class="font-bold text-sm">${name}</div><div class="text-[10px] uppercase text-blue-600 font-bold">${role}</div></div></div>`;
+                    }
+                });
             });
         }
         init();
