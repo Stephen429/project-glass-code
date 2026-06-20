@@ -5,71 +5,110 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project GLASS Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap');
         body { font-family: 'Inter', sans-serif; }
         .animate-in { opacity: 0; animation: fadeUp 0.8s ease-out forwards; }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         .news-fade { transition: opacity 0.5s ease-in-out; }
-        .btn-pulse:hover { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .8; transform: scale(1.05); } }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-900 pb-20">
+<body class="bg-white text-slate-900 pb-20">
 
-    <header class="bg-white border-b border-slate-200 sticky top-0 z-50">
+    <!-- HEADER -->
+    <header class="border-b border-slate-100 sticky top-0 z-50 bg-white">
         <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-            <a id="header-logo-link" href="#" class="flex items-center">
-                <img id="header-logo" src="" class="h-8 hidden" alt="Logo">
-                <span id="header-text" class="text-xl font-black tracking-tighter">PROJECT<span class="text-blue-600">GLASS</span></span>
-            </a>
+            <span class="text-xl font-black tracking-tighter">PROJECT<span class="text-blue-600">GLASS</span></span>
+            <!-- Desktop Nav -->
             <nav class="hidden md:flex items-center space-x-6 text-xs font-bold uppercase text-slate-500">
-                <a href="#home" class="hover:text-blue-600">Home</a>
-                <a id="nav-link-gazettes" href="#" class="hover:text-blue-600">Gazettes</a>
-                <a id="nav-link-committees" href="#" class="hover:text-blue-600">Committees</a>
-                <a id="nav-link-feedback" href="#" class="hover:text-blue-600">Feedback</a>
-                <a href="https://sites.google.com/view/project-glass-sslg/home" class="btn-pulse bg-blue-600 text-white px-4 py-2 rounded-lg transition-all shadow-lg shadow-blue-200">Portal Index</a>
+                <a id="nav-1" href="#">Gazettes</a>
+                <a id="nav-2" href="#">Committees</a>
+                <a id="nav-3" href="#">Feedback</a>
+                <a id="nav-4" href="#">Clubs</a>
             </nav>
-            <button class="md:hidden text-xl" onclick="document.getElementById('mobile-nav').classList.toggle('hidden')">☰</button>
+            <!-- Mobile Toggle -->
+            <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="md:hidden"><i data-lucide="menu"></i></button>
         </div>
-        <div id="mobile-nav" class="hidden md:hidden bg-white border-t p-4 space-y-3 text-xs font-bold uppercase text-slate-500">
-            <a href="#" class="block">Home</a>
-            <a id="mobile-link-gazettes" href="#" class="block">Gazettes</a>
-            <a id="mobile-link-committees" href="#" class="block">Committees</a>
-            <a id="mobile-link-feedback" href="#" class="block">Feedback</a>
-            <a href="https://sites.google.com/view/project-glass-sslg/home" class="block text-blue-600">Portal Index</a>
+        <!-- Mobile Nav -->
+        <div id="mobile-menu" class="hidden md:hidden border-t border-slate-100 p-4 space-y-4 text-xs font-bold uppercase text-slate-500">
+            <a id="mobile-nav-1" href="#" class="block">Gazettes</a>
+            <a id="mobile-nav-2" href="#" class="block">Committees</a>
+            <a id="mobile-nav-3" href="#" class="block">Feedback</a>
+            <a id="mobile-nav-4" href="#" class="block">Clubs</a>
         </div>
     </header>
 
     <main class="max-w-6xl mx-auto px-4 py-12 space-y-16">
+        <!-- HERO -->
         <section class="animate-in">
             <h1 class="text-5xl font-black tracking-tight mb-4">A clear window into student leadership.</h1>
-            <p class="text-slate-500 max-w-2xl mb-8">The Supreme Secondary Learner Government operates under a framework of complete digital visibility. Through <span class="font-bold text-slate-900">Project GLASS</span> (<span class="italic text-blue-600 font-semibold">Governance, Leadership, Accountability & Student Services</span>), we ensure every policy and student asset is openly accessible.</p>
-            
-            <div id="news-billboard-wrapper" class="hidden bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden flex items-center border-b-4 border-b-blue-600 mb-8">
-                <div class="bg-slate-50 text-[10px] font-bold uppercase px-5 py-3 border-r border-slate-100">Latest</div>
+            <p class="text-slate-500 max-w-2xl mb-8">The Supreme Secondary Learner Government operates under a framework of complete digital visibility. Through Project GLASS, we ensure every policy and student asset is openly accessible.</p>
+            <div id="news-billboard-wrapper" class="hidden border border-slate-100 rounded-xl overflow-hidden flex items-center border-b-4 border-b-blue-600 mb-8">
+                <div class="text-[10px] font-bold uppercase px-5 py-3 bg-slate-50">Latest</div>
                 <div id="news-billboard-container" class="news-fade p-4 text-sm font-medium"></div>
             </div>
-
-            <div id="metrics-container" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
         </section>
 
+        <!-- METRICS -->
+        <section id="metrics-container" class="grid grid-cols-2 md:grid-cols-4 gap-4 animate-in"></section>
+
+        <!-- MEET THE OFFICERS -->
+        <section class="animate-in">
+            <div class="p-8 rounded-3xl border border-slate-100 shadow-sm mb-6">
+                <i data-lucide="users" class="text-blue-600 mb-4 w-8 h-8"></i>
+                <h2 class="text-xl font-bold mb-2">Meet the Officers</h2>
+                <p class="text-slate-500 text-sm">Get to know the dedicated representatives leading our student body.</p>
+            </div>
+            <div id="president-spotlight" class="hidden bg-blue-600 text-white p-8 rounded-3xl flex items-center gap-6 shadow-xl mb-6">
+                <div id="pres-img" class="w-20 h-20 rounded-2xl bg-white/20 flex items-center justify-center font-bold text-2xl overflow-hidden"></div>
+                <div><h4 class="font-bold text-xl" id="pres-name"></h4><p class="text-blue-100">SSLG President</p></div>
+            </div>
+            <div id="officers-roster-stack" class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6"></div>
+            <a id="nav-6" href="#" class="inline-block border-2 border-slate-900 text-slate-900 px-6 py-3 rounded-xl font-bold text-sm hover:bg-slate-900 hover:text-white transition-all">View Full Roster</a>
+        </section>
+
+        <!-- SSLG IN ACTION -->
         <section class="animate-in">
             <h2 class="text-2xl font-bold mb-6">SSLG in Action</h2>
             <div id="action-carousel" class="flex gap-4 overflow-x-auto pb-4"></div>
         </section>
 
-        <section class="animate-in">
-            <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-6">Executive Leadership</h3>
-            <div id="president-spotlight" class="hidden bg-blue-600 text-white p-8 rounded-3xl flex items-center gap-6 shadow-xl mb-6">
-                <div id="pres-img" class="w-20 h-20 rounded-2xl bg-white/20 flex items-center justify-center font-bold text-2xl overflow-hidden"></div>
-                <div><h4 class="font-bold text-xl" id="pres-name"></h4><p class="text-blue-100">SSLG President</p></div>
+        <!-- PORTAL GRID -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-6 animate-in">
+            <div class="p-8 rounded-3xl border border-slate-100 shadow-sm">
+                <i data-lucide="shield" class="text-blue-600 mb-4 w-8 h-8"></i>
+                <h2 class="text-xl font-bold mb-2">Clubs</h2>
+                <p class="text-slate-500 text-sm mb-6">Explore our diverse range of student-led organizations.</p>
+                <a id="nav-4-portal" href="#" class="inline-block bg-blue-600 text-white px-6 py-3 rounded-xl font-bold text-sm hover:bg-blue-700">View Clubs</a>
             </div>
-            <div id="officers-roster-stack" class="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
+            <div class="p-8 rounded-3xl border border-slate-100 shadow-sm">
+                <i data-lucide="file-text" class="text-blue-600 mb-4 w-8 h-8"></i>
+                <h2 class="text-xl font-bold mb-2">Documents</h2>
+                <p class="text-slate-500 text-sm mb-6">Access official bylaws, gazettes, and project records.</p>
+                <a id="nav-7" href="#" class="inline-block bg-blue-600 text-white px-6 py-3 rounded-xl font-bold text-sm hover:bg-blue-700">View Files</a>
+            </div>
+            <div class="p-8 rounded-3xl border border-slate-100 shadow-sm">
+                <i data-lucide="message-square" class="text-blue-600 mb-4 w-8 h-8"></i>
+                <h2 class="text-xl font-bold mb-2">Feedback</h2>
+                <p class="text-slate-500 text-sm mb-6">Your voice matters. Share your thoughts with us.</p>
+                <a id="nav-8" href="#" class="inline-block bg-blue-600 text-white px-6 py-3 rounded-xl font-bold text-sm hover:bg-blue-700">Submit Form</a>
+            </div>
+            <div class="p-8 rounded-3xl border border-slate-100 shadow-sm">
+                <i data-lucide="info" class="text-blue-600 mb-4 w-8 h-8"></i>
+                <h2 class="text-xl font-bold mb-2">About Us</h2>
+                <p class="text-slate-500 text-sm mb-6">Our mission and vision for the student body.</p>
+                <a id="nav-5" href="#" class="inline-block bg-blue-600 text-white px-6 py-3 rounded-xl font-bold text-sm hover:bg-blue-700">Learn More</a>
+            </div>
         </section>
     </main>
 
+    <footer class="text-center py-12 text-slate-400 text-xs uppercase font-bold border-t border-slate-100">
+        &copy; 2026 Project GLASS | Supreme Secondary Learner Government
+    </footer>
+
     <script>
+        lucide.createIcons();
         const MASTER_SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTIFgXyOttJeJGsVaLwfFtNWb-c1YCJiJ8R5siL32ykA47xYYY7b8KmPXm_42vNAbaHXOkcqEG3tRCu/pub?output=csv";
         const CONFIG_GID = "229901204", NEWS_GID = "1683102947", METRICS_GID = "1647929887", ROSTER_GID = "416625956";
 
@@ -78,26 +117,19 @@
             const confData = (await confRes.text()).split('\n').map(r => r.split(','));
             const config = Object.fromEntries(confData.map(r => [r[0]?.trim(), r[1]?.trim()]));
 
-            // Navigation Links
-            if(config.LINK_1_PATH) {
-                document.getElementById('nav-link-gazettes').href = config.LINK_1_PATH;
-                document.getElementById('mobile-link-gazettes').href = config.LINK_1_PATH;
+            for(let i = 1; i <= 8; i++) {
+                const el = document.getElementById(`nav-${i}`);
+                const mel = document.getElementById(`mobile-nav-${i}`);
+                if(el && config[`LINK_${i}_PATH`]) el.href = config[`LINK_${i}_PATH`];
+                if(mel && config[`LINK_${i}_PATH`]) mel.href = config[`LINK_${i}_PATH`];
             }
-            if(config.LINK_2_PATH) {
-                document.getElementById('nav-link-committees').href = config.LINK_2_PATH;
-                document.getElementById('mobile-link-committees').href = config.LINK_2_PATH;
-            }
-            if(config.LINK_3_PATH) {
-                document.getElementById('nav-link-feedback').href = config.LINK_3_PATH;
-                document.getElementById('mobile-link-feedback').href = config.LINK_3_PATH;
-            }
+            if(config.LINK_4_PATH) document.getElementById('nav-4-portal').href = config.LINK_4_PATH;
+            if(config.LINK_5_PATH) document.getElementById('nav-5').href = config.LINK_5_PATH;
+            if(config.LINK_6_PATH) document.getElementById('nav-6').href = config.LINK_6_PATH;
+            if(config.LINK_7_PATH) document.getElementById('nav-7').href = config.LINK_7_PATH;
+            if(config.LINK_8_PATH) document.getElementById('nav-8').href = config.LINK_8_PATH;
 
-            if(config.IMG_LOGO_URL) {
-                const img = document.getElementById('header-logo');
-                img.src = config.IMG_LOGO_URL; img.classList.remove('hidden');
-                document.getElementById('header-text').classList.add('hidden');
-            }
-
+            // News, Metrics, Carousel, Roster logic remains same
             fetch(`${MASTER_SHEET_URL}&gid=${NEWS_GID}`).then(r => r.text()).then(t => {
                 const news = t.split('\n').slice(1).filter(r => r.length > 2);
                 if(news.length > 0) {
@@ -114,16 +146,13 @@
                 const container = document.getElementById('metrics-container');
                 rows.forEach(r => {
                     const [label, val] = r.split(',');
-                    if(label) container.innerHTML += `<div class="bg-white p-4 rounded-2xl border border-slate-200"><span class="text-[10px] uppercase font-bold text-slate-400">${label}</span><div class="text-xl font-black">${val}</div></div>`;
+                    if(label) container.innerHTML += `<div class="p-4 rounded-2xl border border-slate-100"><span class="text-[10px] uppercase font-bold text-slate-400">${label}</span><div class="text-xl font-black">${val}</div></div>`;
                 });
             });
 
             const imgs = config.ACTION_IMAGES?.split('|') || [];
-            const count = parseInt(config.ACT_IMG_COUNT) || 3;
             const carousel = document.getElementById('action-carousel');
-            imgs.slice(0, count).forEach(url => {
-                carousel.innerHTML += `<div class="flex-shrink-0 w-80 h-64 bg-slate-200 rounded-3xl overflow-hidden"><img src="${url.trim()}" class="w-full h-full object-cover"></div>`;
-            });
+            imgs.forEach(url => { carousel.innerHTML += `<div class="flex-shrink-0 w-80 h-64 rounded-3xl overflow-hidden"><img src="${url.trim()}" class="w-full h-full object-cover"></div>`; });
 
             fetch(`${MASTER_SHEET_URL}&gid=${ROSTER_GID}`).then(r => r.text()).then(t => {
                 const rows = t.split('\n').slice(1);
@@ -136,7 +165,7 @@
                         document.getElementById('pres-name').innerText = name;
                         document.getElementById('pres-img').innerHTML = img ? `<img src="${img.trim()}" class="w-full h-full object-cover">` : name[0];
                     } else if (['vice president', 'secretary', 'treasurer'].includes(role.trim().toLowerCase())) {
-                        stack.innerHTML += `<div class="bg-white p-4 rounded-2xl border border-slate-200 flex items-center gap-4"><div class="w-12 h-12 rounded-xl bg-slate-100 overflow-hidden"><img src="${img?.trim()}" class="w-full h-full object-cover"></div><div><div class="font-bold text-sm">${name}</div><div class="text-[10px] uppercase text-blue-600 font-bold">${role}</div></div></div>`;
+                        stack.innerHTML += `<div class="p-4 rounded-2xl border border-slate-100 flex items-center gap-4"><div class="w-12 h-12 rounded-xl bg-slate-50 overflow-hidden"><img src="${img?.trim()}" class="w-full h-full object-cover"></div><div><div class="font-bold text-sm">${name}</div><div class="text-[10px] uppercase text-blue-600 font-bold">${role}</div></div></div>`;
                     }
                 });
             });
