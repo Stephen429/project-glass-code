@@ -2,19 +2,20 @@
 <html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <title>Officers & Committees | Project GLASS</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap'); 
-        body { font-family: 'Inter', sans-serif; }
+        body { font-family: 'Inter', sans-serif; touch-action: manipulation; }
         .fade-in { animation: fadeIn 0.5s ease-in; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col">
 
+    <!-- HEADER -->
     <header class="border-b border-slate-100 sticky top-0 z-50 bg-white">
         <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
             <a id="logo-link" href="index.html" class="flex items-center">
@@ -32,11 +33,12 @@
         <p class="text-slate-500 text-sm mb-8">Meet the student leaders and dedicated committee members driving our initiatives forward.</p>
         
         <div id="tab-group" class="flex justify-center bg-slate-200 p-1 rounded-lg border border-slate-300 w-full md:w-[450px] mx-auto mb-10 text-xs font-bold uppercase overflow-hidden">
-            <button onclick="showTab('executive')" id="btn-executive" class="flex-1 px-4 py-3 rounded-md bg-white text-blue-600 shadow-sm transition-all hover:bg-slate-100">Executives</button>
-            <button onclick="showTab('representatives')" id="btn-representatives" class="flex-1 px-4 py-3 rounded-md text-slate-600 transition-all hover:bg-slate-300">Representatives</button>
-            <button onclick="showTab('committees')" id="btn-committees" class="flex-1 px-4 py-3 rounded-md text-slate-600 transition-all hover:bg-slate-300">Committees</button>
+            <button onclick="showTab('executive')" id="btn-executive" class="flex-1 px-4 py-3 rounded-md bg-white text-blue-600 shadow-sm transition-all">Executives</button>
+            <button onclick="showTab('representatives')" id="btn-representatives" class="flex-1 px-4 py-3 rounded-md text-slate-600 transition-all">Representatives</button>
+            <button onclick="showTab('committees')" id="btn-committees" class="flex-1 px-4 py-3 rounded-md text-slate-600 transition-all">Committees</button>
         </div>
 
+        <div id="loader" class="text-center py-20 text-slate-400 font-bold uppercase text-sm animate-pulse">Loading Roster...</div>
         <div id="panel-executive" class="space-y-6"></div>
         <div id="panel-representatives" class="hidden grid md:grid-cols-2 gap-6"></div>
         <div id="panel-committees" class="hidden space-y-6"></div>
@@ -71,9 +73,9 @@
             pages.forEach(p => {
                 const url = config[`LINK_${p.id}_PATH`] || '#';
                 const isActive = url.includes(currentPath) || (p.name === 'Officers' && currentPath.includes('officers'));
-                const activeClass = isActive ? "text-blue-600 transition-colors" : "text-slate-500 hover:text-slate-800 transition-colors";
-                nav.innerHTML += `<a href="${url}" class="${activeClass}">${p.name}</a>`;
-                mNav.innerHTML += `<a href="${url}" class="block py-2 ${activeClass}">${p.name}</a>`;
+                const cls = isActive ? "text-blue-600" : "text-slate-500 hover:text-slate-800";
+                nav.innerHTML += `<a href="${url}" class="${cls}">${p.name}</a>`;
+                mNav.innerHTML += `<a href="${url}" class="block py-2 ${cls}">${p.name}</a>`;
             });
             fetchRoster();
         }
@@ -82,15 +84,16 @@
             document.querySelectorAll('[id^="panel-"]').forEach(p => p.classList.add('hidden'));
             document.getElementById('panel-' + t).classList.remove('hidden');
             document.querySelectorAll('#tab-group button').forEach(b => {
-                b.className = b.id === 'btn-'+t ? "flex-1 px-4 py-3 rounded-md bg-white text-blue-600 shadow-sm transition-all whitespace-nowrap" : "flex-1 px-4 py-3 rounded-md text-slate-600 transition-all hover:bg-slate-300 whitespace-nowrap";
+                b.className = b.id === 'btn-'+t ? "flex-1 px-4 py-3 rounded-md bg-white text-blue-600 shadow-sm transition-all" : "flex-1 px-4 py-3 rounded-md text-slate-600 transition-all";
             });
         }
 
         async function fetchRoster() {
             const res = await fetch(`${CSV_URL}&gid=${GID_ROSTER}`);
             const rows = (await res.text()).split('\n').map(r => r.split(','));
+            document.getElementById('loader').classList.add('hidden');
+            
             let execs = [], reps = {7:[], 8:[], 9:[], 10:[], 11:[], 12:[]}, comms = {};
-
             for(let i = 1; i < rows.length; i++) {
                 let [name, role, img, commRaw] = [rows[i][0]?.trim(), rows[i][1]?.trim(), rows[i][2]?.trim(), rows[i][3]?.trim()];
                 if(!name) continue;
@@ -117,7 +120,7 @@
 
             const rPanel = document.getElementById('panel-representatives');
             [[7,8], [9,10], [11,12]].forEach(pair => {
-                rPanel.innerHTML += `<div class="bg-white p-6 rounded-2xl border hover:border-blue-200 transition-colors">${pair.map(g => `<h3 class="text-blue-600 font-black text-sm uppercase mb-2">Grade ${g}</h3><ul class="mb-4">${reps[g].map(n => `<li class="py-1 text-sm list-disc ml-4">${n}</li>`).join('')}</ul>`).join('')}</div>`;
+                rPanel.innerHTML += `<div class="bg-white p-6 rounded-2xl border">${pair.map(g => `<h3 class="text-blue-600 font-black text-sm uppercase mb-2">Grade ${g}</h3><ul class="mb-4">${reps[g].map(n => `<li class="py-1 text-sm list-disc ml-4">${n}</li>`).join('')}</ul>`).join('')}</div>`;
             });
 
             const cPanel = document.getElementById('panel-committees');
