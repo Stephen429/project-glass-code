@@ -15,30 +15,19 @@
 
     <header class="border-b border-slate-100 sticky top-0 z-50 bg-white">
         <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-            <a href="index.html" class="flex items-center">
+            <a id="logo-link" href="index.html" class="flex items-center">
                 <img id="header-logo" src="" class="h-8 hidden" alt="Logo">
                 <span id="header-text" class="text-xl font-black tracking-tighter">PROJECT<span class="text-blue-600">GLASS</span></span>
             </a>
-            <nav class="hidden md:flex items-center space-x-6 text-xs font-bold uppercase text-slate-500">
-                <a id="nav-home" href="index.html">Home</a>
-                <a id="nav-1" href="#">Gazettes</a>
-                <a id="nav-2" href="#">Officers</a>
-                <a id="nav-3" href="#">Feedback</a>
-                <a id="nav-4" href="#">Clubs</a>
-            </nav>
+            <nav id="nav-links" class="hidden md:flex items-center space-x-6 text-xs font-bold uppercase text-slate-500"></nav>
             <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="md:hidden"><i data-lucide="menu"></i></button>
         </div>
-        <div id="mobile-menu" class="hidden md:hidden border-t border-slate-100 bg-white p-4 space-y-4 text-xs font-bold uppercase text-slate-500 flex flex-col">
-            <a href="index.html">Home</a>
-            <a id="mnav-1" href="#">Gazettes</a>
-            <a id="mnav-2" href="#">Officers</a>
-            <a id="mnav-3" href="#">Feedback</a>
-            <a id="mnav-4" href="#">Clubs</a>
-        </div>
+        <div id="mobile-menu" class="hidden md:hidden border-t border-slate-100 bg-white p-4 space-y-4 text-xs font-bold uppercase text-slate-500 flex flex-col"></div>
     </header>
 
     <main class="max-w-4xl mx-auto px-4 py-8">
-        <h1 class="text-3xl font-black mb-8">Officers & Committees</h1>
+        <h1 class="text-3xl font-black mb-2">Officers & Committees</h1>
+        <p class="text-slate-500 text-sm mb-8">Meet the student leaders and dedicated committee members driving our initiatives forward.</p>
         
         <div id="tab-group" class="flex justify-center bg-slate-200 p-1 rounded-lg border border-slate-300 w-full md:w-[450px] mx-auto mb-10 text-xs font-bold uppercase overflow-hidden">
             <button onclick="showTab('executive')" id="btn-executive" class="flex-1 px-4 py-3 rounded-md bg-white text-blue-600 shadow-sm transition-all whitespace-nowrap">Executives</button>
@@ -47,7 +36,7 @@
         </div>
 
         <div id="panel-executive" class="space-y-6"></div>
-        <div id="panel-representatives" class="hidden grid md:grid-cols-3 gap-6"></div>
+        <div id="panel-representatives" class="hidden grid md:grid-cols-2 gap-6"></div>
         <div id="panel-committees" class="hidden space-y-6"></div>
     </main>
 
@@ -61,14 +50,25 @@
             const data = (await confRes.text()).split('\n').map(r => r.split(','));
             const config = Object.fromEntries(data.map(r => [r[0]?.trim(), r[1]?.trim()]));
             
+            // Header Logic
             const logo = document.getElementById('header-logo');
             if(config['IMG_LOGO_URL']) { logo.src = config['IMG_LOGO_URL']; logo.classList.remove('hidden'); document.getElementById('header-text').classList.add('hidden'); }
+            document.getElementById('logo-link').href = config['LINK_0_PATH'] || 'index.html';
+
+            // Navigation Links
+            const pages = [{name:'Home', id:'home'}, {name:'Gazettes', id:'1'}, {name:'Officers', id:'2'}, {name:'Feedback', id:'3'}, {name:'Clubs', id:'4'}];
+            const currentPath = window.location.pathname.split("/").pop() || 'officers.html';
             
-            const assign = (ids, key) => ids.forEach(id => { const el = document.getElementById(id); if(el && config[key]) el.href = config[key]; });
-            assign(['nav-1', 'mnav-1'], 'LINK_1_PATH');
-            assign(['nav-2', 'mnav-2'], 'LINK_2_PATH');
-            assign(['nav-3', 'mnav-3'], 'LINK_3_PATH');
-            assign(['nav-4', 'mnav-4'], 'LINK_4_PATH');
+            const nav = document.getElementById('nav-links');
+            const mNav = document.getElementById('mobile-menu');
+            
+            pages.forEach(p => {
+                const url = config[`LINK_${p.id === 'home' ? '0' : p.id}_PATH`] || '#';
+                const isActive = url.includes(currentPath) || (p.name === 'Officers' && currentPath.includes('officers'));
+                const activeClass = isActive ? "text-blue-600" : "text-slate-500";
+                nav.innerHTML += `<a href="${url}" class="${activeClass}">${p.name}</a>`;
+                mNav.innerHTML += `<a href="${url}" class="block ${activeClass}">${p.name}</a>`;
+            });
             fetchRoster();
         }
 
@@ -106,16 +106,20 @@
                 }
             }
 
-            // Render logic
+            // Executive render...
             const pPanel = document.getElementById('panel-executive');
             const pres = execs.find(e => e.role.toLowerCase().includes('president'));
             pPanel.innerHTML = pres ? `<div class="bg-white p-6 rounded-2xl border text-center mx-auto w-64"><img src="${pres.img}" class="w-24 h-24 rounded-lg mx-auto mb-4 object-cover"><p class="font-black text-lg">${pres.name}</p><p class="text-blue-600 font-bold text-sm">${pres.role}</p></div><div class="grid grid-cols-2 md:grid-cols-4 gap-4">${execs.filter(e => e !== pres).map(e => `<div class="bg-white p-4 rounded-xl border text-center"><img src="${e.img}" class="w-16 h-16 rounded-lg mx-auto mb-2 object-cover"><p class="font-bold text-sm">${e.name}</p><p class="text-blue-600 font-bold text-[10px] uppercase">${e.role}</p></div>`).join('')}</div>` : "";
 
+            // Revised Representative render
             const rPanel = document.getElementById('panel-representatives');
             [[7,8], [9,10], [11,12]].forEach(pair => {
-                rPanel.innerHTML += `<div class="bg-white p-6 rounded-2xl border"><h3 class="text-blue-600 font-black text-sm uppercase mb-4">Grade ${pair[0]} & ${pair[1]}</h3><ul>${pair.map(g => reps[g].map(n => `<li class="py-1 text-sm">${n}</li>`).join('')).join('')}</ul></div>`;
+                rPanel.innerHTML += `<div class="bg-white p-6 rounded-2xl border">
+                    ${pair.map(g => `<h3 class="text-blue-600 font-black text-sm uppercase mb-2">Grade ${g}</h3><ul class="mb-4">${reps[g].map(n => `<li class="py-1 text-sm list-disc ml-4">${n}</li>`).join('')}</ul>`).join('')}
+                </div>`;
             });
 
+            // Committee render...
             const cPanel = document.getElementById('panel-committees');
             for(let name in comms) {
                 cPanel.innerHTML += `<div class="bg-white p-6 rounded-2xl border"><h4 class="font-black text-lg mb-4">${name}</h4>
