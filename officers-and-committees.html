@@ -43,7 +43,7 @@
             const confRows = (await confRes.text()).split('\n').map(r => r.split(','));
             const config = Object.fromEntries(confRows.map(r => [r[0]?.trim(), r[1]?.trim()]));
             
-            if (config['IMG_LOGO_URL']) document.getElementById('header-logo').innerHTML = `<img src="${config['LOGO_URL']}" class="h-8">`;
+            if (config['IMG_LOGO_URL']) document.getElementById('header-logo').innerHTML = `<img src="${config['IMG_LOGO_URL']}" class="h-8">`;
             
             const nav = document.getElementById('nav-links');
             const mNav = document.getElementById('mobile-menu');
