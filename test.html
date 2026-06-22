@@ -57,14 +57,15 @@
             <a id="btn-roster" href="#" class="inline-block border-2 border-slate-900 text-slate-900 px-6 py-3 rounded-xl font-bold text-sm hover:bg-slate-900 hover:text-white transition-all">View Full Roster</a>
         </section>
 
-        <section class="animate-in">
+        <!-- Update this specific section in your HTML -->
+<section class="animate-in w-full overflow-hidden">
     <h2 class="text-2xl font-bold mb-2">SSLG in Action</h2>
     <p class="text-slate-500 text-sm mb-6">A visual timeline of our initiatives and student-led community projects.</p>
     
-    <!-- Added max-w-full and overflow-hidden to prevent container expansion -->
-    <div class="max-w-full overflow-hidden">
-        <div id="action-carousel" class="flex gap-4 overflow-x-auto pb-4 scroll-smooth snap-x">
-            <!-- Items injected by JS will now be constrained -->
+    <!-- The key is 'w-full' and 'max-w-full' on the parent -->
+    <div class="w-full max-w-full overflow-hidden">
+        <div id="action-carousel" class="flex gap-4 overflow-x-auto pb-4 snap-x">
+            <!-- JS will inject images here -->
         </div>
     </div>
 </section>
@@ -173,17 +174,12 @@
                 });
             });
 
-            // Replace your existing carousel loop logic with this:
+            // Update the JS loop to use 'w-[280px]' instead of 'w-80' for mobile
 const imgs = config.ACTION_IMAGES?.split('|') || [];
 const carousel = document.getElementById('action-carousel');
-
-// Ensure the container itself is flexed and scrollable
-carousel.className = "flex gap-4 overflow-x-auto pb-4 scroll-smooth snap-x";
-
 imgs.forEach(url => { 
-    // Added 'snap-start' and 'min-w-[320px]' to fix layout stability
     carousel.innerHTML += `
-        <div class="flex-shrink-0 snap-start w-80 min-w-[320px] h-64 rounded-3xl overflow-hidden border border-slate-100 shadow-sm">
+        <div class="flex-shrink-0 snap-start w-[280px] h-48 rounded-2xl overflow-hidden shadow-sm border border-slate-100">
             <img src="${url.trim()}" class="w-full h-full object-cover">
         </div>`; 
 });
