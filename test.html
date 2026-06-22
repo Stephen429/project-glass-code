@@ -105,7 +105,7 @@
     const confData = (await confRes.text()).split('\n').map(r => r.split(','));
     const config = Object.fromEntries(confData.map(r => [r[0]?.trim(), r[1]?.trim()]));
 
-    // Logo setup matching other pages
+    // 1. Logo Setup
     const logo = document.getElementById('header-logo');
     const logoLink = document.getElementById('logo-link');
     if(config.IMG_LOGO_URL) {
@@ -114,23 +114,36 @@
     }
     logoLink.href = config['LINK_0_PATH'] || 'index.html';
 
-    // Standardized Navigation
+    // 2. Navigation Setup
     const path = window.location.pathname.split("/").pop();
     const pages = [
-        {name:'Home', id:'0'}, 
-        {name:'Gazettes', id:'1'}, 
-        {name:'Officers', id:'2'}, 
-        {name:'Feedback', id:'3'},
-        {name:'About Us', id:'5'}
+        {name:'Home', id:'0'}, {name:'Gazettes', id:'1'}, {name:'Officers', id:'2'}, 
+        {name:'Feedback', id:'3'}, {name:'About Us', id:'5'}
     ];
 
     pages.forEach(p => {
         const url = config[`LINK_${p.id}_PATH`] || '#';
         const isActive = url.includes(path) || (path === '' && p.name === 'Home');
         const cls = isActive ? "text-blue-600 font-bold" : "text-slate-500 hover:text-blue-600";
-        
         document.getElementById('nav-links').innerHTML += `<a href="${url}" class="${cls} text-sm">${p.name}</a>`;
         document.getElementById('mobile-menu').innerHTML += `<a href="${url}" class="block py-3 px-2 ${cls} border-b border-slate-50">${p.name}</a>`;
+    });
+
+    // 3. Assign Links to Buttons and Nav
+    // Mapping keys from Sheet to specific element IDs
+    const linkMap = {
+        'LINK_1_PATH': ['btn-docs'],
+        'LINK_2_PATH': ['btn-roster'],
+        'LINK_3_PATH': ['btn-feedback'],
+        'LINK_4_PATH': ['btn-clubs'],
+        'LINK_5_PATH': ['btn-about']
+    };
+
+    Object.keys(linkMap).forEach(key => {
+        linkMap[key].forEach(id => {
+            const el = document.getElementById(id);
+            if(el) el.href = config[key] || '#';
+        });
     });
             fetch(`${MASTER_SHEET_URL}&gid=${NEWS_GID}`).then(r => r.text()).then(t => {
                 const news = t.split('\n').slice(1).filter(r => r.length > 2);
