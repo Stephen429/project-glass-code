@@ -1,133 +1,137 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>Official Documents | Project GLASS</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        body { font-family: 'Inter', sans-serif; background: transparent; margin: 0; padding: 0; }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap'); 
+        body { font-family: 'Inter', sans-serif; touch-action: manipulation; }
+        .fade-in { animation: fadeIn 0.5s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        #header-logo { display: none; }
+        .logo-loaded #header-logo { display: block; }
     </style>
 </head>
-<body class="bg-transparent p-1">
+<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col">
 
-    <div class="max-w-4xl mx-auto bg-white border border-slate-200 rounded-xl shadow-sm p-4 sm:p-6">
+    <header class="border-b border-slate-100 sticky top-0 z-50 bg-white">
+        <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+            <a id="logo-link" href="#" class="flex items-center">
+                <img id="header-logo" src="" class="h-8" alt="Logo">
+            </a>
+            <nav id="nav-links" class="hidden md:flex items-center space-x-6 text-xs font-bold uppercase text-slate-500"></nav>
+            <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="md:hidden p-2 text-slate-600"><i data-lucide="menu"></i></button>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden border-t border-slate-100 bg-white px-4 py-2 space-y-1 text-xs font-bold uppercase text-slate-500 flex flex-col"></div>
+    </header>
+
+    <main class="flex-grow max-w-4xl mx-auto px-4 py-8 fade-in w-full overflow-hidden">
+        <h1 class="text-3xl font-black mb-2">Documents & Gazettes</h1>
+        <p class="text-slate-500 text-sm mb-8">Access official publications, reports, and documented gazettes.</p>
         
-        <!-- Header Banner Frame -->
-        <div class="border-b border-slate-100 pb-3 mb-5 flex flex-col sm:flex-row justify-between items-center text-center sm:text-left gap-1.5">
-            <div>
-                <span class="text-[9px] font-bold tracking-widest text-blue-600 uppercase">Supreme Secondary Learner Government</span>
-                <h3 class="text-lg font-bold text-slate-900 tracking-tight">THE EXECUTIVE COUNCIL</h3>
-            </div>
-            <span class="text-[9px] bg-blue-50 text-blue-600 px-2 py-0.5 rounded font-mono uppercase font-bold border border-blue-100">
-                2026-2027
-            </span>
+        <div class="flex flex-col md:flex-row gap-3 mb-6">
+            <input type="text" id="search-input" onkeyup="renderTable()" placeholder="Search by title or ID..." class="flex-grow px-4 py-3 rounded-lg border text-sm outline-none focus:border-blue-500">
+            <select id="year-filter" onchange="renderTable()" class="px-4 py-3 rounded-lg border text-sm bg-white text-slate-600 outline-none">
+                <option value="ALL">All Years</option>
+                <option value="2026">2026</option>
+                <option value="2025">2025</option>
+                <option value="2024">2024</option>
+                <option value="2023">2023</option>
+            </select>
         </div>
 
-        <div id="roster-loading" class="py-6 text-center text-xs text-slate-400">
-            Syncing executive ledger profiles...
+        <div id="tab-group" class="grid grid-cols-2 md:grid-cols-4 gap-2 mb-6 text-xs font-bold uppercase">
+            <button onclick="switchTab('RESOLUTIONS', 'RESOLUTION NO.')" id="btn-RESOLUTIONS" class="px-2 py-3 rounded-lg bg-white border-2 border-blue-600 text-blue-600 shadow-sm transition-all text-[10px] md:text-xs">Resolutions</button>
+            <button onclick="switchTab('MINUTES', 'MEETING NO.')" id="btn-MINUTES" class="px-2 py-3 rounded-lg bg-slate-100 border text-slate-600 transition-all text-[10px] md:text-xs">Minutes</button>
+            <button onclick="switchTab('PROPOSALS', 'PROPOSAL NO.')" id="btn-PROPOSALS" class="px-2 py-3 rounded-lg bg-slate-100 border text-slate-600 transition-all text-[10px] md:text-xs">Proposals</button>
+            <button onclick="switchTab('REPORTS', 'DOC NO.')" id="btn-REPORTS" class="px-2 py-3 rounded-lg bg-slate-100 border text-slate-600 transition-all text-[10px] md:text-xs">Reports</button>
         </div>
 
-        <div id="roster-wrapper" class="hidden space-y-5">
-            <!-- Apex Spot (President) -->
-            <div id="president-spotlight" class="flex justify-center"></div>
-            
-            <!-- Dynamic Grid: 1-col on tiny screens, 2-col on mobile, 4-col on desktop -->
-            <div id="officers-grid" class="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4"></div>
-        </div>
+        <section class="bg-white border rounded-2xl shadow-sm overflow-hidden w-full">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-slate-50 border-b text-slate-400 text-[10px] font-bold uppercase tracking-widest">
+                        <th id="col-header-id" class="py-4 px-4 w-1/4">ID</th>
+                        <th class="py-4 px-4 w-1/2">Title</th>
+                        <th class="py-4 px-4 w-1/4 text-right">Action</th>
+                    </tr>
+                </thead>
+                <tbody id="document-table-body" class="divide-y text-sm"></tbody>
+            </table>
+            <div id="loader" class="text-center py-10 text-slate-400 font-bold uppercase text-xs animate-pulse">Syncing Cloud Database...</div>
+        </section>
+    </main>
 
-    </div>
+    <footer class="border-t bg-white mt-12 py-8 text-center text-xs font-bold uppercase text-slate-400">
+        <p>&copy; 2026 Project GLASS. All rights reserved.</p>
+    </footer>
 
     <script>
-        const BASE_SHEET_URL = "YOUR_BASE_PUBLISHED_CSV_LINK";
-        const OFFICERS_TAB_GID = "PASTE_OFFICERS_TAB_GID_HERE";
-        const AVATAR_PLACEHOLDER = `<svg class="w-10 h-10 text-slate-300" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>`;
+        let rawData = [];
+        const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTIFgXyOttJeJGsVaLwfFtNWb-c1YCJiJ8R5siL32ykA47xYYY7b8KmPXm_42vNAbaHXOkcqEG3tRCu/pub?output=csv";
+        const CONFIG_GID = "229901204";
+        const GID_MAPPING = { "RESOLUTIONS": "0", "MINUTES": "1455822320", "PROPOSALS": "907328997", "REPORTS": "1385718104" };
 
-        function parseCSV(text) {
-            let lines = []; let row = [""]; let q = false;
-            for (let i = 0; i < text.length; i++) {
-                let c = text[i]; let n = text[i+1];
-                if (c === '"') { if (q && n === '"') { row[row.length - 1] += '"'; i++; } else { q = !q; } }
-                else if (c === ',' && !q) { row.push(''); }
-                else if ((c === '\r' || c === '\n') && !q) { if (c === '\r' && n === '\n') i++; lines.push(row); row = ['']; }
-                else { row[row.length - 1] += c; }
-            }
-            if (row.length > 1 || row[0] !== '') lines.push(row); return lines;
-        }
-
-        async function fetchRoster() {
-            if (BASE_SHEET_URL.includes("YOUR_BASE_PUBLISHED_CSV")) {
-                renderRoster([
-                    ["Loraine Banania", "SSLG President", ""],
-                    ["James Paul Sabanal", "SSLG Vice President", ""],
-                    ["Tristan Lhoyd Tabligan", "SSLG Secretary", ""],
-                    ["Warren Josh Elizalde", "SSLG Treasurer", ""],
-                    ["Alliyah Kate Enrile", "SSLG Auditor", ""]
-                ]);
-                return;
-            }
-            try {
-                const response = await fetch(`${BASE_SHEET_URL}&gid=${OFFICERS_TAB_GID}`);
-                const rawData = await response.text();
-                const rows = parseCSV(rawData);
-                let rosterData = [];
-                for (let i = 1; i < rows.length; i++) {
-                    if (rows[i].length >= 2 && rows[i][0].trim()) {
-                        rosterData.push([rows[i][0].trim(), rows[i][1].trim(), rows[i][2] ? rows[i][2].trim() : ""]);
-                    }
-                }
-                renderRoster(rosterData);
-            } catch (error) {
-                document.getElementById("roster-loading").innerHTML = `<span class="text-red-500 text-xs">Sync error.</span>`;
-            }
-        }
-
-        function renderRoster(data) {
-            document.getElementById("roster-loading").classList.add("hidden");
-            const wrapper = document.getElementById("roster-wrapper");
-            const presSpotlight = document.getElementById("president-spotlight");
-            const grid = document.getElementById("officers-grid");
+        async function init() {
+            const confRes = await fetch(`${CSV_URL}&gid=${CONFIG_GID}`);
+            const data = (await confRes.text()).split('\n').map(r => r.split(','));
+            const config = Object.fromEntries(data.map(r => [r[0]?.trim(), r[1]?.trim()]));
             
-            presSpotlight.innerHTML = "";
-            grid.innerHTML = "";
-            wrapper.classList.remove("hidden");
-
-            data.forEach((officer) => {
-                const name = officer[0];
-                const role = officer[1];
-                const imgUrl = officer[2];
-                
-                const avatarMarkup = imgUrl 
-                    ? `<img src="${imgUrl}" alt="${name}" class="w-full h-full object-cover" onerror="this.onerror=null; this.parentElement.innerHTML='${AVATAR_PLACEHOLDER}';">`
-                    : AVATAR_PLACEHOLDER;
-
-                const isPresident = role.toLowerCase().includes("president") && !role.toLowerCase().includes("vice");
-
-                if (isPresident) {
-                    presSpotlight.innerHTML = `
-                        <div class="w-full max-w-xs bg-gradient-to-b from-blue-50/50 to-white border border-blue-100 rounded-xl p-4 text-center relative overflow-hidden shadow-sm">
-                            <div class="absolute top-0 right-0 bg-blue-600 text-white px-2 py-0.5 text-[8px] uppercase tracking-widest font-bold rounded-bl">Presiding</div>
-                            <div class="w-16 h-16 bg-slate-100 rounded-full mx-auto mb-2 border border-blue-500 shadow-inner overflow-hidden flex items-center justify-center">
-                                ${avatarMarkup}
-                            </div>
-                            <h4 class="font-bold text-slate-900 text-sm leading-tight">${name}</h4>
-                            <p class="text-[10px] font-semibold text-blue-600 uppercase tracking-wider mt-0.5">${role}</p>
-                        </div>
-                    `;
-                } else {
-                    grid.innerHTML += `
-                        <div class="bg-white border border-slate-200 rounded-xl p-3 text-center shadow-sm flex flex-col items-center justify-center">
-                            <div class="w-12 h-12 bg-slate-50 rounded-full mb-2 border border-slate-100 shadow-inner overflow-hidden flex items-center justify-center">
-                                ${avatarMarkup}
-                            </div>
-                            <h4 class="font-bold text-slate-800 text-xs leading-tight line-clamp-1">${name}</h4>
-                            <p class="text-[9px] font-medium text-slate-400 uppercase tracking-wide mt-0.5">${role.replace("SSLG ", "")}</p>
-                        </div>
-                    `;
-                }
+            const logo = document.getElementById('header-logo');
+            if(config['IMG_LOGO_URL']) { logo.src = config['IMG_LOGO_URL']; logo.parentElement.parentElement.classList.add('logo-loaded'); }
+            document.getElementById('logo-link').href = config['LINK_0_PATH'] || 'index.html';
+            
+            const path = window.location.pathname.split("/").pop() || 'documents.html';
+            const pages = [{name:'Home', id:'0'}, {name:'Gazettes', id:'1'}, {name:'Officers', id:'2'}, {name:'Feedback', id:'3'}];
+            pages.forEach(p => {
+                const url = config[`LINK_${p.id}_PATH`] || '#';
+                const isActive = url.includes(path) || (p.name === 'Gazettes' && path.includes('document'));
+                const cls = isActive ? "text-blue-600 font-bold" : "text-slate-500 hover:text-blue-600";
+                document.getElementById('nav-links').innerHTML += `<a href="${url}" class="${cls} text-sm">${p.name}</a>`;
+                document.getElementById('mobile-menu').innerHTML += `<a href="${url}" class="block py-3 px-2 ${cls} border-b border-slate-50">${p.name}</a>`;
             });
+            switchTab('RESOLUTIONS', 'RESOLUTION NO.');
         }
-        window.onload = fetchRoster;
+
+        async function switchTab(cat, label) {
+            document.querySelectorAll('#tab-group button').forEach(b => {
+                b.className = b.id === 'btn-'+cat ? "px-2 py-3 rounded-lg bg-white border-2 border-blue-600 text-blue-600 shadow-sm transition-all text-[10px] md:text-xs" : "px-2 py-3 rounded-lg bg-slate-100 border text-slate-600 transition-all text-[10px] md:text-xs";
+            });
+            document.getElementById('col-header-id').innerText = label;
+            
+            document.getElementById('loader').classList.remove('hidden');
+            const res = await fetch(`${CSV_URL}&gid=${GID_MAPPING[cat]}`);
+            const text = await res.text();
+            
+            rawData = text.split('\n').slice(1).map(row => {
+                const cols = row.split(',');
+                return { id: cols[0], title: cols[1], link: cols[2], year: cols[3]?.trim() || '2026' };
+            });
+            
+            document.getElementById('loader').classList.add('hidden');
+            renderTable();
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('document-table-body');
+            const search = document.getElementById('search-input').value.toLowerCase();
+            const year = document.getElementById('year-filter').value;
+            
+            tbody.innerHTML = rawData
+                .filter(d => (d.title?.toLowerCase().includes(search) || d.id?.toLowerCase().includes(search)) && (year === 'ALL' || d.year === year))
+                .map(d => `
+                    <tr class="hover:bg-slate-50">
+                        <td class="py-4 px-4 font-mono text-xs text-blue-600 font-bold">${d.id || ''}</td>
+                        <td class="py-4 px-4 text-slate-800 font-medium whitespace-normal">${d.title || ''}</td>
+                        <td class="py-4 px-4 text-right"><a href="${d.link}" target="_blank" class="text-blue-600 font-bold underline text-xs">VIEW</a></td>
+                    </tr>
+                `).join('');
+            lucide.createIcons();
+        }
+        init();
     </script>
 </body>
 </html>
