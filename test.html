@@ -167,23 +167,20 @@
                 });
             });
 
-            // Replace your existing carousel logic with this:
+            // Replace your existing carousel loop logic with this:
 const imgs = config.ACTION_IMAGES?.split('|') || [];
 const carousel = document.getElementById('action-carousel');
-imgs.forEach(url => { 
-    carousel.innerHTML += `<div class="flex-shrink-0 w-80 h-64 rounded-3xl overflow-hidden shadow-lg border border-white">
-        <img src="${url.trim()}" class="w-full h-full object-cover">
-    </div>`; 
-});
 
-// Add this to make it auto-scroll slowly
-setInterval(() => {
-    if (carousel.scrollLeft + carousel.clientWidth >= carousel.scrollWidth - 10) {
-        carousel.scrollLeft = 0;
-    } else {
-        carousel.scrollLeft += 300;
-    }
-}, 3000);
+// Ensure the container itself is flexed and scrollable
+carousel.className = "flex gap-4 overflow-x-auto pb-4 scroll-smooth snap-x";
+
+imgs.forEach(url => { 
+    // Added 'snap-start' and 'min-w-[320px]' to fix layout stability
+    carousel.innerHTML += `
+        <div class="flex-shrink-0 snap-start w-80 min-w-[320px] h-64 rounded-3xl overflow-hidden border border-slate-100 shadow-sm">
+            <img src="${url.trim()}" class="w-full h-full object-cover">
+        </div>`; 
+});
             fetch(`${MASTER_SHEET_URL}&gid=${ROSTER_GID}`).then(r => r.text()).then(t => {
                 const rows = t.split('\n').slice(1);
                 const stack = document.getElementById('officers-roster-stack');
