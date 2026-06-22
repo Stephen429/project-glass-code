@@ -54,33 +54,34 @@
         const CONFIG_GID = "229901204";
 
         async function init() {
-            // 1. Immediately fetch config to populate Logo and Navigation
-            const confRes = await fetch(`${CSV_URL}&gid=${CONFIG_GID}`);
-            const data = (await confRes.text()).split('\n').map(r => r.split(','));
-            const config = Object.fromEntries(data.map(r => [r[0]?.trim(), r[1]?.trim()]));
+        const confRes = await fetch(`${CSV_URL}&gid=${CONFIG_GID}`);
+        const data = (await confRes.text()).split('\n').map(r => r.split(','));
+        const config = Object.fromEntries(data.map(r => [r[0]?.trim(), r[1]?.trim()]));
+        
+        // Header Logo Setup
+        const logo = document.getElementById('header-logo');
+        if(config['IMG_LOGO_URL']) { logo.src = config['IMG_LOGO_URL']; logo.parentElement.parentElement.classList.add('logo-loaded'); }
+        document.getElementById('logo-link').href = config['LINK_0_PATH'] || 'index.html';
+        
+        // Navigation Mapping (Includes About Us as Link_5)
+        const path = window.location.pathname.split("/").pop();
+        const pages = [
+            {name:'Home', id:'0'}, 
+            {name:'Gazettes', id:'1'}, 
+            {name:'Officers', id:'2'}, 
+            {name:'Feedback', id:'3'},
+            {name:'About Us', id:'5'}
+        ];
+        
+        pages.forEach(p => {
+            const url = config[`LINK_${p.id}_PATH`] || '#';
+            // Highlights if the current URL matches or if we are on a subpage of that section
+            const isActive = url.includes(path) || (p.name === 'Officers' && path.includes('document'));
+            const cls = isActive ? "text-blue-600 font-bold" : "text-slate-500 hover:text-blue-600";
             
-            const logo = document.getElementById('header-logo');
-            const headerText = document.getElementById('header-text');
-            if(config['IMG_LOGO_URL']) { 
-                logo.src = config['IMG_LOGO_URL']; 
-                logo.classList.remove('hidden'); 
-                headerText.classList.add('hidden'); 
-            }
-            document.getElementById('logo-link').href = config['LINK_0_PATH'] || '#';
-
-            const pages = [{name:'Home', id:'0'}, {name:'Gazettes', id:'1'}, {name:'Officers', id:'2'}, {name:'Feedback', id:'3'}, {name:'Clubs', id:'4'}];
-            const currentPath = window.location.pathname.split("/").pop() || 'officers.html';
-            
-            const nav = document.getElementById('nav-links');
-            const mNav = document.getElementById('mobile-menu');
-            
-            pages.forEach(p => {
-                const url = config[`LINK_${p.id}_PATH`] || '#';
-                const isActive = url.includes(currentPath) || (p.name === 'Officers' && currentPath.includes('officers'));
-                const cls = isActive ? "text-blue-600" : "text-slate-500 hover:text-slate-800";
-                nav.innerHTML += `<a href="${url}" class="${cls}">${p.name}</a>`;
-                mNav.innerHTML += `<a href="${url}" class="py-1 ${cls}">${p.name}</a>`;
-            });
+            document.getElementById('nav-links').innerHTML += `<a href="${url}" class="${cls} text-sm">${p.name}</a>`;
+            document.getElementById('mobile-menu').innerHTML += `<a href="${url}" class="block py-3 px-2 ${cls} border-b border-slate-50">${p.name}</a>`;
+        });
             
             // 2. Fetch Roster in background
             fetchRoster();
