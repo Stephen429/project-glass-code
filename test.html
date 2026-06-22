@@ -58,11 +58,17 @@
         </section>
 
         <section class="animate-in">
-            <h2 class="text-2xl font-bold mb-2">SSLG in Action</h2>
-            <p class="text-slate-500 text-sm mb-6">A visual timeline of our initiatives and student-led community projects.</p>
-            <div id="action-carousel" class="flex gap-4 overflow-x-auto pb-4"></div>
-        </section>
-
+    <h2 class="text-2xl font-bold mb-2">SSLG in Action</h2>
+    <p class="text-slate-500 text-sm mb-6">A visual timeline of our initiatives and student-led community projects.</p>
+    
+    <!-- Added max-w-full and overflow-hidden to prevent container expansion -->
+    <div class="max-w-full overflow-hidden">
+        <div id="action-carousel" class="flex gap-4 overflow-x-auto pb-4 scroll-smooth snap-x">
+            <!-- Items injected by JS will now be constrained -->
+        </div>
+    </div>
+</section>
+        
         <section class="grid grid-cols-1 md:grid-cols-3 gap-6 animate-in">
             <div class="p-8 rounded-3xl border border-slate-100 shadow-sm">
                 <i data-lucide="shield" class="text-blue-600 mb-4 w-8 h-8"></i>
