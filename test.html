@@ -7,10 +7,11 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap'); 
-        body { font-family: 'Inter', sans-serif; touch-action: manipulation; }
-        .fade-in { animation: fadeIn 0.5s ease-in; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .animate-in { opacity: 0; animation: fadeUp 0.8s ease-out forwards; }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .news-fade { transition: opacity 0.5s ease-in-out; }
         
         /* Fixes logo flicker */
         #header-logo { display: none; }
@@ -117,8 +118,8 @@
             assign(['nav-1', 'mnav-1', 'btn-docs'], 'LINK_1_PATH');
             assign(['nav-2', 'mnav-2', 'btn-roster'], 'LINK_2_PATH');
             assign(['nav-3', 'mnav-3', 'btn-feedback'], 'LINK_3_PATH');
-            assign(['nav-4', 'mnav-4', 'btn-clubs'], 'LINK_4_PATH');
-            assign(['btn-about'], 'LINK_5_PATH');
+            assign(['btn-clubs'], 'LINK_4_PATH');
+            assign(['nav-4', 'mnav-4', 'btn-about'], 'LINK_5_PATH');
 
             fetch(`${MASTER_SHEET_URL}&gid=${NEWS_GID}`).then(r => r.text()).then(t => {
                 const news = t.split('\n').slice(1).filter(r => r.length > 2);
