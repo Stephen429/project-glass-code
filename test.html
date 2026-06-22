@@ -167,10 +167,23 @@
                 });
             });
 
-            const imgs = config.ACTION_IMAGES?.split('|') || [];
-            const carousel = document.getElementById('action-carousel');
-            imgs.forEach(url => { carousel.innerHTML += `<div class="flex-shrink-0 w-80 h-64 rounded-3xl overflow-hidden"><img src="${url.trim()}" class="w-full h-full object-cover"></div>`; });
+            // Replace your existing carousel logic with this:
+const imgs = config.ACTION_IMAGES?.split('|') || [];
+const carousel = document.getElementById('action-carousel');
+imgs.forEach(url => { 
+    carousel.innerHTML += `<div class="flex-shrink-0 w-80 h-64 rounded-3xl overflow-hidden shadow-lg border border-white">
+        <img src="${url.trim()}" class="w-full h-full object-cover">
+    </div>`; 
+});
 
+// Add this to make it auto-scroll slowly
+setInterval(() => {
+    if (carousel.scrollLeft + carousel.clientWidth >= carousel.scrollWidth - 10) {
+        carousel.scrollLeft = 0;
+    } else {
+        carousel.scrollLeft += 300;
+    }
+}, 3000);
             fetch(`${MASTER_SHEET_URL}&gid=${ROSTER_GID}`).then(r => r.text()).then(t => {
                 const rows = t.split('\n').slice(1);
                 const stack = document.getElementById('officers-roster-stack');
