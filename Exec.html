@@ -8,24 +8,27 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap'); 
-        body { font-family: 'Inter', sans-serif; }
-        #header-logo { display: none; }
-        .logo-loaded #header-logo { display: block; }
+        body { font-family: 'Inter', sans-serif; touch-action: manipulation; }
+        .fade-in { animation: fadeIn 0.5s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col">
 
     <header class="border-b border-slate-100 sticky top-0 z-50 bg-white">
         <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-            <a id="logo-link" href="#" class="flex items-center"><img id="header-logo" src="" class="h-8" alt="Logo"></a>
+            <a id="logo-link" href="#" class="flex items-center">
+                <img id="header-logo" src="" class="h-8 hidden" alt="Logo">
+            </a>
             <nav id="nav-links" class="hidden md:flex items-center space-x-6 text-xs font-bold uppercase text-slate-500"></nav>
             <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="md:hidden p-2 text-slate-600"><i data-lucide="menu"></i></button>
         </div>
         <div id="mobile-menu" class="hidden md:hidden border-t border-slate-100 bg-white px-4 py-2 space-y-1 text-xs font-bold uppercase text-slate-500 flex flex-col"></div>
     </header>
 
-    <main class="flex-grow max-w-4xl mx-auto px-4 py-8 w-full overflow-hidden">
-        <h1 class="text-3xl font-black mb-8">Documents & Gazettes</h1>
+    <main class="flex-grow max-w-4xl mx-auto px-4 py-8 fade-in w-full overflow-hidden">
+        <h1 class="text-3xl font-black mb-2">Documents & Gazettes</h1>
+        <p class="text-slate-500 text-sm mb-8">Access official publications, reports, and documented gazettes.</p>
         
         <section class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm mb-6">
             <div class="flex flex-col md:flex-row gap-3">
@@ -36,11 +39,11 @@
             </div>
         </section>
 
-        <div id="tab-group" class="grid grid-cols-2 md:grid-cols-4 gap-2 mb-6 text-xs font-bold uppercase">
-            <button onclick="switchTab('RESOLUTIONS', 'RESOLUTION NO.')" id="btn-RESOLUTIONS" class="px-2 py-3 rounded-lg bg-white border-2 border-blue-600 text-blue-600 shadow-sm transition-all text-[10px] md:text-xs">Resolutions</button>
-            <button onclick="switchTab('MINUTES', 'MEETING NO.')" id="btn-MINUTES" class="px-2 py-3 rounded-lg bg-slate-100 border text-slate-600 transition-all text-[10px] md:text-xs">Minutes</button>
-            <button onclick="switchTab('PROPOSALS', 'PROPOSAL NO.')" id="btn-PROPOSALS" class="px-2 py-3 rounded-lg bg-slate-100 border text-slate-600 transition-all text-[10px] md:text-xs">Proposals</button>
-            <button onclick="switchTab('REPORTS', 'DOC NO.')" id="btn-REPORTS" class="px-2 py-3 rounded-lg bg-slate-100 border text-slate-600 transition-all text-[10px] md:text-xs">Reports</button>
+        <div id="tab-group" class="grid grid-cols-2 md:grid-cols-4 gap-2 mb-10 text-xs font-bold uppercase">
+            <button onclick="setActiveTab('RESOLUTIONS', 'RESOLUTION NO.')" id="btn-RESOLUTIONS" class="px-2 py-3 rounded-lg bg-white border text-blue-600 shadow-sm transition-all text-[10px] md:text-xs">Resolutions</button>
+            <button onclick="setActiveTab('MINUTES', 'MEETING NO.')" id="btn-MINUTES" class="px-2 py-3 rounded-lg bg-white border text-slate-600 transition-all text-[10px] md:text-xs">Minutes</button>
+            <button onclick="setActiveTab('PROPOSALS', 'PROPOSAL NO.')" id="btn-PROPOSALS" class="px-2 py-3 rounded-lg bg-white border text-slate-600 transition-all text-[10px] md:text-xs">Proposals</button>
+            <button onclick="setActiveTab('REPORTS', 'DOC NO.')" id="btn-REPORTS" class="px-2 py-3 rounded-lg bg-white border text-slate-600 transition-all text-[10px] md:text-xs">Reports</button>
         </div>
 
         <section class="bg-white border rounded-2xl shadow-sm overflow-hidden w-full">
@@ -58,8 +61,10 @@
         </section>
     </main>
 
-    <footer class="border-t bg-white mt-12 py-8 text-center text-xs font-bold uppercase text-slate-400">
-        <p>&copy; 2026 Project GLASS. All rights reserved.</p>
+    <footer class="border-t bg-white mt-12 py-8">
+        <div class="max-w-4xl mx-auto px-4 text-center text-xs font-bold uppercase text-slate-400">
+            <p>&copy; 2026 Project GLASS. All rights reserved.</p>
+        </div>
     </footer>
 
     <script>
@@ -68,13 +73,37 @@
         const CONFIG_GID = "229901204";
         const GID_MAPPING = { "RESOLUTIONS": "0", "MINUTES": "1455822320", "PROPOSALS": "907328997", "REPORTS": "1385718104" };
 
-        async function switchTab(cat, label) {
+        async function init() {
+            const confRes = await fetch(`${CSV_URL}&gid=${CONFIG_GID}`);
+            const data = (await confRes.text()).split('\n').map(r => r.split(','));
+            const config = Object.fromEntries(data.map(r => [r[0]?.trim(), r[1]?.trim()]));
+            
+            const logo = document.getElementById('header-logo');
+            if(config['IMG_LOGO_URL']) { logo.src = config['IMG_LOGO_URL']; logo.classList.remove('hidden'); }
+            document.getElementById('logo-link').href = config['LINK_0_PATH'] || 'index.html';
+            
+            const path = window.location.pathname.split("/").pop() || 'documents.html';
+            const pages = [{name:'Home', id:'0'}, {name:'Gazettes', id:'1'}, {name:'Officers', id:'2'}, {name:'Feedback', id:'3'}];
+            
+            pages.forEach(p => {
+                const url = config[`LINK_${p.id}_PATH`] || '#';
+                const isActive = url.includes(path) || (p.name === 'Gazettes' && path.includes('document'));
+                const cls = isActive ? "text-blue-600 font-bold" : "text-slate-500 hover:text-blue-600";
+                document.getElementById('nav-links').innerHTML += `<a href="${url}" class="${cls} text-sm">${p.name}</a>`;
+                document.getElementById('mobile-menu').innerHTML += `<a href="${url}" class="block py-3 px-2 ${cls} border-b border-slate-50">${p.name}</a>`;
+            });
+            setActiveTab('RESOLUTIONS', 'RESOLUTION NO.');
+        }
+
+        async function setActiveTab(cat, label) {
             document.querySelectorAll('#tab-group button').forEach(b => {
                 b.className = b.id === 'btn-'+cat ? "px-2 py-3 rounded-lg bg-white border-2 border-blue-600 text-blue-600 shadow-sm transition-all text-[10px] md:text-xs" : "px-2 py-3 rounded-lg bg-slate-100 border text-slate-600 transition-all text-[10px] md:text-xs";
             });
             document.getElementById('col-header-id').innerText = label;
             
-            document.getElementById('loader').classList.remove('hidden');
+            const loader = document.getElementById('loader');
+            loader.classList.remove('hidden');
+
             const res = await fetch(`${CSV_URL}&gid=${GID_MAPPING[cat]}`);
             const text = await res.text();
             
@@ -84,7 +113,7 @@
             });
             
             updateYearFilter();
-            document.getElementById('loader').classList.add('hidden');
+            loader.classList.add('hidden');
             renderTable();
         }
 
@@ -113,27 +142,6 @@
                     </tr>
                 `).join('');
             lucide.createIcons();
-        }
-
-        async function init() {
-            const confRes = await fetch(`${CSV_URL}&gid=${CONFIG_GID}`);
-            const data = (await confRes.text()).split('\n').map(r => r.split(','));
-            const config = Object.fromEntries(data.map(r => [r[0]?.trim(), r[1]?.trim()]));
-            
-            const logo = document.getElementById('header-logo');
-            if(config['IMG_LOGO_URL']) { logo.src = config['IMG_LOGO_URL']; logo.parentElement.parentElement.classList.add('logo-loaded'); }
-            document.getElementById('logo-link').href = config['LINK_0_PATH'] || 'index.html';
-            
-            const path = window.location.pathname.split("/").pop() || 'documents.html';
-            const pages = [{name:'Home', id:'0'}, {name:'Gazettes', id:'1'}, {name:'Officers', id:'2'}, {name:'Feedback', id:'3'}];
-            pages.forEach(p => {
-                const url = config[`LINK_${p.id}_PATH`] || '#';
-                const isActive = url.includes(path) || (p.name === 'Gazettes' && path.includes('document'));
-                const cls = isActive ? "text-blue-600 font-bold" : "text-slate-500 hover:text-blue-600";
-                document.getElementById('nav-links').innerHTML += `<a href="${url}" class="${cls} text-sm">${p.name}</a>`;
-                document.getElementById('mobile-menu').innerHTML += `<a href="${url}" class="block py-3 px-2 ${cls} border-b border-slate-50">${p.name}</a>`;
-            });
-            switchTab('RESOLUTIONS', 'RESOLUTION NO.');
         }
         init();
     </script>
