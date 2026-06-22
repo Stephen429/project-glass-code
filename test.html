@@ -20,16 +20,16 @@
 </head>
     
 <body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col">
-    <header class="border-b border-slate-100 sticky top-0 z-50 bg-white">
-        <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-            <a id="logo-link" href="#" class="flex items-center">
-                <img id="header-logo" src="" class="h-8" alt="Logo">
-            </a>
-            <nav id="nav-links" class="hidden md:flex items-center space-x-6 text-xs font-bold uppercase text-slate-500"></nav>
-            <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="md:hidden p-2 text-slate-600"><i data-lucide="menu"></i></button>
-        </div>
-        <div id="mobile-menu" class="hidden md:hidden border-t border-slate-100 bg-white px-4 py-2 space-y-1 text-xs font-bold uppercase text-slate-500 flex flex-col"></div>
-    </header>
+<header class="border-b border-slate-100 sticky top-0 z-50 bg-white">
+    <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+        <a id="logo-link" href="#" class="flex items-center">
+            <img id="header-logo" src="" class="h-8" alt="Logo">
+        </a>
+        <nav id="nav-links" class="hidden md:flex items-center space-x-6 text-xs font-bold uppercase text-slate-500"></nav>
+        <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="md:hidden p-2 text-slate-600"><i data-lucide="menu"></i></button>
+    </div>
+    <div id="mobile-menu" class="hidden md:hidden border-t border-slate-100 bg-white px-4 py-2 space-y-1 text-xs font-bold uppercase text-slate-500 flex flex-col"></div>
+</header>
     
     <main class="max-w-6xl mx-auto px-4 py-12 space-y-16">
         <section class="animate-in">
@@ -101,26 +101,37 @@
         const CONFIG_GID = "229901204", NEWS_GID = "1683102947", METRICS_GID = "1647929887", ROSTER_GID = "416625956";
 
         async function init() {
-            const confRes = await fetch(`${MASTER_SHEET_URL}&gid=${CONFIG_GID}`);
-            const confData = (await confRes.text()).split('\n').map(r => r.split(','));
-            const config = Object.fromEntries(confData.map(r => [r[0]?.trim(), r[1]?.trim()]));
+    const confRes = await fetch(`${MASTER_SHEET_URL}&gid=${CONFIG_GID}`);
+    const confData = (await confRes.text()).split('\n').map(r => r.split(','));
+    const config = Object.fromEntries(confData.map(r => [r[0]?.trim(), r[1]?.trim()]));
 
-            if(config.IMG_LOGO_URL) {
-                const img = document.getElementById('header-logo');
-                img.src = config.IMG_LOGO_URL; img.classList.remove('hidden');
-                document.getElementById('header-text').classList.add('hidden');
-            }
+    // Logo setup matching other pages
+    const logo = document.getElementById('header-logo');
+    const logoLink = document.getElementById('logo-link');
+    if(config.IMG_LOGO_URL) {
+        logo.src = config.IMG_LOGO_URL;
+        logoLink.parentElement.parentElement.classList.add('logo-loaded');
+    }
+    logoLink.href = config['LINK_0_PATH'] || 'index.html';
 
-            const assign = (ids, key) => {
-                ids.forEach(id => { const el = document.getElementById(id); if(el && config[key]) el.href = config[key]; });
-            };
+    // Standardized Navigation
+    const path = window.location.pathname.split("/").pop();
+    const pages = [
+        {name:'Home', id:'0'}, 
+        {name:'Gazettes', id:'1'}, 
+        {name:'Officers', id:'2'}, 
+        {name:'Feedback', id:'3'},
+        {name:'About Us', id:'5'}
+    ];
 
-            assign(['nav-1', 'mnav-1', 'btn-docs'], 'LINK_1_PATH');
-            assign(['nav-2', 'mnav-2', 'btn-roster'], 'LINK_2_PATH');
-            assign(['nav-3', 'mnav-3', 'btn-feedback'], 'LINK_3_PATH');
-            assign(['btn-clubs'], 'LINK_4_PATH');
-            assign(['nav-4', 'mnav-4', 'btn-about'], 'LINK_5_PATH');
-
+    pages.forEach(p => {
+        const url = config[`LINK_${p.id}_PATH`] || '#';
+        const isActive = url.includes(path) || (path === '' && p.name === 'Home');
+        const cls = isActive ? "text-blue-600 font-bold" : "text-slate-500 hover:text-blue-600";
+        
+        document.getElementById('nav-links').innerHTML += `<a href="${url}" class="${cls} text-sm">${p.name}</a>`;
+        document.getElementById('mobile-menu').innerHTML += `<a href="${url}" class="block py-3 px-2 ${cls} border-b border-slate-50">${p.name}</a>`;
+    });
             fetch(`${MASTER_SHEET_URL}&gid=${NEWS_GID}`).then(r => r.text()).then(t => {
                 const news = t.split('\n').slice(1).filter(r => r.length > 2);
                 if(news.length > 0) {
