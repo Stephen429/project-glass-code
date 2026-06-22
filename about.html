@@ -62,14 +62,27 @@
                 </div>
             </div>
 
-            <!-- Campus Map -->
-            <div class="bg-white p-2 rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
-                <h3 class="text-sm font-bold p-4 flex items-center"><i data-lucide="map-pin" class="w-4 h-4 mr-2 text-blue-600"></i> Campus Location</h3>
-                <div class="w-full h-full min-h-[200px] rounded-2xl overflow-hidden bg-slate-100">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3854.3449003424084!2d120.91294957772192!3d14.97354748555826!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397013c342f42c7%3A0x2697a9049457c1a9!2sLydia%20D.%20Villangca%20Trade%20School%20(Junior%20and%20Senior%20High%20School)!5e0!3m2!1sen!2sph!4v1782138287254!5m2!1sen!2sph" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>             </div>
+            <!-- Campus Map Card -->
+<div class="bg-white p-2 rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
+    <h3 class="text-sm font-bold p-4 flex items-center"><i data-lucide="map-pin" class="w-4 h-4 mr-2 text-blue-600"></i> Campus Location</h3>
+    
+    <!-- Linkable Map Image Container -->
+    <a href="https://maps.app.goo.gl/YOUR_LINK_HERE" target="_blank" class="block w-full h-[250px] rounded-2xl overflow-hidden relative group">
+        <!-- Map Image -->
+        <img src="https://lh3.googleusercontent.com/d/1tlV9R5vvzv95v8z9N-n1h3PkD8E3ag1l" alt="Campus Map" class="w-full h-full object-cover">
+        
+        <!-- Gradient Overlay matching Screenshot_2026-06-22-22-47-07-73_40deb401b9ffe8e1df2f1cc5ba480b12.jpg -->
+        <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent flex items-end justify-between">
+            <div>
+                <p class="text-white font-bold text-sm leading-tight">Brgy. Sumo-Sumo,<br>Tago, Surigao del Sur</p>
+            </div>
+            <!-- Google Maps Logo Placeholder -->
+            <div class="flex items-center gap-2">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/a/aa/Google_Maps_icon_%282020%29.svg" alt="Google Maps" class="w-8 h-8">
             </div>
         </div>
-
+    </a>
+</div>
         <!-- Social Media & Disclaimer -->
         <div class="grid md:grid-cols-2 gap-6 mb-16">
             <div class="bg-white p-8 rounded-3xl border border-slate-200">
@@ -79,7 +92,7 @@
                 </div>
             </div>
             <div class="bg-slate-100 p-8 rounded-3xl border border-slate-200">
-                <h3 class="font-bold mb-4 flex items-center"><i data-lucide="shield-alert" class="w-4 h-4 mr-2 text-slate-500"></i> Disclaimer</h3>
+                <h3 class="font-bold mb-4 flex items-center"></i> Disclaimer</h3>
                 <p class="text-[11px] text-slate-500 leading-relaxed">
                     Project GLASS is an independent digital initiative of the LDVTS-SSLG. While we strive for accuracy, official school announcements should always be verified through our official school publication channels and bulletin boards.
                 </p>
