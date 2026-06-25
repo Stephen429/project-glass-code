@@ -35,7 +35,8 @@
         </div>
 
         <div id="clubs-container" class="grid md:grid-cols-2 gap-6 mb-16">
-            </div>
+            <p class="text-slate-400 text-sm">Loading organizations...</p>
+        </div>
     </main>
 
     <footer class="border-t bg-white mt-auto py-8 text-center text-xs font-bold uppercase text-slate-400">
@@ -45,14 +46,15 @@
     <script>
         const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTIFgXyOttJeJGsVaLwfFtNWb-c1YCJiJ8R5siL32ykA47xYYY7b8KmPXm_42vNAbaHXOkcqEG3tRCu/pub?output=csv";
         const CONFIG_GID = "229901204";
-        const CLUBS_GID = "YOUR_CLUBS_GID_HERE"; // Replace when ready
+        const CLUBS_GID = "1803510665"; 
 
         async function init() {
-            // Header Logic
+            // Load Config
             const confRes = await fetch(`${CSV_URL}&gid=${CONFIG_GID}`);
             const data = (await confRes.text()).split('\n').map(r => r.split(','));
             const config = Object.fromEntries(data.map(r => [r[0]?.trim(), r[1]?.trim()]));
             
+            // Header Logic
             const logo = document.getElementById('header-logo');
             const logoLink = document.getElementById('logo-link');
             if(config['IMG_LOGO_URL']) { logo.src = config['IMG_LOGO_URL']; logoLink.parentElement.parentElement.classList.add('logo-loaded'); }
@@ -65,23 +67,31 @@
                 document.getElementById('mobile-menu').innerHTML += `<a href="${url}" class="block py-3 px-2 text-slate-500 border-b border-slate-50 text-xs">${p.name}</a>`;
             });
 
-            // Grid Population
-            const container = document.getElementById('clubs-container');
-            container.innerHTML = '';
-            
-            // Generate 10 Placeholders
-            for(let i = 1; i <= 10; i++) {
-                container.innerHTML += `
-                    <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex items-center space-x-4">
-                        <div class="w-16 h-16 bg-slate-100 rounded-2xl flex items-center justify-center">
-                            <i data-lucide="shield" class="text-slate-300"></i>
-                        </div>
-                        <div>
-                            <h3 class="font-bold text-slate-700">Organization Name ${i}</h3>
-                            <p class="text-xs text-slate-400">Awaiting data linkage</p>
-                        </div>
-                    </div>
-                `;
+            // Load Clubs Data
+            try {
+                const clubsRes = await fetch(`${CSV_URL}&gid=${CLUBS_GID}`);
+                const clubsText = await clubsRes.text();
+                const clubsData = clubsText.split('\n').slice(1); // Remove header row
+                const container = document.getElementById('clubs-container');
+                container.innerHTML = '';
+                
+                clubsData.forEach(row => {
+                    const [name, fbUrl, logoUrl] = row.split(',').map(item => item.trim());
+                    if (!name) return;
+                    
+                    container.innerHTML += `
+                        <a href="${fbUrl || '#'}" target="_blank" class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex items-center space-x-4 hover:border-blue-600 transition-colors">
+                            <img src="${logoUrl || 'https://via.placeholder.com/64'}" class="w-16 h-16 rounded-2xl object-cover bg-slate-100" alt="${name}" onerror="this.src='https://via.placeholder.com/64'">
+                            <div>
+                                <h3 class="font-bold text-slate-800">${name}</h3>
+                                <p class="text-xs text-blue-600 font-bold uppercase mt-1">Visit Page</p>
+                            </div>
+                        </a>
+                    `;
+                });
+            } catch(e) { 
+                console.error("Error fetching clubs:", e);
+                document.getElementById('clubs-container').innerHTML = `<p class="text-red-500 text-sm">Failed to load clubs. Please check your GID.</p>`;
             }
             
             lucide.createIcons();
