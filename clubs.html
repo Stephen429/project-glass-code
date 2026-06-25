@@ -17,6 +17,7 @@
 </head>
 
 <body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col">
+    <!-- Header -->
     <header class="border-b border-slate-100 sticky top-0 z-50 bg-white">
         <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
             <a id="logo-link" href="#" class="flex items-center">
@@ -28,17 +29,20 @@
         <div id="mobile-menu" class="hidden md:hidden border-t border-slate-100 bg-white px-4 py-2 space-y-1 text-xs font-bold uppercase text-slate-500 flex flex-col"></div>
     </header>
 
+    <!-- Main Content -->
     <main class="flex-grow max-w-4xl mx-auto px-4 py-12 fade-in">
         <div class="text-center mb-12">
             <h1 class="text-4xl font-black mb-4">Clubs & Organizations</h1>
             <p class="text-slate-500 max-w-lg mx-auto text-sm">Explore the various student-led clubs and organizations at Lydia D. Villangca Trade School.</p>
         </div>
 
+        <!-- Clubs Grid -->
         <div id="clubs-container" class="grid md:grid-cols-2 gap-6 mb-16">
-            <p class="text-slate-400 text-sm">Loading organizations...</p>
+            <p class="text-slate-400 text-sm col-span-full text-center">Loading organizations...</p>
         </div>
     </main>
 
+    <!-- Footer -->
     <footer class="border-t bg-white mt-auto py-8 text-center text-xs font-bold uppercase text-slate-400">
         <p>© 2026 Project GLASS. All rights reserved.</p>
     </footer>
@@ -54,7 +58,7 @@
             const data = (await confRes.text()).split('\n').map(r => r.split(','));
             const config = Object.fromEntries(data.map(r => [r[0]?.trim(), r[1]?.trim()]));
             
-            // Header Logic
+            // Header Logo & Links
             const logo = document.getElementById('header-logo');
             const logoLink = document.getElementById('logo-link');
             if(config['IMG_LOGO_URL']) { logo.src = config['IMG_LOGO_URL']; logoLink.parentElement.parentElement.classList.add('logo-loaded'); }
@@ -71,17 +75,26 @@
             try {
                 const clubsRes = await fetch(`${CSV_URL}&gid=${CLUBS_GID}`);
                 const clubsText = await clubsRes.text();
-                const clubsData = clubsText.split('\n').slice(1); // Remove header row
+                const clubsData = clubsText.split('\n').slice(1);
                 const container = document.getElementById('clubs-container');
                 container.innerHTML = '';
                 
                 clubsData.forEach(row => {
-                    const [name, fbUrl, logoUrl] = row.split(',').map(item => item.trim());
+                    const columns = row.split(',').map(item => item.trim());
+                    const name = columns[0];
+                    const fbUrl = columns[1];
+                    const logoUrl = columns[2];
+                    
                     if (!name) return;
                     
                     container.innerHTML += `
-                        <a href="${fbUrl || '#'}" target="_blank" class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex items-center space-x-4 hover:border-blue-600 transition-colors">
-                            <img src="${logoUrl || 'https://via.placeholder.com/64'}" class="w-16 h-16 rounded-2xl object-cover bg-slate-100" alt="${name}" onerror="this.src='https://via.placeholder.com/64'">
+                        <a href="${fbUrl || '#'}" target="_blank" class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex items-center space-x-4 hover:border-blue-600 transition-colors group">
+                            <div class="w-16 h-16 rounded-2xl overflow-hidden bg-slate-100 flex-shrink-0">
+                                <img src="${logoUrl}" 
+                                     class="w-full h-full object-cover" 
+                                     alt="${name}" 
+                                     onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center bg-slate-200\'><i data-lucide=\'users\' class=\'w-6 h-6 text-slate-400\'></i></div>'; lucide.createIcons();">
+                            </div>
                             <div>
                                 <h3 class="font-bold text-slate-800">${name}</h3>
                                 <p class="text-xs text-blue-600 font-bold uppercase mt-1">Visit Page</p>
@@ -91,7 +104,7 @@
                 });
             } catch(e) { 
                 console.error("Error fetching clubs:", e);
-                document.getElementById('clubs-container').innerHTML = `<p class="text-red-500 text-sm">Failed to load clubs. Please check your GID.</p>`;
+                document.getElementById('clubs-container').innerHTML = `<p class="text-red-500 text-sm col-span-full">Failed to load data. Please check your Spreadsheet publishing settings.</p>`;
             }
             
             lucide.createIcons();
