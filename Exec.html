@@ -2,62 +2,51 @@
 <html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <title>Official Documents | Project GLASS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project GLASS Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap'); 
-        body { font-family: 'Inter', sans-serif; touch-action: manipulation; }
-        .fade-in { animation: fadeIn 0.5s ease-in; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .animate-in { opacity: 0; animation: fadeUp 0.8s ease-out forwards; }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .snap-x { scroll-snap-type: x mandatory; }
+        .snap-start { scroll-snap-align: start; }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col">
 
-    <header class="border-b border-slate-100 sticky top-0 z-50 bg-white">
-        <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-            <a id="logo-link" href="#" class="flex items-center">
-                <img id="header-logo" src="" class="h-8 hidden" alt="Logo">
-            </a>
-            <nav id="nav-links" class="hidden md:flex items-center space-x-6 text-xs font-bold uppercase text-slate-500"></nav>
-            <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="md:hidden p-2 text-slate-600"><i data-lucide="menu"></i></button>
+<body class="bg-slate-50 text-slate-900 min-h-screen">
+
+    <header class="bg-blue-600 text-white border-b border-blue-700 sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 h-20 flex items-center justify-between">
+            <a id="logo-link" href="#" class="font-black text-xl tracking-tighter">PROJECT GLASS</a>
+            <nav id="nav-links" class="hidden md:flex items-center space-x-6 text-xs font-bold uppercase text-blue-100"></nav>
         </div>
-        <div id="mobile-menu" class="hidden md:hidden border-t border-slate-100 bg-white px-4 py-2 space-y-1 text-xs font-bold uppercase text-slate-500 flex flex-col"></div>
     </header>
 
-    <main class="flex-grow max-w-4xl mx-auto px-4 py-8 fade-in w-full overflow-hidden">
-        <h1 class="text-3xl font-black mb-2">Documents & Gazettes</h1>
-        <p class="text-slate-500 text-sm mb-8">Access official publications, reports, and documented gazettes.</p>
+    <main class="max-w-6xl mx-auto px-4 py-12 space-y-16">
         
-        <section class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm mb-6">
-            <div class="flex flex-col md:flex-row gap-3">
-                <input type="text" id="search-input" onkeyup="renderTable()" placeholder="Search by title or ID..." class="flex-grow px-4 py-2.5 rounded-lg border text-sm outline-none focus:ring-2 focus:ring-blue-500">
-                <select id="year-filter" onchange="renderTable()" class="px-4 py-2.5 rounded-lg border text-sm bg-slate-50 text-slate-600 outline-none">
-                    <option value="ALL">All Years</option>
-                </select>
-            </div>
+        <section class="animate-in bg-blue-50 p-10 rounded-3xl border border-blue-100">
+            <h1 class="text-5xl font-black tracking-tight mb-4 text-blue-900">A clear window into student leadership.</h1>
+            <p class="text-blue-700 max-w-2xl mb-8">Governance, Leadership, Accountability & Student Services. We ensure every policy and student asset is openly accessible.</p>
         </section>
 
-        <div id="tab-group" class="grid grid-cols-2 md:grid-cols-4 gap-2 mb-10 text-xs font-bold uppercase">
-            <button onclick="setActiveTab('RESOLUTIONS', 'RESOLUTION NO.')" id="btn-RESOLUTIONS" class="px-2 py-3 rounded-lg bg-white border text-blue-600 shadow-sm transition-all text-[10px] md:text-xs">Resolutions</button>
-            <button onclick="setActiveTab('MINUTES', 'MEETING NO.')" id="btn-MINUTES" class="px-2 py-3 rounded-lg bg-white border text-slate-600 transition-all text-[10px] md:text-xs">Minutes</button>
-            <button onclick="setActiveTab('PROPOSALS', 'PROPOSAL NO.')" id="btn-PROPOSALS" class="px-2 py-3 rounded-lg bg-white border text-slate-600 transition-all text-[10px] md:text-xs">Proposals</button>
-            <button onclick="setActiveTab('REPORTS', 'DOC NO.')" id="btn-REPORTS" class="px-2 py-3 rounded-lg bg-white border text-slate-600 transition-all text-[10px] md:text-xs">Reports</button>
-        </div>
+        <section class="animate-in">
+            <h3 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">By the Numbers</h3>
+            <div id="metrics-container" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
+        </section>
 
-        <section class="bg-white border rounded-2xl shadow-sm overflow-hidden w-full">
-            <table class="w-full text-left border-collapse">
-                <thead>
-                    <tr class="bg-slate-50 border-b text-slate-400 text-[10px] font-bold uppercase tracking-widest">
-                        <th id="col-header-id" class="py-4 px-4 w-1/4">ID</th>
-                        <th class="py-4 px-4 w-1/2">Title</th>
-                        <th class="py-4 px-4 w-1/4 text-right">Action</th>
-                    </tr>
-                </thead>
-                <tbody id="document-table-body" class="divide-y text-sm"></tbody>
-            </table>
-            <div id="loader" class="text-center py-10 text-slate-400 font-bold uppercase text-xs animate-pulse">Syncing Cloud Database...</div>
+        <section class="animate-in">
+            <h2 class="text-xl font-bold mb-6">Latest Updates</h2>
+            <div id="news-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+        </section>
+
+        <section class="animate-in w-full">
+            <h2 class="text-2xl font-bold mb-2">SSLG in Action</h2>
+            <div class="w-full overflow-hidden">
+                <div id="action-carousel" class="flex gap-4 overflow-x-auto pb-4 snap-x"></div>
+            </div>
         </section>
     </main>
 
@@ -68,80 +57,53 @@
     </footer>
 
     <script>
-        let rawData = [];
-        const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTIFgXyOttJeJGsVaLwfFtNWb-c1YCJiJ8R5siL32ykA47xYYY7b8KmPXm_42vNAbaHXOkcqEG3tRCu/pub?output=csv";
-        const CONFIG_GID = "229901204";
-        const GID_MAPPING = { "RESOLUTIONS": "0", "MINUTES": "1455822320", "PROPOSALS": "907328997", "REPORTS": "1385718104" };
+        lucide.createIcons();
+        const MASTER_SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTIFgXyOttJeJGsVaLwfFtNWb-c1YCJiJ8R5siL32ykA47xYYY7b8KmPXm_42vNAbaHXOkcqEG3tRCu/pub?output=csv";
+        const CONFIG_GID = "229901204", NEWS_GID = "1683102947", METRICS_GID = "1647929887";
 
         async function init() {
-            const confRes = await fetch(`${CSV_URL}&gid=${CONFIG_GID}`);
-            const data = (await confRes.text()).split('\n').map(r => r.split(','));
-            const config = Object.fromEntries(data.map(r => [r[0]?.trim(), r[1]?.trim()]));
-            
-            const logo = document.getElementById('header-logo');
-            if(config['IMG_LOGO_URL']) { logo.src = config['IMG_LOGO_URL']; logo.classList.remove('hidden'); }
-            document.getElementById('logo-link').href = config['LINK_0_PATH'] || 'index.html';
-            
-            const path = window.location.pathname.split("/").pop() || 'documents.html';
-            const pages = [{name:'Home', id:'0'}, {name:'Gazettes', id:'1'}, {name:'Officers', id:'2'}, {name:'Feedback', id:'3'}];
-            
+            const confRes = await fetch(`${MASTER_SHEET_URL}&gid=${CONFIG_GID}`);
+            const confData = (await confRes.text()).split('\n').map(r => r.split(','));
+            const config = Object.fromEntries(confData.map(r => [r[0]?.trim(), r[1]?.trim()]));
+
+            // Navigation
+            const pages = [{name:'Home', id:'0'}, {name:'Gazettes', id:'1'}, {name:'Officers', id:'2'}, {name:'Feedback', id:'3'}, {name:'About', id:'5'}];
             pages.forEach(p => {
                 const url = config[`LINK_${p.id}_PATH`] || '#';
-                const isActive = url.includes(path) || (p.name === 'Gazettes' && path.includes('document'));
-                const cls = isActive ? "text-blue-600 font-bold" : "text-slate-500 hover:text-blue-600";
-                document.getElementById('nav-links').innerHTML += `<a href="${url}" class="${cls} text-sm">${p.name}</a>`;
-                document.getElementById('mobile-menu').innerHTML += `<a href="${url}" class="block py-3 px-2 ${cls} border-b border-slate-50">${p.name}</a>`;
+                document.getElementById('nav-links').innerHTML += `<a href="${url}" class="hover:text-white">${p.name}</a>`;
             });
-            setActiveTab('RESOLUTIONS', 'RESOLUTION NO.');
-        }
 
-        async function setActiveTab(cat, label) {
-            document.querySelectorAll('#tab-group button').forEach(b => {
-                b.className = b.id === 'btn-'+cat ? "px-2 py-3 rounded-lg bg-white border-2 border-blue-600 text-blue-600 shadow-sm transition-all text-[10px] md:text-xs" : "px-2 py-3 rounded-lg bg-slate-100 border text-slate-600 transition-all text-[10px] md:text-xs";
+            // Metrics
+            fetch(`${MASTER_SHEET_URL}&gid=${METRICS_GID}`).then(r => r.text()).then(t => {
+                const rows = t.split('\n').slice(1);
+                const container = document.getElementById('metrics-container');
+                rows.forEach(r => {
+                    const [label, val] = r.split(',');
+                    if(label) container.innerHTML += `<div class="p-6 bg-white rounded-2xl border border-slate-100 shadow-sm"><span class="text-[10px] uppercase font-bold text-slate-400">${label}</span><div class="text-2xl font-black text-blue-600">${val}</div></div>`;
+                });
             });
-            document.getElementById('col-header-id').innerText = label;
-            
-            const loader = document.getElementById('loader');
-            loader.classList.remove('hidden');
 
-            const res = await fetch(`${CSV_URL}&gid=${GID_MAPPING[cat]}`);
-            const text = await res.text();
-            
-            rawData = text.split('\n').slice(1).map(row => {
-                const cols = row.split(',');
-                return { id: cols[0], title: cols[1], link: cols[2], year: cols[3]?.trim() || '2026' };
+            // 3-Card News Grid
+            fetch(`${MASTER_SHEET_URL}&gid=${NEWS_GID}`).then(r => r.text()).then(t => {
+                const rows = t.split('\n').slice(1).filter(r => r.trim() !== "");
+                const grid = document.getElementById('news-grid');
+                rows.slice(0, 3).forEach(row => {
+                    const [headline, desc, link] = row.split(',');
+                    grid.innerHTML += `
+                        <a href="${link?.trim() || '#'}" class="group block p-6 bg-white border border-slate-100 rounded-3xl shadow-sm hover:border-blue-600 transition-all">
+                            <div class="text-[10px] uppercase font-bold text-blue-600 mb-2 tracking-widest">News</div>
+                            <h3 class="font-bold text-lg mb-2 group-hover:text-blue-600">${headline}</h3>
+                            <p class="text-sm text-slate-500">${desc}</p>
+                        </a>`;
+                });
             });
-            
-            updateYearFilter();
-            loader.classList.add('hidden');
-            renderTable();
-        }
 
-        function updateYearFilter() {
-            const select = document.getElementById('year-filter');
-            const currentVal = select.value;
-            const years = [...new Set(rawData.map(d => d.year))].sort((a,b) => b-a);
-            select.innerHTML = '<option value="ALL">All Years</option>';
-            years.forEach(y => {
-                select.innerHTML += `<option value="${y}" ${currentVal === y ? 'selected' : ''}>${y}</option>`;
+            // Carousel
+            const imgs = config.ACTION_IMAGES?.split('|') || [];
+            const carousel = document.getElementById('action-carousel');
+            imgs.forEach(url => { 
+                carousel.innerHTML += `<div class="flex-shrink-0 snap-start w-[300px] h-56 rounded-2xl overflow-hidden bg-slate-200"><img src="${url.trim()}" class="w-full h-full object-cover"></div>`; 
             });
-        }
-
-        function renderTable() {
-            const tbody = document.getElementById('document-table-body');
-            const search = document.getElementById('search-input').value.toLowerCase();
-            const year = document.getElementById('year-filter').value;
-            
-            tbody.innerHTML = rawData
-                .filter(d => (d.title?.toLowerCase().includes(search) || d.id?.toLowerCase().includes(search)) && (year === 'ALL' || d.year === year))
-                .map(d => `
-                    <tr class="hover:bg-slate-50">
-                        <td class="py-4 px-4 font-mono text-xs text-blue-600 font-bold">${d.id || ''}</td>
-                        <td class="py-4 px-4 text-slate-800 font-medium whitespace-normal">${d.title || ''}</td>
-                        <td class="py-4 px-4 text-right"><a href="${d.link}" target="_blank" class="text-blue-600 font-bold underline text-xs">VIEW</a></td>
-                    </tr>
-                `).join('');
-            lucide.createIcons();
         }
         init();
     </script>
