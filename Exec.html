@@ -11,27 +11,29 @@
         body { font-family: 'Inter', sans-serif; }
         .animate-in { opacity: 0; animation: fadeUp 0.8s ease-out forwards; }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .snap-x { scroll-snap-type: x mandatory; }
+        .snap-start { scroll-snap-align: start; }
     </style>
 </head>
 
 <body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col">
 
+    <!-- Header -->
     <header class="bg-white border-b border-slate-100 sticky top-0 z-50">
         <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-            <a id="logo-link" href="#">
-                <img id="header-logo" src="" class="h-8" alt="">
-            </a>
-            <nav id="nav-links" class="hidden md:flex items-center space-x-8 text-[10px] font-bold uppercase text-slate-500"></nav>
+            <a href="#"><img id="header-logo" src="" class="h-8" alt=""></a>
+            <nav id="nav-links" class="hidden md:flex items-center space-x-8 font-bold uppercase text-slate-500"></nav>
             <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="md:hidden p-2"><i data-lucide="menu"></i></button>
         </div>
         <div id="mobile-menu" class="hidden md:hidden border-t bg-white px-4 py-2 space-y-1 text-xs font-bold uppercase text-slate-500"></div>
     </header>
 
     <main class="flex-grow">
-        <section class="animate-in bg-blue-900 px-4 py-20 text-white">
-            <div class="max-w-6xl mx-auto">
+        <!-- Hero Section: Static background, animated text -->
+        <section class="bg-blue-900 px-4 py-20 text-white">
+            <div class="max-w-6xl mx-auto animate-in">
                 <h1 class="text-5xl font-black tracking-tight mb-4">A clear window into student leadership.</h1>
-                <p class="text-blue-200 max-w-2xl text-lg">Governance, Leadership, Accountability & Student Services. We ensure every policy and student asset is openly accessible.</p>
+                <p class="text-blue-200 max-w-2xl text-lg">The Supreme Secondary Learner Government operates under a framework of complete digital visibility. Through Project GLASS (Governance, Leadership, Accountability & Student Services), we ensure every policy and student asset is openly accessible.</p>
             </div>
         </section>
 
@@ -46,26 +48,37 @@
                 <div id="news-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8"></div>
             </section>
 
+            <section class="animate-in w-full">
+                <h2 class="text-2xl font-bold mb-8">SSLG in Action</h2>
+                <div class="w-full overflow-hidden">
+                    <div id="action-carousel" class="flex gap-4 overflow-x-auto pb-4 snap-x"></div>
+                </div>
+            </section>
+
             <section class="grid grid-cols-1 md:grid-cols-4 gap-6 animate-in">
                 <a id="btn-clubs" href="#" class="p-8 bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-md transition-all">
                     <i data-lucide="shield" class="mb-4 w-8 h-8 text-blue-600"></i>
                     <h2 class="font-bold text-lg mb-1">Clubs</h2>
                     <p class="text-xs text-slate-500 mb-4">Explore our diverse range of student-led organizations.</p>
+                    <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">View All Clubs →</span>
                 </a>
                 <a id="btn-docs" href="#" class="p-8 bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-md transition-all">
                     <i data-lucide="file-text" class="mb-4 w-8 h-8 text-blue-600"></i>
                     <h2 class="font-bold text-lg mb-1">Documents</h2>
                     <p class="text-xs text-slate-500 mb-4">Access official bylaws, gazettes, and project records.</p>
+                    <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">View Files →</span>
                 </a>
                 <a id="btn-feedback" href="#" class="p-8 bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-md transition-all">
                     <i data-lucide="message-square" class="mb-4 w-8 h-8 text-blue-600"></i>
                     <h2 class="font-bold text-lg mb-1">Feedback</h2>
                     <p class="text-xs text-slate-500 mb-4">Your voice matters. Share your thoughts with us.</p>
+                    <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Submit Form →</span>
                 </a>
                 <a id="btn-about" href="#" class="p-8 bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-md transition-all">
                     <i data-lucide="info" class="mb-4 w-8 h-8 text-blue-600"></i>
                     <h2 class="font-bold text-lg mb-1">About Us</h2>
                     <p class="text-xs text-slate-500 mb-4">Our mission and vision for the student body.</p>
+                    <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Learn More →</span>
                 </a>
             </section>
         </div>
@@ -85,18 +98,27 @@
             const confData = (await confRes.text()).split('\n').map(r => r.split(','));
             const config = Object.fromEntries(confData.map(r => [r[0]?.trim(), r[1]?.trim()]));
 
-            // Logo Fetcher
             if(config.IMG_LOGO_URL) document.getElementById('header-logo').src = config.IMG_LOGO_URL;
 
-            // Nav
-            const pages = [{name:'Home', id:'0'}, {name:'Gazettes', id:'1'}, {name:'Officers', id:'2'}, {name:'Feedback', id:'3'}, {name:'About', id:'5'}];
+            const path = window.location.pathname.split("/").pop();
+            const pages = [
+                {name:'Home', id:'0'}, {name:'Gazettes', id:'1'}, {name:'Officers', id:'2'}, 
+                {name:'Feedback', id:'3'}, {name:'About Us', id:'5'}
+            ];
+
             pages.forEach(p => {
                 const url = config[`LINK_${p.id}_PATH`] || '#';
-                document.getElementById('nav-links').innerHTML += `<a href="${url}">${p.name}</a>`;
-                document.getElementById('mobile-menu').innerHTML += `<a href="${url}" class="block py-3 px-2 border-b">${p.name}</a>`;
+                const isActive = url.includes(path) || (path === '' && p.name === 'Home');
+                const cls = isActive ? "text-blue-600 font-bold" : "text-slate-500 hover:text-blue-600";
+                document.getElementById('nav-links').innerHTML += `<a href="${url}" class="${cls} text-[10px]">${p.name}</a>`;
+                document.getElementById('mobile-menu').innerHTML += `<a href="${url}" class="block py-3 px-2 ${cls} border-b border-slate-50">${p.name}</a>`;
             });
 
-            // Metrics
+            const linkMap = { 'LINK_1_PATH': ['btn-docs'], 'LINK_3_PATH': ['btn-feedback'], 'LINK_4_PATH': ['btn-clubs'], 'LINK_5_PATH': ['btn-about'] };
+            Object.keys(linkMap).forEach(key => {
+                linkMap[key].forEach(id => { const el = document.getElementById(id); if(el) el.href = config[key] || '#'; });
+            });
+
             fetch(`${MASTER_SHEET_URL}&gid=${METRICS_GID}`).then(r => r.text()).then(t => {
                 const rows = t.split('\n').slice(1);
                 const container = document.getElementById('metrics-container');
@@ -106,7 +128,6 @@
                 });
             });
 
-            // News
             fetch(`${MASTER_SHEET_URL}&gid=${NEWS_GID}`).then(r => r.text()).then(t => {
                 const rows = t.split('\n').slice(1).filter(r => r.trim() !== "");
                 const grid = document.getElementById('news-grid');
@@ -115,6 +136,10 @@
                     grid.innerHTML += `<a href="${link?.trim() || '#'}" class="group block p-8 bg-white border border-slate-100 rounded-3xl shadow-sm hover:border-blue-600 transition-all"><div class="text-[10px] uppercase font-bold text-blue-600 mb-2 tracking-widest">News</div><h3 class="font-bold text-lg mb-2 group-hover:text-blue-600">${headline}</h3><p class="text-sm text-slate-500">${desc}</p></a>`;
                 });
             });
+
+            const imgs = config.ACTION_IMAGES?.split('|') || [];
+            const carousel = document.getElementById('action-carousel');
+            imgs.forEach(url => { carousel.innerHTML += `<div class="flex-shrink-0 snap-start w-[300px] h-56 rounded-2xl overflow-hidden bg-slate-200"><img src="${url.trim()}" class="w-full h-full object-cover"></div>`; });
         }
         init();
     </script>
