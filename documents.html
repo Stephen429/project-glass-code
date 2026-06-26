@@ -31,7 +31,7 @@
         
         <section class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm mb-6">
             <div class="flex flex-col md:flex-row gap-3">
-                <input type="text" id="search-input" onkeyup="renderTable()" placeholder="Search by title or ID..." class="flex-grow px-4 py-2.5 rounded-lg border text-sm outline-none focus:ring-2 focus:ring-blue-500">
+                <input type="text" id="search-input" onkeyup="renderTable()" placeholder="Search by title or ID..." class="flex-grow px-4 py-2.5 rounded-lg border text-sm outline-none">
                 <select id="year-filter" onchange="renderTable()" class="px-4 py-2.5 rounded-lg border text-sm bg-slate-50">
                     <option value="ALL">All Years</option>
                 </select>
@@ -64,18 +64,18 @@
     </main>
 
     <script>
-        const CSV_BASE = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTIFgXyOttJeJGsVaLwfFtNWb-c1YCJiJ8R5siL32ykA47xYYY7b8KmPXm_42vNAbaHXOkcqEG3tRCu/pub";
+        const BASE_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTIFgXyOttJeJGsVaLwfFtNWb-c1YCJiJ8R5siL32ykA47xYYY7b8KmPXm_42vNAbaHXOkcqEG3tRCu/pub";
         const CONFIG_GID = "229901204";
-        const MASTER_TSV_URL = CSV_BASE + "?output=tsv&gid=29363756"; // Update this
+        const DOCS_TSV_URL = `${BASE_URL}?output=tsv&gid=29363756`;
 
         let fullData = [];
         let currentCategory = 'RESOLUTION';
 
         async function init() {
             // 1. Load Config
-            const confRes = await fetch(`${CSV_BASE}?output=csv&gid=${CONFIG_GID}`);
-            const confText = await confRes.text();
-            const config = Object.fromEntries(confText.split('\n').map(r => r.split(',')).map(r => [r[0]?.trim(), r[1]?.trim()]));
+            const confRes = await fetch(`${BASE_URL}?output=csv&gid=${CONFIG_GID}`);
+            const confData = (await confRes.text()).split('\n').map(r => r.split(','));
+            const config = Object.fromEntries(confData.map(r => [r[0]?.trim(), r[1]?.trim()]));
             
             const logo = document.getElementById('header-logo');
             if(config['IMG_LOGO_URL']) { logo.src = config['IMG_LOGO_URL']; logo.parentElement.parentElement.classList.add('logo-loaded'); }
@@ -88,19 +88,21 @@
                 document.getElementById('mobile-menu').innerHTML += `<a href="${url}" class="block py-3 px-2 text-slate-500 border-b border-slate-50 text-xs font-bold uppercase">${p.name}</a>`;
             });
 
-            // 2. Load Documents
-            const docRes = await fetch(MASTER_TSV_URL);
-            const docText = await docRes.text();
-            fullData = docText.split('\n').slice(1).map(row => {
-                const [type, code, year, title, link] = row.split('\t');
-                return { type, code, year, title, link };
-            });
+            // 2. Load TSV Data (TYPE, CODE, YEAR, NAME, LINK)
+            try {
+                const docRes = await fetch(DOCS_TSV_URL);
+                const docText = await docRes.text();
+                fullData = docText.split('\n').slice(1).map(row => {
+                    const [type, code, year, title, link] = row.split('\t');
+                    return { type: type?.trim(), code: code?.trim(), year: year?.trim(), title: title?.trim(), link: link?.trim() };
+                });
 
-            const years = [...new Set(fullData.map(d => d.year))].sort((a,b) => b-a);
-            const yearSelect = document.getElementById('year-filter');
-            years.forEach(y => yearSelect.innerHTML += `<option value="${y}">${y}</option>`);
-            
-            renderTable();
+                const years = [...new Set(fullData.map(d => d.year).filter(y => y))].sort((a,b) => b-a);
+                const yearSelect = document.getElementById('year-filter');
+                years.forEach(y => yearSelect.innerHTML += `<option value="${y}">${y}</option>`);
+                
+                renderTable();
+            } catch(e) { console.error("TSV Load Error:", e); }
             lucide.createIcons();
         }
 
