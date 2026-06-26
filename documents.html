@@ -27,12 +27,10 @@
     </header>
 
     <main class="flex-grow max-w-4xl mx-auto px-4 py-8 fade-in w-full overflow-hidden">
+        <h1 class="text-3xl font-black mb-2">Documents & Gazettes</h1>
+        <p class="text-slate-500 text-sm mb-8">Access official publications, reports, and documented gazettes.</p>
 
-<h1 class="text-3xl font-black mb-2">Documents & Gazettes</h1>
-
-<p class="text-slate-500 text-sm mb-8">Access official publications, reports, and documented gazettes.</p>
-
-<section class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm mb-6">
+        <section class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm mb-6">
             <div class="flex flex-col md:flex-row gap-3">
                 <input type="text" id="search-input" onkeyup="renderTable()" placeholder="Search by title or ID..." class="flex-grow px-4 py-2.5 rounded-lg border text-sm outline-none">
                 <select id="year-filter" onchange="renderTable()" class="px-4 py-2.5 rounded-lg border text-sm bg-slate-50">
@@ -75,6 +73,9 @@
         let currentCategory = 'RESOLUTION';
 
         async function init() {
+            // Define path variable to fix navigation error
+            const path = window.location.pathname.split("/").pop();
+
             // 1. Load Config
             const confRes = await fetch(`${BASE_URL}?output=csv&gid=${CONFIG_GID}`);
             const confData = (await confRes.text()).split('\n').map(r => r.split(','));
@@ -86,29 +87,22 @@
             
             const pages = [{name:'Home', id:'0'}, {name:'Gazettes', id:'1'}, {name:'Officers', id:'2'}, {name:'Feedback', id:'3'}, {name:'About Us', id:'5'}];
             pages.forEach(p => {
+                const url = config[`LINK_${p.id}_PATH`] || '#';
+                const isActive = url.includes(path) || (p.name === 'Gazettes' && path.includes('document'));
+                const cls = isActive ? "text-blue-600 font-bold" : "text-slate-500 hover:text-blue-600";
+                
+                document.getElementById('nav-links').innerHTML += `<a href="${url}" class="${cls} text-sm">${p.name}</a>`;
+                document.getElementById('mobile-menu').innerHTML += `<a href="${url}" class="block py-3 px-2 ${cls} border-b border-slate-50">${p.name}</a>`;
+            });
 
-const url = config[`LINK_${p.id}_PATH`] || '#';
-
-// Highlights if the current URL matches or if we are on a subpage of that section
-
-const isActive = url.includes(path) || (p.name === 'Gazettes' && path.includes('document'));
-
-const cls = isActive ? "text-blue-600 font-bold" : "text-slate-500 hover:text-blue-600";
-
-document.getElementById('nav-links').innerHTML += `<a href="${url}" class="${cls} text-sm">${p.name}</a>`;
-
-document.getElementById('mobile-menu').innerHTML += `<a href="${url}" class="block py-3 px-2 ${cls} border-b border-slate-50">${p.name}</a>`;
-
-});
-
-            // 2. Load TSV Data (TYPE, CODE, YEAR, NAME, LINK)
+            // 2. Load TSV Data
             try {
                 const docRes = await fetch(DOCS_TSV_URL);
                 const docText = await docRes.text();
                 fullData = docText.split('\n').slice(1).map(row => {
                     const [type, code, year, title, link] = row.split('\t');
                     return { type: type?.trim(), code: code?.trim(), year: year?.trim(), title: title?.trim(), link: link?.trim() };
-                });
+                }).filter(d => d.type); // Filter out empty rows
 
                 const years = [...new Set(fullData.map(d => d.year).filter(y => y))].sort((a,b) => b-a);
                 const yearSelect = document.getElementById('year-filter');
