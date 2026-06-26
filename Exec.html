@@ -11,65 +11,69 @@
         body { font-family: 'Inter', sans-serif; }
         .animate-in { opacity: 0; animation: fadeUp 0.8s ease-out forwards; }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .snap-x { scroll-snap-type: x mandatory; }
-        .snap-start { scroll-snap-align: start; }
-        #header-logo { display: none; }
-        .logo-loaded #header-logo { display: block; }
     </style>
 </head>
 
-<body class="bg-slate-50 text-slate-900 min-h-screen">
+<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col">
 
-    <!-- Header -->
-    <header class="border-b border-slate-100 sticky top-0 z-50 bg-white">
+    <header class="bg-white border-b border-slate-100 sticky top-0 z-50">
         <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-            <a id="logo-link" href="#" class="flex items-center">
-                <img id="header-logo" src="" class="h-8" alt="Logo">
+            <a id="logo-link" href="#">
+                <img id="header-logo" src="" class="h-8" alt="">
             </a>
-            <nav id="nav-links" class="hidden md:flex items-center space-x-6 text-xs font-bold uppercase text-slate-500"></nav>
-            <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="md:hidden p-2 text-slate-600"><i data-lucide="menu"></i></button>
+            <nav id="nav-links" class="hidden md:flex items-center space-x-8 text-[10px] font-bold uppercase text-slate-500"></nav>
+            <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="md:hidden p-2"><i data-lucide="menu"></i></button>
         </div>
-        <div id="mobile-menu" class="hidden md:hidden border-t border-slate-100 bg-white px-4 py-2 space-y-1 text-xs font-bold uppercase text-slate-500 flex flex-col"></div>
+        <div id="mobile-menu" class="hidden md:hidden border-t bg-white px-4 py-2 space-y-1 text-xs font-bold uppercase text-slate-500"></div>
     </header>
 
-    <main class="max-w-6xl mx-auto px-4 py-12 space-y-16">
-        
-        <!-- Hero Section (Full width background) -->
-        <section class="animate-in bg-blue-600 -mx-4 px-4 py-16 text-white">
+    <main class="flex-grow">
+        <section class="animate-in bg-blue-900 px-4 py-20 text-white">
             <div class="max-w-6xl mx-auto">
                 <h1 class="text-5xl font-black tracking-tight mb-4">A clear window into student leadership.</h1>
-                <p class="text-blue-100 max-w-2xl text-lg">Governance, Leadership, Accountability & Student Services. We ensure every policy and student asset is openly accessible.</p>
+                <p class="text-blue-200 max-w-2xl text-lg">Governance, Leadership, Accountability & Student Services. We ensure every policy and student asset is openly accessible.</p>
             </div>
         </section>
 
-        <!-- By the Numbers -->
-        <section class="animate-in">
-            <h3 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">By the Numbers</h3>
-            <div id="metrics-container" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
-        </section>
+        <div class="max-w-6xl mx-auto px-4 py-16 space-y-20">
+            <section class="animate-in">
+                <h3 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-8 text-center">By the Numbers</h3>
+                <div id="metrics-container" class="flex flex-wrap justify-center gap-8"></div>
+            </section>
 
-        <!-- 3-News Spotlight Grid -->
-        <section class="animate-in">
-            <h2 class="text-xl font-bold mb-6">Latest Updates</h2>
-            <div id="news-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
-        </section>
+            <section class="animate-in">
+                <h2 class="text-2xl font-bold mb-8">Latest Updates</h2>
+                <div id="news-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8"></div>
+            </section>
 
-        <!-- Carousel -->
-        <section class="animate-in w-full">
-            <h2 class="text-2xl font-bold mb-2">SSLG in Action</h2>
-            <div class="w-full overflow-hidden">
-                <div id="action-carousel" class="flex gap-4 overflow-x-auto pb-4 snap-x"></div>
-            </div>
-        </section>
-
-        <!-- Shortcut Buttons -->
-        <section class="grid grid-cols-1 md:grid-cols-4 gap-6 animate-in">
-            <a id="btn-clubs" href="#" class="p-8 rounded-3xl border border-slate-100 shadow-sm hover:bg-slate-900 hover:text-white transition-all"><i data-lucide="shield" class="mb-4 w-8 h-8"></i><h2 class="text-xl font-bold mb-2">Clubs</h2></a>
-            <a id="btn-docs" href="#" class="p-8 rounded-3xl border border-slate-100 shadow-sm hover:bg-slate-900 hover:text-white transition-all"><i data-lucide="file-text" class="mb-4 w-8 h-8"></i><h2 class="text-xl font-bold mb-2">Documents</h2></a>
-            <a id="btn-feedback" href="#" class="p-8 rounded-3xl border border-slate-100 shadow-sm hover:bg-slate-900 hover:text-white transition-all"><i data-lucide="message-square" class="mb-4 w-8 h-8"></i><h2 class="text-xl font-bold mb-2">Feedback</h2></a>
-            <a id="btn-about" href="#" class="p-8 rounded-3xl border border-slate-100 shadow-sm hover:bg-slate-900 hover:text-white transition-all"><i data-lucide="info" class="mb-4 w-8 h-8"></i><h2 class="text-xl font-bold mb-2">About Us</h2></a>
-        </section>
+            <section class="grid grid-cols-1 md:grid-cols-4 gap-6 animate-in">
+                <a id="btn-clubs" href="#" class="p-8 bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-md transition-all">
+                    <i data-lucide="shield" class="mb-4 w-8 h-8 text-blue-600"></i>
+                    <h2 class="font-bold text-lg mb-1">Clubs</h2>
+                    <p class="text-xs text-slate-500 mb-4">Explore our diverse range of student-led organizations.</p>
+                </a>
+                <a id="btn-docs" href="#" class="p-8 bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-md transition-all">
+                    <i data-lucide="file-text" class="mb-4 w-8 h-8 text-blue-600"></i>
+                    <h2 class="font-bold text-lg mb-1">Documents</h2>
+                    <p class="text-xs text-slate-500 mb-4">Access official bylaws, gazettes, and project records.</p>
+                </a>
+                <a id="btn-feedback" href="#" class="p-8 bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-md transition-all">
+                    <i data-lucide="message-square" class="mb-4 w-8 h-8 text-blue-600"></i>
+                    <h2 class="font-bold text-lg mb-1">Feedback</h2>
+                    <p class="text-xs text-slate-500 mb-4">Your voice matters. Share your thoughts with us.</p>
+                </a>
+                <a id="btn-about" href="#" class="p-8 bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-md transition-all">
+                    <i data-lucide="info" class="mb-4 w-8 h-8 text-blue-600"></i>
+                    <h2 class="font-bold text-lg mb-1">About Us</h2>
+                    <p class="text-xs text-slate-500 mb-4">Our mission and vision for the student body.</p>
+                </a>
+            </section>
+        </div>
     </main>
+
+    <footer class="border-t bg-white py-12 text-center text-xs font-bold uppercase text-slate-400">
+        <p>&copy; 2026 Project GLASS. All rights reserved.</p>
+    </footer>
 
     <script>
         lucide.createIcons();
@@ -81,22 +85,16 @@
             const confData = (await confRes.text()).split('\n').map(r => r.split(','));
             const config = Object.fromEntries(confData.map(r => [r[0]?.trim(), r[1]?.trim()]));
 
-            // Logo & Nav
-            const logo = document.getElementById('header-logo');
-            if(config.IMG_LOGO_URL) { logo.src = config.IMG_LOGO_URL; logo.parentElement.parentElement.classList.add('logo-loaded'); }
-            
+            // Logo Fetcher
+            if(config.IMG_LOGO_URL) document.getElementById('header-logo').src = config.IMG_LOGO_URL;
+
+            // Nav
             const pages = [{name:'Home', id:'0'}, {name:'Gazettes', id:'1'}, {name:'Officers', id:'2'}, {name:'Feedback', id:'3'}, {name:'About', id:'5'}];
             pages.forEach(p => {
                 const url = config[`LINK_${p.id}_PATH`] || '#';
-                document.getElementById('nav-links').innerHTML += `<a href="${url}" class="text-slate-500 hover:text-blue-600">${p.name}</a>`;
-                document.getElementById('mobile-menu').innerHTML += `<a href="${url}" class="block py-3 px-2 text-slate-500 border-b">${p.name}</a>`;
+                document.getElementById('nav-links').innerHTML += `<a href="${url}">${p.name}</a>`;
+                document.getElementById('mobile-menu').innerHTML += `<a href="${url}" class="block py-3 px-2 border-b">${p.name}</a>`;
             });
-
-            // Links for buttons
-            document.getElementById('btn-clubs').href = config['LINK_4_PATH'] || '#';
-            document.getElementById('btn-docs').href = config['LINK_1_PATH'] || '#';
-            document.getElementById('btn-feedback').href = config['LINK_3_PATH'] || '#';
-            document.getElementById('btn-about').href = config['LINK_5_PATH'] || '#';
 
             // Metrics
             fetch(`${MASTER_SHEET_URL}&gid=${METRICS_GID}`).then(r => r.text()).then(t => {
@@ -104,7 +102,7 @@
                 const container = document.getElementById('metrics-container');
                 rows.forEach(r => {
                     const [label, val] = r.split(',');
-                    if(label) container.innerHTML += `<div class="p-6 bg-white rounded-2xl border border-slate-100 shadow-sm"><span class="text-[10px] uppercase font-bold text-slate-400">${label}</span><div class="text-2xl font-black text-blue-600">${val}</div></div>`;
+                    if(label) container.innerHTML += `<div class="text-center"><div class="text-[10px] uppercase font-bold text-slate-400 mb-1">${label}</div><div class="text-3xl font-black text-blue-600">${val}</div></div>`;
                 });
             });
 
@@ -114,15 +112,9 @@
                 const grid = document.getElementById('news-grid');
                 rows.slice(0, 3).forEach(row => {
                     const [headline, desc, link] = row.split(',');
-                    grid.innerHTML += `<a href="${link?.trim() || '#'}" class="group block p-6 bg-white border border-slate-100 rounded-3xl shadow-sm hover:border-blue-600 transition-all"><div class="text-[10px] uppercase font-bold text-blue-600 mb-2 tracking-widest">News</div><h3 class="font-bold text-lg mb-2 group-hover:text-blue-600">${headline}</h3><p class="text-sm text-slate-500">${desc}</p></a>`;
+                    grid.innerHTML += `<a href="${link?.trim() || '#'}" class="group block p-8 bg-white border border-slate-100 rounded-3xl shadow-sm hover:border-blue-600 transition-all"><div class="text-[10px] uppercase font-bold text-blue-600 mb-2 tracking-widest">News</div><h3 class="font-bold text-lg mb-2 group-hover:text-blue-600">${headline}</h3><p class="text-sm text-slate-500">${desc}</p></a>`;
                 });
             });
-
-            // Carousel
-            const imgs = config.ACTION_IMAGES?.split('|') || [];
-            const carousel = document.getElementById('action-carousel');
-            imgs.forEach(url => { carousel.innerHTML += `<div class="flex-shrink-0 snap-start w-[300px] h-56 rounded-2xl overflow-hidden bg-slate-200"><img src="${url.trim()}" class="w-full h-full object-cover"></div>`; });
-            lucide.createIcons();
         }
         init();
     </script>
