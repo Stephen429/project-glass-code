@@ -2,15 +2,13 @@
 <html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Official Documents | Project GLASS</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap'); 
-        body { font-family: 'Inter', sans-serif; touch-action: manipulation; }
-        .fade-in { animation: fadeIn 0.5s ease-in; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        body { font-family: 'Inter', sans-serif; }
         #header-logo { display: none; }
         .logo-loaded #header-logo { display: block; }
     </style>
@@ -28,128 +26,113 @@
         <div id="mobile-menu" class="hidden md:hidden border-t border-slate-100 bg-white px-4 py-2 space-y-1 text-xs font-bold uppercase text-slate-500 flex flex-col"></div>
     </header>
 
-    <main class="flex-grow max-w-4xl mx-auto px-4 py-8 fade-in w-full overflow-hidden">
+    <main class="flex-grow max-w-4xl mx-auto px-4 py-8">
         <h1 class="text-3xl font-black mb-2">Documents & Gazettes</h1>
-        <p class="text-slate-500 text-sm mb-8">Access official publications, reports, and documented gazettes.</p>
         
         <section class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm mb-6">
             <div class="flex flex-col md:flex-row gap-3">
                 <input type="text" id="search-input" onkeyup="renderTable()" placeholder="Search by title or ID..." class="flex-grow px-4 py-2.5 rounded-lg border text-sm outline-none focus:ring-2 focus:ring-blue-500">
-                <select id="year-filter" onchange="renderTable()" class="px-4 py-2.5 rounded-lg border text-sm bg-slate-50 text-slate-600 outline-none">
+                <select id="year-filter" onchange="renderTable()" class="px-4 py-2.5 rounded-lg border text-sm bg-slate-50">
                     <option value="ALL">All Years</option>
+                </select>
+                <select id="sort-filter" onchange="renderTable()" class="px-4 py-2.5 rounded-lg border text-sm bg-slate-50">
+                    <option value="NEWEST">Newest First</option>
+                    <option value="OLDEST">Oldest First</option>
                 </select>
             </div>
         </section>
 
-        <div id="tab-group" class="grid grid-cols-2 md:grid-cols-4 gap-2 mb-10 text-xs font-bold uppercase">
-            <button onclick="setActiveTab('RESOLUTIONS', 'RESOLUTION NO.')" id="btn-RESOLUTIONS" class="px-4 py-3 rounded-lg bg-white border text-blue-600 shadow-sm transition-all">Resolutions</button>
-            <button onclick="setActiveTab('MINUTES', 'MEETING NO.')" id="btn-MINUTES" class="px-4 py-3 rounded-lg bg-white border text-slate-600 transition-all">Minutes</button>
-            <button onclick="setActiveTab('PROPOSALS', 'PROPOSAL NO.')" id="btn-PROPOSALS" class="px-4 py-3 rounded-lg bg-white border text-slate-600 transition-all">Proposals</button>
-            <button onclick="setActiveTab('REPORTS', 'DOC NO.')" id="btn-REPORTS" class="px-4 py-3 rounded-lg bg-white border text-slate-600 transition-all">Reports</button>
+        <div id="tab-group" class="grid grid-cols-2 md:grid-cols-4 gap-2 mb-6 text-xs font-bold uppercase">
+            <button onclick="setCategory('RESOLUTION')" id="btn-RESOLUTION" class="py-3 rounded-lg bg-white border border-blue-600 text-blue-600 shadow-sm">Resolutions</button>
+            <button onclick="setCategory('MINUTES')" id="btn-MINUTES" class="py-3 rounded-lg bg-white border text-slate-600">Minutes</button>
+            <button onclick="setCategory('PROPOSAL')" id="btn-PROPOSAL" class="py-3 rounded-lg bg-white border text-slate-600">Proposals</button>
+            <button onclick="setCategory('REPORT')" id="btn-REPORT" class="py-3 rounded-lg bg-white border text-slate-600">Reports</button>
         </div>
 
-        <section class="bg-white border rounded-2xl shadow-sm overflow-hidden w-full">
+        <section class="bg-white border rounded-2xl shadow-sm overflow-hidden">
             <table class="w-full text-left border-collapse">
-                <thead>
-                    <tr class="bg-slate-50 border-b text-slate-400 text-[10px] font-bold uppercase tracking-widest">
-                        <th id="col-header-id" class="py-4 px-4 w-1/4">ID</th>
+                <thead class="bg-slate-50 border-b text-slate-400 text-[10px] font-bold uppercase tracking-widest">
+                    <tr>
+                        <th class="py-4 px-4 w-1/4">ID</th>
                         <th class="py-4 px-4 w-1/2">Title</th>
                         <th class="py-4 px-4 w-1/4 text-right">Action</th>
                     </tr>
                 </thead>
                 <tbody id="document-table-body" class="divide-y text-sm"></tbody>
             </table>
-            <div id="loader" class="text-center py-10 text-slate-400 font-bold uppercase text-xs animate-pulse hidden">Syncing Cloud Database...</div>
         </section>
     </main>
 
     <script>
-        let rawData = [];
-        const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTIFgXyOttJeJGsVaLwfFtNWb-c1YCJiJ8R5siL32ykA47xYYY7b8KmPXm_42vNAbaHXOkcqEG3tRCu/pub?output=csv";
+        const CSV_BASE = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTIFgXyOttJeJGsVaLwfFtNWb-c1YCJiJ8R5siL32ykA47xYYY7b8KmPXm_42vNAbaHXOkcqEG3tRCu/pub";
         const CONFIG_GID = "229901204";
-        const GID_MAPPING = { "RESOLUTIONS": "0", "MINUTES": "1455822320", "PROPOSALS": "907328997", "REPORTS": "1385718104" };
+        const MASTER_TSV_URL = CSV_BASE + "?output=tsv&gid=YOUR_DOCUMENTS_TSV_GID_HERE"; // Update this
+
+        let fullData = [];
+        let currentCategory = 'RESOLUTION';
 
         async function init() {
-        const confRes = await fetch(`${CSV_URL}&gid=${CONFIG_GID}`);
-        const data = (await confRes.text()).split('\n').map(r => r.split(','));
-        const config = Object.fromEntries(data.map(r => [r[0]?.trim(), r[1]?.trim()]));
-        
-        // Header Logo Setup
-        const logo = document.getElementById('header-logo');
-        if(config['IMG_LOGO_URL']) { logo.src = config['IMG_LOGO_URL']; logo.parentElement.parentElement.classList.add('logo-loaded'); }
-        document.getElementById('logo-link').href = config['LINK_0_PATH'] || 'index.html';
-        
-        // Navigation Mapping (Includes About Us as Link_5)
-        const path = window.location.pathname.split("/").pop();
-        const pages = [
-            {name:'Home', id:'0'}, 
-            {name:'Gazettes', id:'1'}, 
-            {name:'Officers', id:'2'}, 
-            {name:'Feedback', id:'3'},
-            {name:'About Us', id:'5'}
-        ];
-        
-        pages.forEach(p => {
-            const url = config[`LINK_${p.id}_PATH`] || '#';
-            // Highlights if the current URL matches or if we are on a subpage of that section
-            const isActive = url.includes(path) || (p.name === 'Gazettes' && path.includes('document'));
-            const cls = isActive ? "text-blue-600 font-bold" : "text-slate-500 hover:text-blue-600";
+            // 1. Load Config
+            const confRes = await fetch(`${CSV_BASE}?output=csv&gid=${CONFIG_GID}`);
+            const confText = await confRes.text();
+            const config = Object.fromEntries(confText.split('\n').map(r => r.split(',')).map(r => [r[0]?.trim(), r[1]?.trim()]));
             
-            document.getElementById('nav-links').innerHTML += `<a href="${url}" class="${cls} text-sm">${p.name}</a>`;
-            document.getElementById('mobile-menu').innerHTML += `<a href="${url}" class="block py-3 px-2 ${cls} border-b border-slate-50">${p.name}</a>`;
-        });
-            setActiveTab('RESOLUTIONS', 'RESOLUTION NO.');
-        }
-
-        async function setActiveTab(cat, label) {
-            document.querySelectorAll('#tab-group button').forEach(b => {
-                b.className = b.id === 'btn-'+cat ? "px-2 py-3 rounded-lg bg-white border-2 border-blue-600 text-blue-600 shadow-sm transition-all text-[10px] md:text-xs" : "px-2 py-3 rounded-lg bg-slate-100 border text-slate-600 transition-all text-[10px] md:text-xs";
+            const logo = document.getElementById('header-logo');
+            if(config['IMG_LOGO_URL']) { logo.src = config['IMG_LOGO_URL']; logo.parentElement.parentElement.classList.add('logo-loaded'); }
+            document.getElementById('logo-link').href = config['LINK_0_PATH'] || 'index.html';
+            
+            const pages = [{name:'Home', id:'0'}, {name:'Gazettes', id:'1'}, {name:'Officers', id:'2'}, {name:'Feedback', id:'3'}, {name:'About Us', id:'5'}];
+            pages.forEach(p => {
+                const url = config[`LINK_${p.id}_PATH`] || '#';
+                document.getElementById('nav-links').innerHTML += `<a href="${url}" class="text-slate-500 hover:text-blue-600 text-sm font-bold uppercase">${p.name}</a>`;
+                document.getElementById('mobile-menu').innerHTML += `<a href="${url}" class="block py-3 px-2 text-slate-500 border-b border-slate-50 text-xs font-bold uppercase">${p.name}</a>`;
             });
-            document.getElementById('col-header-id').innerText = label;
-            
-            // Clear UI immediately
-            document.getElementById('document-table-body').innerHTML = '';
-            const loader = document.getElementById('loader');
-            loader.classList.remove('hidden');
 
-            const res = await fetch(`${CSV_URL}&gid=${GID_MAPPING[cat]}`);
-            const text = await res.text();
-            
-            rawData = text.split('\n').slice(1).map(row => {
-                const cols = row.split(',');
-                return { id: cols[0], title: cols[1], link: cols[2], year: cols[3]?.trim() || '2026' };
+            // 2. Load Documents
+            const docRes = await fetch(MASTER_TSV_URL);
+            const docText = await docRes.text();
+            fullData = docText.split('\n').slice(1).map(row => {
+                const [type, code, year, title, link] = row.split('\t');
+                return { type, code, year, title, link };
             });
+
+            const years = [...new Set(fullData.map(d => d.year))].sort((a,b) => b-a);
+            const yearSelect = document.getElementById('year-filter');
+            years.forEach(y => yearSelect.innerHTML += `<option value="${y}">${y}</option>`);
             
-            updateYearFilter();
-            loader.classList.add('hidden');
             renderTable();
+            lucide.createIcons();
         }
 
-        function updateYearFilter() {
-            const select = document.getElementById('year-filter');
-            const currentVal = select.value;
-            const years = [...new Set(rawData.map(d => d.year))].sort((a,b) => b-a);
-            select.innerHTML = '<option value="ALL">All Years</option>';
-            years.forEach(y => {
-                select.innerHTML += `<option value="${y}" ${currentVal === y ? 'selected' : ''}>${y}</option>`;
+        function setCategory(cat) {
+            currentCategory = cat;
+            document.querySelectorAll('#tab-group button').forEach(b => {
+                b.className = b.id === 'btn-'+cat ? "py-3 rounded-lg bg-white border-2 border-blue-600 text-blue-600 shadow-sm text-xs" : "py-3 rounded-lg bg-slate-100 border text-slate-600 text-xs";
             });
+            renderTable();
         }
 
         function renderTable() {
             const tbody = document.getElementById('document-table-body');
             const search = document.getElementById('search-input').value.toLowerCase();
             const year = document.getElementById('year-filter').value;
+            const sort = document.getElementById('sort-filter').value;
             
-            tbody.innerHTML = rawData
-                .filter(d => (d.title?.toLowerCase().includes(search) || d.id?.toLowerCase().includes(search)) && (year === 'ALL' || d.year === year))
-                .map(d => `
-                    <tr class="hover:bg-slate-50">
-                        <td class="py-4 px-4 font-mono text-xs text-blue-600 font-bold">${d.id || ''}</td>
-                        <td class="py-4 px-4 text-slate-800 font-medium whitespace-normal">${d.title || ''}</td>
-                        <td class="py-4 px-4 text-right"><a href="${d.link}" target="_blank" class="text-blue-600 font-bold underline text-xs">VIEW</a></td>
-                    </tr>
-                `).join('');
-            lucide.createIcons();
+            let filtered = fullData.filter(d => 
+                d.type === currentCategory && 
+                (year === 'ALL' || d.year === year) &&
+                (d.title?.toLowerCase().includes(search) || d.code?.toLowerCase().includes(search))
+            );
+
+            filtered.sort((a, b) => sort === 'NEWEST' ? b.year - a.year : a.year - b.year);
+
+            tbody.innerHTML = filtered.map(d => `
+                <tr class="hover:bg-slate-50">
+                    <td class="py-4 px-4 font-mono text-xs text-blue-600 font-bold">${d.code || ''}</td>
+                    <td class="py-4 px-4 text-slate-800 font-medium">${d.title || ''}</td>
+                    <td class="py-4 px-4 text-right"><a href="${d.link}" target="_blank" class="text-blue-600 font-bold underline text-xs">VIEW</a></td>
+                </tr>
+            `).join('');
         }
         init();
     </script>
