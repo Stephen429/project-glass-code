@@ -29,25 +29,27 @@
     </header>
 
     <main class="flex-grow">
-        <!-- Hero Section: Static background, animated text -->
-        <section class="bg-blue-900 px-4 py-20 text-white">
+        <!-- Hero Section: Static background -->
+        <section class="bg-blue-900 px-4 pt-20 pb-32 text-white">
             <div class="max-w-6xl mx-auto animate-in">
                 <h1 class="text-5xl font-black tracking-tight mb-4">A clear window into student leadership.</h1>
                 <p class="text-blue-200 max-w-2xl text-lg">The Supreme Secondary Learner Government operates under a framework of complete digital visibility. Through Project GLASS (Governance, Leadership, Accountability & Student Services), we ensure every policy and student asset is openly accessible.</p>
             </div>
         </section>
 
-        <div class="max-w-6xl mx-auto px-4 py-16 space-y-20">
-            <section class="animate-in">
-                <h3 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-8 text-center">By the Numbers</h3>
-                <div id="metrics-container" class="flex flex-wrap justify-center gap-8"></div>
+        <div class="max-w-6xl mx-auto px-4 pb-16 space-y-20">
+            <!-- Metrics: Floating effect (sitting between hero and content) -->
+            <section id="metrics-container" class="animate-in -mt-16 bg-white p-8 rounded-3xl shadow-xl border border-slate-100 flex flex-wrap justify-center gap-12">
+                <!-- Metrics injected here -->
             </section>
 
+            <!-- News Spotlight -->
             <section class="animate-in">
                 <h2 class="text-2xl font-bold mb-8">Latest Updates</h2>
                 <div id="news-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8"></div>
             </section>
 
+            <!-- SSLG in Action Carousel -->
             <section class="animate-in w-full">
                 <h2 class="text-2xl font-bold mb-8">SSLG in Action</h2>
                 <div class="w-full overflow-hidden">
@@ -55,7 +57,14 @@
                 </div>
             </section>
 
-            <section class="grid grid-cols-1 md:grid-cols-4 gap-6 animate-in">
+            <!-- Shortcut Buttons -->
+            <section class="grid grid-cols-1 md:grid-cols-5 gap-6 animate-in">
+                <a id="btn-roster" href="#" class="p-8 bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-md transition-all">
+                    <i data-lucide="users" class="mb-4 w-8 h-8 text-blue-600"></i>
+                    <h2 class="font-bold text-lg mb-1">Meet the Officers</h2>
+                    <p class="text-xs text-slate-500 mb-4">Get to know the dedicated representatives leading our student body.</p>
+                    <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">View Full Roster →</span>
+                </a>
                 <a id="btn-clubs" href="#" class="p-8 bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-md transition-all">
                     <i data-lucide="shield" class="mb-4 w-8 h-8 text-blue-600"></i>
                     <h2 class="font-bold text-lg mb-1">Clubs</h2>
@@ -91,7 +100,10 @@
     <script>
         lucide.createIcons();
         const MASTER_SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTIFgXyOttJeJGsVaLwfFtNWb-c1YCJiJ8R5siL32ykA47xYYY7b8KmPXm_42vNAbaHXOkcqEG3tRCu/pub?output=csv";
-        const CONFIG_GID = "229901204", NEWS_GID = "1683102947", METRICS_GID = "1647929887";
+        const CONFIG_GID = "229901204", 
+              NEWS_GID = "1683102947", 
+              METRICS_GID = "1647929887", 
+              ROSTER_GID = "416625956";
 
         async function init() {
             const confRes = await fetch(`${MASTER_SHEET_URL}&gid=${CONFIG_GID}`);
@@ -100,25 +112,24 @@
 
             if(config.IMG_LOGO_URL) document.getElementById('header-logo').src = config.IMG_LOGO_URL;
 
+            // Nav Setup
             const path = window.location.pathname.split("/").pop();
-            const pages = [
-                {name:'Home', id:'0'}, {name:'Gazettes', id:'1'}, {name:'Officers', id:'2'}, 
-                {name:'Feedback', id:'3'}, {name:'About Us', id:'5'}
-            ];
-
+            const pages = [{name:'Home', id:'0'}, {name:'Gazettes', id:'1'}, {name:'Officers', id:'2'}, {name:'Feedback', id:'3'}, {name:'About Us', id:'5'}];
             pages.forEach(p => {
                 const url = config[`LINK_${p.id}_PATH`] || '#';
                 const isActive = url.includes(path) || (path === '' && p.name === 'Home');
                 const cls = isActive ? "text-blue-600 font-bold" : "text-slate-500 hover:text-blue-600";
                 document.getElementById('nav-links').innerHTML += `<a href="${url}" class="${cls} text-[10px]">${p.name}</a>`;
-                document.getElementById('mobile-menu').innerHTML += `<a href="${url}" class="block py-3 px-2 ${cls} border-b border-slate-50">${p.name}</a>`;
+                document.getElementById('mobile-menu').innerHTML += `<a href="${url}" class="block py-3 px-2 ${cls} border-b">${p.name}</a>`;
             });
 
-            const linkMap = { 'LINK_1_PATH': ['btn-docs'], 'LINK_3_PATH': ['btn-feedback'], 'LINK_4_PATH': ['btn-clubs'], 'LINK_5_PATH': ['btn-about'] };
+            // Map Shortcut Links
+            const linkMap = { 'LINK_2_PATH': ['btn-roster'], 'LINK_1_PATH': ['btn-docs'], 'LINK_3_PATH': ['btn-feedback'], 'LINK_4_PATH': ['btn-clubs'], 'LINK_5_PATH': ['btn-about'] };
             Object.keys(linkMap).forEach(key => {
                 linkMap[key].forEach(id => { const el = document.getElementById(id); if(el) el.href = config[key] || '#'; });
             });
 
+            // Metrics
             fetch(`${MASTER_SHEET_URL}&gid=${METRICS_GID}`).then(r => r.text()).then(t => {
                 const rows = t.split('\n').slice(1);
                 const container = document.getElementById('metrics-container');
@@ -128,6 +139,7 @@
                 });
             });
 
+            // News
             fetch(`${MASTER_SHEET_URL}&gid=${NEWS_GID}`).then(r => r.text()).then(t => {
                 const rows = t.split('\n').slice(1).filter(r => r.trim() !== "");
                 const grid = document.getElementById('news-grid');
@@ -137,6 +149,7 @@
                 });
             });
 
+            // Carousel
             const imgs = config.ACTION_IMAGES?.split('|') || [];
             const carousel = document.getElementById('action-carousel');
             imgs.forEach(url => { carousel.innerHTML += `<div class="flex-shrink-0 snap-start w-[300px] h-56 rounded-2xl overflow-hidden bg-slate-200"><img src="${url.trim()}" class="w-full h-full object-cover"></div>`; });
