@@ -177,13 +177,25 @@
                 });
             });
 
-            fetch(`${MASTER_SHEET_URL}&gid=${NEWS_GID}`).then(r => r.text()).then(t => {
-                const grid = document.getElementById('news-grid');
-                t.split('\n').slice(1).filter(r => r.trim() !== "").forEach(row => {
-                    const [headline, desc, link] = row.split(',');
-                    grid.innerHTML += `<a href="${link?.trim() || '#'}" class="group block p-8 bg-white border border-slate-100 rounded-3xl shadow-sm hover:border-blue-600 transition-all"><div class="text-[10px] uppercase font-bold text-blue-600 mb-2 tracking-widest">News</div><h3 class="font-bold text-lg mb-2 group-hover:text-blue-600">${headline}</h3><p class="text-sm text-slate-500">${desc}</p></a>`;
-                });
-            });
+            fetch(`${MASTER_SHEET_URL}&gid=${NEWS_GID}`)
+    .then(r => r.text())
+    .then(t => {
+        const grid = document.getElementById('news-grid');
+        // Split by newline and remove empty lines
+        const rows = t.split('\n').slice(1).filter(row => row.trim() !== "");
+        
+        rows.forEach(row => {
+            const [headline, desc, link] = row.split(','); // Maps to A, B, C
+            if(headline) {
+                grid.innerHTML += `
+                    <a href="${link?.trim() || '#'}" class="group block p-8 bg-white border border-slate-100 rounded-3xl shadow-sm hover:border-blue-600 transition-all">
+                        <div class="text-[10px] uppercase font-bold text-blue-600 mb-2 tracking-widest">Latest News</div>
+                        <h3 class="font-bold text-lg mb-2 group-hover:text-blue-600">${headline}</h3>
+                        <p class="text-sm text-slate-500">${desc}</p>
+                    </a>`;
+            }
+        });
+    });
 
             const imgs = config.ACTION_IMAGES?.split('|') || [];
             const carousel = document.getElementById('action-carousel');
