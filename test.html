@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project GLASS Dashboard</title>
+    <title>Home | LDVTS-SSLG</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
@@ -11,195 +11,179 @@
         body { font-family: 'Inter', sans-serif; }
         .animate-in { opacity: 0; animation: fadeUp 0.8s ease-out forwards; }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .news-fade { transition: opacity 0.5s ease-in-out; }
-        
-        /* Fixes logo flicker */
-        #header-logo { display: none; }
-        .logo-loaded #header-logo { display: block; }
+        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .animate-scroll { animation: scroll 20s linear infinite; }
     </style>
 </head>
-    
+
 <body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col">
-<header class="border-b border-slate-100 sticky top-0 z-50 bg-white">
-    <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-        <a id="logo-link" href="#" class="flex items-center">
-            <img id="header-logo" src="" class="h-8" alt="Logo">
-        </a>
-        <nav id="nav-links" class="hidden md:flex items-center space-x-6 text-xs font-bold uppercase text-slate-500"></nav>
-        <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="md:hidden p-2 text-slate-600"><i data-lucide="menu"></i></button>
-    </div>
-    <div id="mobile-menu" class="hidden md:hidden border-t border-slate-100 bg-white px-4 py-2 space-y-1 text-xs font-bold uppercase text-slate-500 flex flex-col"></div>
-</header>
-    
-    <main class="max-w-6xl mx-auto px-4 py-12 space-y-16">
-        <section class="animate-in">
-            <h1 class="text-5xl font-black tracking-tight mb-4">A clear window into student leadership.</h1>
-            <p class="text-slate-500 max-w-2xl mb-8">The Supreme Secondary Learner Government operates under a framework of complete digital visibility. Through Project GLASS (Governance, Leadership, Accountability & Student Services), we ensure every policy and student asset is openly accessible.</p>
-            <div id="news-billboard-wrapper" class="hidden border border-slate-100 rounded-xl overflow-hidden flex items-center border-b-4 border-b-blue-600 mb-8">
-                <div class="text-[10px] font-bold uppercase px-5 py-3 bg-slate-50">Latest</div>
-                <div id="news-billboard-container" class="news-fade p-4 text-sm font-medium"></div>
-            </div>
-        </section>
 
-        <section id="metrics-container" class="grid grid-cols-2 md:grid-cols-4 gap-4 animate-in"></section>
-
-        <section class="animate-in">
-            <div class="p-8 rounded-3xl border border-slate-100 shadow-sm mb-6">
-                <i data-lucide="users" class="text-blue-600 mb-4 w-8 h-8"></i>
-                <h2 class="text-xl font-bold mb-2">Meet the Officers</h2>
-                <p class="text-slate-500 text-sm">Get to know the dedicated representatives leading our student body.</p>
-            </div>
-            <div id="president-spotlight" class="hidden bg-blue-600 text-white p-8 rounded-3xl flex items-center gap-6 shadow-xl mb-6">
-                <div id="pres-img" class="w-20 h-20 rounded-2xl bg-white/20 flex items-center justify-center font-bold text-2xl overflow-hidden"></div>
-                <div><h4 class="font-bold text-xl" id="pres-name"></h4><p class="text-blue-100">SSLG President</p></div>
-            </div>
-            <div id="officers-roster-stack" class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6"></div>
-            <a id="btn-roster" href="#" class="inline-block border-2 border-slate-900 text-slate-900 px-6 py-3 rounded-xl font-bold text-sm hover:bg-slate-900 hover:text-white transition-all">View Full Roster</a>
-        </section>
-
-        <!-- Update this specific section in your HTML -->
-<section class="animate-in w-full overflow-hidden">
-    <h2 class="text-2xl font-bold mb-2">SSLG in Action</h2>
-    <p class="text-slate-500 text-sm mb-6">A visual timeline of our initiatives and student-led community projects.</p>
-    
-    <!-- The key is 'w-full' and 'max-w-full' on the parent -->
-    <div class="w-full max-w-full overflow-hidden">
-        <div id="action-carousel" class="flex gap-4 overflow-x-auto pb-4 snap-x">
-            <!-- JS will inject images here -->
+    <header class="bg-white border-b border-slate-100 sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+            <a href="#"><img id="header-logo" src="" class="h-8" alt=""></a>
+            <nav id="nav-links" class="hidden md:flex items-center space-x-8 font-bold uppercase text-slate-500"></nav>
+            <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="md:hidden p-2"><i data-lucide="menu"></i></button>
         </div>
-    </div>
-</section>
-        
-        <section class="grid grid-cols-1 md:grid-cols-3 gap-6 animate-in">
-            <div class="p-8 rounded-3xl border border-slate-100 shadow-sm">
-                <i data-lucide="shield" class="text-blue-600 mb-4 w-8 h-8"></i>
-                <h2 class="text-xl font-bold mb-2">Clubs</h2>
-                <p class="text-slate-500 text-sm mb-6">Explore our diverse range of student-led organizations.</p>
-                <a id="btn-clubs" href="#" class="inline-block bg-blue-600 text-white px-6 py-3 rounded-xl font-bold text-sm hover:bg-blue-700">View All Clubs</a>
-            </div>
-            <div class="p-8 rounded-3xl border border-slate-100 shadow-sm">
-                <i data-lucide="file-text" class="text-blue-600 mb-4 w-8 h-8"></i>
-                <h2 class="text-xl font-bold mb-2">Documents</h2>
-                <p class="text-slate-500 text-sm mb-6">Access official bylaws, gazettes, and project records.</p>
-                <a id="btn-docs" href="#" class="inline-block bg-blue-600 text-white px-6 py-3 rounded-xl font-bold text-sm hover:bg-blue-700">View Files</a>
-            </div>
-            <div class="p-8 rounded-3xl border border-slate-100 shadow-sm">
-                <i data-lucide="message-square" class="text-blue-600 mb-4 w-8 h-8"></i>
-                <h2 class="text-xl font-bold mb-2">Feedback</h2>
-                <p class="text-slate-500 text-sm mb-6">Your voice matters. Share your thoughts with us.</p>
-                <a id="btn-feedback" href="#" class="inline-block bg-blue-600 text-white px-6 py-3 rounded-xl font-bold text-sm hover:bg-blue-700">Submit Form</a>
-            </div>
-            <div class="p-8 rounded-3xl border border-slate-100 shadow-sm">
-                <i data-lucide="info" class="text-blue-600 mb-4 w-8 h-8"></i>
-                <h2 class="text-xl font-bold mb-2">About Us</h2>
-                <p class="text-slate-500 text-sm mb-6">Our mission and vision for the student body.</p>
-                <a id="btn-about" href="#" class="inline-block bg-blue-600 text-white px-6 py-3 rounded-xl font-bold text-sm hover:bg-blue-700">Learn More</a>
+        <div id="mobile-menu" class="hidden md:hidden border-t bg-white px-4 py-2 space-y-1 text-xs font-bold uppercase text-slate-500"></div>
+    </header>
+
+    <main class="flex-grow">
+        <section class="relative bg-blue-900 px-4 pt-20 pb-32 text-white overflow-hidden">
+            <div class="absolute inset-0 bg-[url('https://upload.wikimedia.org/wikipedia/commons/8/8d/Lydia_D_Villangca_Trade_School1.jpg')] bg-cover bg-left opacity-20"></div>
+            <div class="relative max-w-6xl mx-auto animate-in z-10">
+                <h1 class="text-5xl font-black tracking-tight mb-4">A clear window into student leadership.</h1>
+                <p class="text-blue-100 max-w-2xl text-lg">The Supreme Secondary Learner Government operates under a framework of complete digital visibility. Through Project GLASS, we ensure every policy and student asset is openly accessible to every Lydians.</p>
             </div>
         </section>
+        
+        <div class="max-w-6xl mx-auto px-4 -mt-16 pb-16 space-y-16">
+            <section class="animate-in bg-white p-8 rounded-3xl shadow-xl border border-slate-100">
+                <h2 class="text-xs font-black mb-8 uppercase tracking-widest text-slate-300 text-center">By the Numbers</h2>
+                <div id="metrics-container" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
+            </section>
+
+            <section class="animate-in">
+                <h2 class="text-2xl font-bold mb-8">Latest Updates</h2>
+                <div id="news-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8"></div>
+            </section>
+
+            <section class="animate-in bg-white p-8 rounded-3xl border border-slate-100 shadow-sm">
+                <div class="mb-8">
+                    <i data-lucide="users" class="text-blue-600 mb-4 w-8 h-8"></i>
+                    <h2 class="text-xl font-bold mb-2">Meet the Officers</h2>
+                    <p class="text-slate-500 text-sm">Get to know the dedicated representatives leading our student body.</p>
+                </div>
+                <div id="president-spotlight" class="hidden bg-blue-600 text-white p-6 rounded-2xl flex items-center gap-6 shadow-md mb-6">
+                    <div id="pres-img" class="w-16 h-16 rounded-xl bg-white/20 flex items-center justify-center font-bold text-xl overflow-hidden"></div>
+                    <div><h4 class="font-bold text-lg" id="pres-name"></h4><p class="text-blue-100 text-sm">SSLG President</p></div>
+                </div>
+                <div id="officers-roster-stack" class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8"></div>
+                <a id="btn-roster" href="#" class="inline-block px-6 py-3 bg-slate-900 text-white rounded-xl font-bold text-sm hover:bg-blue-600 transition-all">View Full Roster</a>
+            </section>
+
+            <section class="animate-in w-full overflow-hidden">
+                <h2 class="text-2xl font-bold mb-2">SSLG in Action</h2>
+                <p class="text-slate-500 mb-8 text-sm">A visual timeline of our initiatives and student-led community projects.</p>
+                <div class="relative w-full overflow-hidden">
+                    <div id="action-carousel" class="flex gap-4 animate-scroll w-max"></div>
+                </div>
+            </section>
+
+            <section class="grid grid-cols-1 md:grid-cols-4 gap-6 animate-in">
+                <a id="btn-clubs" href="#" class="p-8 bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-md transition-all">
+                    <i data-lucide="shield" class="mb-4 w-8 h-8 text-blue-600"></i>
+                    <h2 class="font-bold text-lg mb-1">Clubs</h2>
+                    <p class="text-xs text-slate-500 mb-4">Explore our diverse range of student-led organizations.</p>
+                    <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">View All Clubs →</span>
+                </a>
+                <a id="btn-docs" href="#" class="p-8 bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-md transition-all">
+                    <i data-lucide="file-text" class="mb-4 w-8 h-8 text-blue-600"></i>
+                    <h2 class="font-bold text-lg mb-1">Documents</h2>
+                    <p class="text-xs text-slate-500 mb-4">Access official bylaws, gazettes, and project records.</p>
+                    <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">View Files →</span>
+                </a>
+                <a id="btn-feedback" href="#" class="p-8 bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-md transition-all">
+                    <i data-lucide="message-square" class="mb-4 w-8 h-8 text-blue-600"></i>
+                    <h2 class="font-bold text-lg mb-1">Feedback</h2>
+                    <p class="text-xs text-slate-500 mb-4">Your voice matters. Share your thoughts with us.</p>
+                    <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Submit Form →</span>
+                </a>
+                <a id="btn-about" href="#" class="p-8 bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-md transition-all">
+                    <i data-lucide="info" class="mb-4 w-8 h-8 text-blue-600"></i>
+                    <h2 class="font-bold text-lg mb-1">About Us</h2>
+                    <p class="text-xs text-slate-500 mb-4">Our mission and vision for the student body.</p>
+                    <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Learn More →</span>
+                </a>
+            </section>
+        </div>
     </main>
 
-    <footer class="border-t bg-white mt-12 py-8">
-        <div class="max-w-4xl mx-auto px-4 text-center text-xs font-bold uppercase text-slate-400">
-            <p>&copy; 2026 Project GLASS. All rights reserved.</p>
+    <footer class="bg-white border-t border-slate-100 py-16">
+        <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-12">
+            <div>
+                <h3 class="font-black text-lg mb-4">SSLG Digital Dashboard</h3>
+                <p class="text-slate-500 text-sm leading-relaxed max-w-sm">
+                    This transparency dashboard is an open-initiative led by the Supreme Secondary Learner Government of Lydia D. Villangca Trade School. 
+                    Built to foster accountability and ease of access to school records, policies, and student-led initiatives.
+                </p>
+            </div>
+            <div class="text-left md:text-right">
+                <h3 class="font-black text-lg mb-4">Governance & Partnership</h3>
+                <p class="text-slate-500 text-sm leading-relaxed">
+                    Development and maintenance are supported by the Student Publication Office and the LDVTS Faculty Council. 
+                    We operate under the guidelines set by the Department of Education for student government digital assets.
+                </p>
+            </div>
+        </div>
+        <div class="max-w-6xl mx-auto px-4 mt-12 pt-8 border-t border-slate-100 flex flex-col md:flex-row justify-between items-center text-[11px] font-bold text-slate-400 uppercase tracking-widest">
+            <p class="mb-4 md:mb-0">© 2026 LDVTS Supreme Secondary Learner Government. All Rights Reserved.</p>
+            <div class="flex space-x-6">
+                <a href="#" class="hover:text-blue-600 transition-colors">Privacy Policy</a>
+                <a href="#" class="hover:text-blue-600 transition-colors">Terms of Use</a>
+            </div>
         </div>
     </footer>
-    
+
     <script>
         lucide.createIcons();
         const MASTER_SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTIFgXyOttJeJGsVaLwfFtNWb-c1YCJiJ8R5siL32ykA47xYYY7b8KmPXm_42vNAbaHXOkcqEG3tRCu/pub?output=csv";
         const CONFIG_GID = "229901204", NEWS_GID = "1683102947", METRICS_GID = "1647929887", ROSTER_GID = "416625956";
 
         async function init() {
-    const confRes = await fetch(`${MASTER_SHEET_URL}&gid=${CONFIG_GID}`);
-    const confData = (await confRes.text()).split('\n').map(r => r.split(','));
-    const config = Object.fromEntries(confData.map(r => [r[0]?.trim(), r[1]?.trim()]));
+            const confRes = await fetch(`${MASTER_SHEET_URL}&gid=${CONFIG_GID}`);
+            const config = Object.fromEntries((await confRes.text()).split('\n').map(r => r.split(',')));
+            if(config.IMG_LOGO_URL) document.getElementById('header-logo').src = config.IMG_LOGO_URL;
 
-    // 1. Logo Setup
-    const logo = document.getElementById('header-logo');
-    const logoLink = document.getElementById('logo-link');
-    if(config.IMG_LOGO_URL) {
-        logo.src = config.IMG_LOGO_URL;
-        logoLink.parentElement.parentElement.classList.add('logo-loaded');
-    }
-    logoLink.href = config['LINK_0_PATH'] || 'index.html';
-
-    // 2. Navigation Setup
-    const path = window.location.pathname.split("/").pop();
-    const pages = [
-        {name:'Home', id:'0'}, {name:'Gazettes', id:'1'}, {name:'Officers', id:'2'}, 
-        {name:'Feedback', id:'3'}, {name:'About Us', id:'5'}
-    ];
-
-    pages.forEach(p => {
-        const url = config[`LINK_${p.id}_PATH`] || '#';
-        const isActive = url.includes(path) || (path === '' && p.name === 'Home');
-        const cls = isActive ? "text-blue-600 font-bold" : "text-slate-500 hover:text-blue-600";
-        document.getElementById('nav-links').innerHTML += `<a href="${url}" class="${cls} text-sm">${p.name}</a>`;
-        document.getElementById('mobile-menu').innerHTML += `<a href="${url}" class="block py-3 px-2 ${cls} border-b border-slate-50">${p.name}</a>`;
-    });
-
-    // 3. Assign Links to Buttons and Nav
-    // Mapping keys from Sheet to specific element IDs
-    const linkMap = {
-        'LINK_1_PATH': ['btn-docs'],
-        'LINK_2_PATH': ['btn-roster'],
-        'LINK_3_PATH': ['btn-feedback'],
-        'LINK_4_PATH': ['btn-clubs'],
-        'LINK_5_PATH': ['btn-about']
-    };
-
-    Object.keys(linkMap).forEach(key => {
-        linkMap[key].forEach(id => {
-            const el = document.getElementById(id);
-            if(el) el.href = config[key] || '#';
-        });
-    });
-            fetch(`${MASTER_SHEET_URL}&gid=${NEWS_GID}`).then(r => r.text()).then(t => {
-                const news = t.split('\n').slice(1).filter(r => r.length > 2);
-                if(news.length > 0) {
-                    document.getElementById('news-billboard-wrapper').classList.remove('hidden');
-                    let i = 0; setInterval(() => {
-                        const [text, tag] = news[i++ % news.length].split(',');
-                        document.getElementById('news-billboard-container').innerHTML = `<span class="text-blue-600 font-bold uppercase mr-2">[${tag}]</span> ${text}`;
-                    }, 5000);
-                }
+            const path = window.location.pathname.split("/").pop();
+            const pages = [{name:'Home', id:'0'}, {name:'Gazettes', id:'1'}, {name:'Officers', id:'2'}, {name:'Feedback', id:'3'}, {name:'About Us', id:'5'}];
+            pages.forEach(p => {
+                const url = config[`LINK_${p.id}_PATH`] || '#';
+                const cls = (url.includes(path)) ? "text-blue-600 font-bold" : "text-slate-500 hover:text-blue-600";
+                document.getElementById('nav-links').innerHTML += `<a href="${url}" class="${cls} text-[10px]">${p.name}</a>`;
+                document.getElementById('mobile-menu').innerHTML += `<a href="${url}" class="block py-3 px-2 ${cls} border-b">${p.name}</a>`;
             });
+            const linkMap = { 'LINK_2_PATH': ['btn-roster'], 'LINK_1_PATH': ['btn-docs'], 'LINK_3_PATH': ['btn-feedback'], 'LINK_4_PATH': ['btn-clubs'], 'LINK_5_PATH': ['btn-about'] };
+            Object.keys(linkMap).forEach(key => { linkMap[key].forEach(id => { const el = document.getElementById(id); if(el) el.href = config[key] || '#'; }); });
 
             fetch(`${MASTER_SHEET_URL}&gid=${METRICS_GID}`).then(r => r.text()).then(t => {
-                const rows = t.split('\n').slice(1);
-                const container = document.getElementById('metrics-container');
-                rows.forEach(r => {
+                t.split('\n').slice(1).forEach(r => {
                     const [label, val] = r.split(',');
-                    if(label) container.innerHTML += `<div class="p-4 rounded-2xl border border-slate-100"><span class="text-[10px] uppercase font-bold text-slate-400">${label}</span><div class="text-xl font-black">${val}</div></div>`;
+                    if(label) document.getElementById('metrics-container').innerHTML += `<div class="text-center"><div class="text-[10px] uppercase font-bold text-slate-400 mb-1">${label}</div><div class="text-2xl font-black text-blue-600">${val}</div></div>`;
                 });
             });
 
-            // Update the JS loop to use 'w-[280px]' instead of 'w-80' for mobile
-const imgs = config.ACTION_IMAGES?.split('|') || [];
-const carousel = document.getElementById('action-carousel');
-imgs.forEach(url => { 
-    carousel.innerHTML += `
-        <div class="flex-shrink-0 snap-start w-[280px] h-48 rounded-2xl overflow-hidden shadow-sm border border-slate-100">
-            <img src="${url.trim()}" class="w-full h-full object-cover">
-        </div>`; 
-});
             fetch(`${MASTER_SHEET_URL}&gid=${ROSTER_GID}`).then(r => r.text()).then(t => {
-                const rows = t.split('\n').slice(1);
                 const stack = document.getElementById('officers-roster-stack');
-                rows.forEach(r => {
+                t.split('\n').slice(1).forEach(r => {
                     const [name, role, img] = r.split(',');
-                    if (!name) return;
-                    if (role.trim().toLowerCase() === 'president') {
+                    if(!name) return;
+                    if(role.trim().toLowerCase() === 'president') {
                         document.getElementById('president-spotlight').classList.remove('hidden');
                         document.getElementById('pres-name').innerText = name;
                         document.getElementById('pres-img').innerHTML = img ? `<img src="${img.trim()}" class="w-full h-full object-cover">` : name[0];
-                    } else if (['vice president', 'secretary', 'treasurer'].includes(role.trim().toLowerCase())) {
-                        stack.innerHTML += `<div class="p-4 rounded-2xl border border-slate-100 flex items-center gap-4"><div class="w-12 h-12 rounded-xl bg-slate-50 overflow-hidden"><img src="${img?.trim()}" class="w-full h-full object-cover"></div><div><div class="font-bold text-sm">${name}</div><div class="text-[10px] uppercase text-blue-600 font-bold">${role}</div></div></div>`;
+                    } else if(['vice president', 'secretary', 'treasurer'].includes(role.trim().toLowerCase())) {
+                        stack.innerHTML += `<div class="p-3 border border-slate-100 rounded-xl flex items-center gap-3"><div class="w-10 h-10 rounded-lg bg-slate-100 overflow-hidden"><img src="${img?.trim()}" class="w-full h-full object-cover"></div><div class="text-xs"><div class="font-bold">${name}</div><div class="text-blue-600 uppercase font-bold text-[9px]">${role}</div></div></div>`;
                     }
                 });
             });
+
+            fetch(`${MASTER_SHEET_URL}&gid=${NEWS_GID}`).then(r => r.text()).then(t => {
+                const grid = document.getElementById('news-grid');
+                const rows = t.split('\n').slice(1).filter(row => row.trim() !== "");
+                rows.forEach(row => {
+                    const [headline, desc, link] = row.split(',');
+                    if(headline) {
+                        grid.innerHTML += `<a href="${link?.trim() || '#'}" class="group block p-8 bg-white border border-slate-100 rounded-3xl shadow-sm hover:border-blue-600 transition-all"><div class="text-[10px] uppercase font-bold text-blue-600 mb-2 tracking-widest">Latest News</div><h3 class="font-bold text-lg mb-2 group-hover:text-blue-600">${headline}</h3><p class="text-sm text-slate-500">${desc}</p></a>`;
+                    }
+                });
+            });
+
+            const imgs = config.ACTION_IMAGES?.split('|') || [];
+            const carousel = document.getElementById('action-carousel');
+            [...imgs, ...imgs].forEach(url => { carousel.innerHTML += `<div class="flex-shrink-0 w-[300px] h-56 rounded-2xl overflow-hidden bg-slate-200"><img src="${url.trim()}" class="w-full h-full object-cover"></div>`; });
         }
         init();
     </script>
 </body>
-</html>
+    </html>
+                             
