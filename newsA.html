@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col">
+    <header class="border-b border-slate-100 sticky top-0 z-50 bg-white">
+        <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+            <a id="logo-link" href="home.html"><img id="header-logo" src="" class="h-8" alt="Logo"></a>
+            <nav id="nav-links" class="hidden md:flex items-center space-x-6 text-xs font-bold uppercase text-slate-500"></nav>
+            <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="md:hidden p-2 text-slate-600"><i data-lucide="menu"></i></button>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden border-t border-slate-100 bg-white px-4 py-2 space-y-1 text-xs font-bold uppercase text-slate-500 flex flex-col"></div>
+    </header>
+
+    <main class="flex-grow w-full px-4 py-8 md:py-12">
+        <div class="max-w-4xl mx-auto">
+            <a href="index.html" class="inline-flex items-center text-xs font-bold uppercase text-blue-600 mb-6 hover:underline">
+                <i data-lucide="arrow-left" class="w-4 h-4 mr-2"></i> Back to Homepage
+            </a>
+            <article class="bg-white p-6 md:p-12 rounded-3xl shadow-sm border border-slate-100 prose prose-blue max-w-none">
+                <h1 class="mb-4">Project GLASS Enters Beta Phase</h1>
+                <div class="text-sm font-bold text-blue-600 mb-8 uppercase tracking-widest">Juan Dela Cruz • 2026-06-27</div>
+                <p>We are thrilled to announce that <strong>Project GLASS</strong>—the centerpiece of our commitment to transparency—has officially entered its <strong>Beta Testing Phase</strong>.</p>
+<h3>What is Project GLASS?</h3>
+<p>Project GLASS functions as your centralized &quot;Navigation Gateway.&quot; By consolidating essential resources, policy documents, officer profiles, and feedback mechanisms into one responsive, mobile-friendly interface, we are ensuring that the inner workings of our student government are open, accessible, and easy to navigate for every student on campus.</p>
+<h3>How to Participate</h3>
+<p>If you have been designated as a beta tester, please check your official student government email for your exclusive access link.</p>
+<p>Your participation at this stage is critical. We encourage you to explore the dashboard and use the built-in <strong>Feedback section</strong> to:</p>
+<ul>
+<li>Report any bugs or navigation issues.</li>
+<li>Suggest improvements for layout or content accessibility.</li>
+<li>Share your thoughts on features that would make our student government more responsive to your needs.</li>
+</ul>
+<p>Your feedback directly shapes the final version of this tool. We thank you for your patience and for your continued commitment to building a more connected, informed campus.</p>
+<p><strong>Together, let’s bring transparency into focus.</strong></p>
+
+            </article>
+        </div>
+    </main>
+
+    <footer class="bg-white border-t border-slate-100 py-16">
+        <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-12">
+            <div>
+                <h3 class="font-black text-lg mb-4">LDVTS-SSLG'S Project GLASS</h3>
+                <p class="text-slate-500 text-sm leading-relaxed max-w-sm">
+                    This transparency dashboard is an open-initiative led by the Supreme Secondary Learner Government of Lydia D. Villangca Trade School. 
+                    Built to foster accountability and ease of access to school records, policies, and student-led initiatives.
+                </p>
+            </div>
+        </div>
+        <div class="max-w-6xl mx-auto px-4 mt-12 pt-8 border-t border-slate-100 flex flex-col md:flex-row justify-between items-center text-[11px] font-bold text-slate-400 uppercase tracking-widest">
+            <p class="mb-4 md:mb-0">© 2026 LDVTS Supreme Secondary Learner Government. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+        const MASTER_SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTIFgXyOttJeJGsVaLwfFtNWb-c1YCJiJ8R5siL32ykA47xYYY7b8KmPXm_42vNAbaHXOkcqEG3tRCu/pub?output=csv";
+        const CONFIG_GID = "229901204";
+        fetch(`${MASTER_SHEET_URL}&gid=${CONFIG_GID}`).then(r => r.text()).then(t => {
+            const config = Object.fromEntries(t.split('\n').map(r => r.split(',')));
+            if(config.IMG_LOGO_URL) document.getElementById('header-logo').src = config.IMG_LOGO_URL;
+            const pages = [{name:'Home', id:'0'}, {name:'Gazettes', id:'1'}, {name:'Officers', id:'2'}, {name:'Feedback', id:'3'}, {name:'About Us', id:'5'}];
+            pages.forEach(p => {
+                const url = config[`LINK_${p.id}_PATH`] || '#';
+                document.getElementById('nav-links').innerHTML += `<a href="${url}" class="text-slate-500 hover:text-blue-600 text-sm">${p.name}</a>`;
+                document.getElementById('mobile-menu').innerHTML += `<a href="${url}" class="block py-3 px-4 border-b border-slate-50 text-slate-500">${p.name}</a>`;
+            });
+        });
+    </script>
+</body>
+</html>
