@@ -6,22 +6,17 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap'); 
         body { font-family: 'Inter', sans-serif; touch-action: manipulation; }
-        .fade-in { animation: fadeIn 0.5s ease-in; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        
-        /* Fixes logo flicker */
-        #header-logo { display: none; }
-        .logo-loaded #header-logo { display: block; }
+        .fade-in { animation: fadeIn 0.8s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col">
     <header class="border-b border-slate-100 sticky top-0 z-50 bg-white">
         <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-            <a id="logo-link" href="home.html"><img id="header-logo" src="" class="h-8" alt="Logo"></a>
+            <a id="logo-link" href="home.html"><img id="header-logo" src="" class="h-8" alt=""></a>
             <nav id="nav-links" class="hidden md:flex items-center space-x-6 text-xs font-bold uppercase text-slate-500"></nav>
             <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="md:hidden p-2 text-slate-600"><i data-lucide="menu"></i></button>
         </div>
@@ -29,26 +24,33 @@
     </header>
 
     <main class="flex-grow w-full px-4 py-8 md:py-12">
-        <div class="max-w-4xl mx-auto">
+        <div class="max-w-4xl mx-auto fade-in">
             <a href="home.html" class="inline-flex items-center text-xs font-bold uppercase text-blue-600 mb-6 hover:underline">
                 <i data-lucide="arrow-left" class="w-4 h-4 mr-2"></i> Back to Homepage
             </a>
             <article class="bg-white p-6 md:p-12 rounded-3xl shadow-sm border border-slate-100 prose prose-blue max-w-none">
-                <h1 class="mb-4">Project GLASS Enters Beta Phase</h1>
-                <div class="text-sm font-bold text-blue-600 mb-8 uppercase tracking-widest">Juan Dela Cruz • 2026-06-27</div>
-                <p>We are thrilled to announce that <strong>Project GLASS</strong>—the centerpiece of our commitment to transparency—has officially entered its <strong>Beta Testing Phase</strong>.</p>
-<h3>What is Project GLASS?</h3>
-<p>Project GLASS functions as your centralized &quot;Navigation Gateway.&quot; By consolidating essential resources, policy documents, officer profiles, and feedback mechanisms into one responsive, mobile-friendly interface, we are ensuring that the inner workings of our student government are open, accessible, and easy to navigate for every student on campus.</p>
-<h3>How to Participate</h3>
-<p>If you have been designated as a beta tester, please check your official student government email for your exclusive access link.</p>
-<p>Your participation at this stage is critical. We encourage you to explore the dashboard and use the built-in <strong>Feedback section</strong> to:</p>
+                <!-- Title and Byline -->
+                <h1 class="mb-4">Project GLASS: Ushering in a New Era of Transparency at LDVTS</h1>
+                <div class="text-sm font-bold text-blue-600 mb-8 uppercase tracking-widest">SSLG PMC • 2026-06-28</div>
+                
+                
+                
+                <!-- Article Content -->
+                <p>The Supreme Secondary Learner Government (SSLG) of Lydia D. Villangca Trade School is proud to announce that <strong>Project GLASS</strong> has officially entered its pre-release phase. This initiative is a flagship project led by the SSLG Secretary, directly fulfilling a core campaign promise to ensure that the student government remains transparent and provides verifiable &quot;receipts&quot; for its actions, ensuring all records are visible and accessible to the student body.</p>
+<h2>A Vision for Transparency</h2>
+<p>Project GLASS is designed as a comprehensive transparency dashboard, serving as an open-initiative by the student government. This project arrives as a direct response to nationwide calls from Filipinos demanding greater transparency in government institutions. We believe that if national reform is the goal, we must start at the very least within our own walls, ensuring our student government sets the standard for integrity.</p>
+<p>The technical foundation for this dashboard is a direct application of the skills learned by our student leaders during the <strong>Leadership Enhancement and Development (LEAD) 2026</strong> seminar organized by Student Leaders for Good Governance. By leveraging the frameworks for ethical leadership, advocacy, and digital navigation taught during this program, we are transforming our commitment to governance into a tangible, digital reality.</p>
+<h2>What to Expect</h2>
+<p>As we enter this pre-release phase, our team is focusing on refining the user experience and ensuring the stability of the digital platform. The primary goal is to create a reliable and intuitive space where data is not just presented, but easily understood.</p>
+<p>Key features under development include:</p>
 <ul>
-<li>Report any bugs or navigation issues.</li>
-<li>Suggest improvements for layout or content accessibility.</li>
-<li>Share your thoughts on features that would make our student government more responsive to your needs.</li>
+<li><strong>Centralized Record Access:</strong> Providing a clear view of school policies and governance documents.</li>
+<li><strong>Initiative Tracking:</strong> Real-time updates on the status of various student government projects to keep the community engaged.</li>
+<li><strong>Integrated Digital Assets:</strong> Leveraging the design tools used in our official school publications to ensure the interface is both professional and accessible.</li>
 </ul>
-<p>Your feedback directly shapes the final version of this tool. We thank you for your patience and for your continued commitment to building a more connected, informed campus.</p>
-<p><strong>Together, let’s bring transparency into focus.</strong></p>
+<h2>Looking Ahead</h2>
+<p>The transition of Project GLASS from concept to reality is a collaborative effort, reflecting the dedication of the 2026-2027 SSLG officers. As we prepare for the official launch, our focus remains steadfast on the principles of transparency and service that define this administration.</p>
+<p>Project GLASS is more than just a website; it is the foundation of a more accountable and connected student community at Lydia D. Villangca Trade School.</p>
 
             </article>
         </div>
@@ -66,7 +68,6 @@
         </div>
         <div class="max-w-6xl mx-auto px-4 mt-12 pt-8 border-t border-slate-100 flex flex-col md:flex-row justify-between items-center text-[11px] font-bold text-slate-400 uppercase tracking-widest">
             <p class="mb-4 md:mb-0">© 2026 LDVTS Supreme Secondary Learner Government. All Rights Reserved.</p>
-            </div>
         </div>
     </footer>
 
