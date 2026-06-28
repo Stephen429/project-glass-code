@@ -139,39 +139,43 @@
         }
 
                 function renderTable() {
-            const tbody = document.getElementById('document-table-body');
-            const search = document.getElementById('search-input').value.toLowerCase();
-            const year = document.getElementById('year-filter').value;
-            const sort = document.getElementById('sort-filter').value;
-            
-            let filtered = fullData.filter(d => 
-                d.type === currentCategory && 
-                (year === 'ALL' || d.year === year) &&
-                (d.title?.toLowerCase().includes(search) || d.code?.toLowerCase().includes(search))
-            );
+    const tbody = document.getElementById('document-table-body');
+    const search = document.getElementById('search-input').value.toLowerCase();
+    const year = document.getElementById('year-filter').value;
+    const sort = document.getElementById('sort-filter').value;
+    
+    let filtered = fullData.filter(d => 
+        d.type === currentCategory && 
+        (year === 'ALL' || d.year === year) &&
+        (d.title?.toLowerCase().includes(search) || d.code?.toLowerCase().includes(search))
+    );
 
-            filtered.sort((a, b) => {
-                const yearDiff = sort === 'NEWEST' ? b.year - a.year : a.year - b.year;
-                if (yearDiff !== 0) return yearDiff;
+    filtered.sort((a, b) => {
+        // 1. Compare by year first
+        const yearDiff = sort === 'NEWEST' ? b.year - a.year : a.year - b.year;
+        if (yearDiff !== 0) return yearDiff;
 
-                const getSeq = (d) => {
-                    const parts = (d.code || '').split('-');
-                    return parseInt(parts[1]) || 0;
-                };
+        // 2. Extract the first sequence of numbers found in the code string
+        const getSeq = (d) => {
+            const match = (d.code || '').match(/(\d+)/); 
+            return match ? parseInt(match[0]) : 0;
+        };
 
-                const seqA = getSeq(a);
-                const seqB = getSeq(b);
-                return sort === 'NEWEST' ? seqB - seqA : seqA - seqB;
-            });
+        const seqA = getSeq(a);
+        const seqB = getSeq(b);
 
-            tbody.innerHTML = filtered.map(d => `
-                <tr class="hover:bg-slate-50">
-                    <td class="py-4 px-4 font-mono text-xs text-blue-600 font-bold">${d.code || ''}</td>
-                    <td class="py-4 px-4 text-slate-800 font-medium">${d.title || ''}</td>
-                    <td class="py-4 px-4 text-right"><a href="${d.link}" target="_blank" class="text-blue-600 font-bold underline text-xs">VIEW</a></td>
-                </tr>
-            `).join('');
-        }
+        // 3. Compare sequence
+        return sort === 'NEWEST' ? seqB - seqA : seqA - seqB;
+    });
+
+    tbody.innerHTML = filtered.map(d => `
+        <tr class="hover:bg-slate-50">
+            <td class="py-4 px-4 font-mono text-xs text-blue-600 font-bold">${d.code || ''}</td>
+            <td class="py-4 px-4 text-slate-800 font-medium">${d.title || ''}</td>
+            <td class="py-4 px-4 text-right"><a href="${d.link}" target="_blank" class="text-blue-600 font-bold underline text-xs">VIEW</a></td>
+        </tr>
+    `).join('');
+}
         
         init();
     </script>
