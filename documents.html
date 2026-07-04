@@ -6,12 +6,7 @@
     <title>Official Documents | LDVTS-SSLG</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap'); 
-        body { font-family: 'Inter', sans-serif; }
-        #header-logo { display: none; }
-        .logo-loaded #header-logo { display: block; }
-    </style>
+    <link rel="stylesheet" href="css/main.css">
 </head>
 <body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col">
 
@@ -81,103 +76,7 @@
         </div>
     </footer>
     
-    <script>
-        const BASE_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTIFgXyOttJeJGsVaLwfFtNWb-c1YCJiJ8R5siL32ykA47xYYY7b8KmPXm_42vNAbaHXOkcqEG3tRCu/pub";
-        const CONFIG_GID = "229901204";
-        const DOCS_TSV_URL = `${BASE_URL}?output=tsv&gid=29363756`;
-
-        let fullData = [];
-        let currentCategory = 'RESOLUTION';
-
-        async function init() {
-            // Define path variable to fix navigation error
-            const path = window.location.pathname.split("/").pop();
-
-            // 1. Load Config
-            const confRes = await fetch(`${BASE_URL}?output=csv&gid=${CONFIG_GID}`);
-            const confData = (await confRes.text()).split('\n').map(r => r.split(','));
-            const config = Object.fromEntries(confData.map(r => [r[0]?.trim(), r[1]?.trim()]));
-            
-            const logo = document.getElementById('header-logo');
-            if(config['IMG_LOGO_URL']) { logo.src = config['IMG_LOGO_URL']; logo.parentElement.parentElement.classList.add('logo-loaded'); }
-            document.getElementById('logo-link').href = config['LINK_0_PATH'] || 'index.html';
-            
-            const pages = [{name:'Home', id:'0'}, {name:'Gazettes', id:'1'}, {name:'Officers', id:'2'}, {name:'Feedback', id:'3'}, {name:'About Us', id:'5'}];
-            pages.forEach(p => {
-                const url = config[`LINK_${p.id}_PATH`] || '#';
-                const isActive = url.includes(path) || (p.name === 'Gazettes' && path.includes('document'));
-                const cls = isActive ? "text-blue-600 font-bold" : "text-slate-500 hover:text-blue-600";
-                
-                document.getElementById('nav-links').innerHTML += `<a href="${url}" class="${cls} text-sm">${p.name}</a>`;
-                document.getElementById('mobile-menu').innerHTML += `<a href="${url}" class="block py-3 px-2 ${cls} border-b border-slate-50">${p.name}</a>`;
-            });
-
-            // 2. Load TSV Data
-            try {
-                const docRes = await fetch(DOCS_TSV_URL);
-                const docText = await docRes.text();
-                fullData = docText.split('\n').slice(1).map(row => {
-                    const [type, code, year, title, link] = row.split('\t');
-                    return { type: type?.trim(), code: code?.trim(), year: year?.trim(), title: title?.trim(), link: link?.trim() };
-                }).filter(d => d.type); // Filter out empty rows
-
-                const years = [...new Set(fullData.map(d => d.year).filter(y => y))].sort((a,b) => b-a);
-                const yearSelect = document.getElementById('year-filter');
-                years.forEach(y => yearSelect.innerHTML += `<option value="${y}">${y}</option>`);
-                
-                renderTable();
-            } catch(e) { console.error("TSV Load Error:", e); }
-            lucide.createIcons();
-        }
-
-        function setCategory(cat) {
-            currentCategory = cat;
-            document.querySelectorAll('#tab-group button').forEach(b => {
-                b.className = b.id === 'btn-'+cat ? "py-3 rounded-lg bg-white border-2 border-blue-600 text-blue-600 shadow-sm text-xs" : "py-3 rounded-lg bg-slate-100 border text-slate-600 text-xs";
-            });
-            renderTable();
-        }
-
-                function renderTable() {
-    const tbody = document.getElementById('document-table-body');
-    const search = document.getElementById('search-input').value.toLowerCase();
-    const year = document.getElementById('year-filter').value;
-    const sort = document.getElementById('sort-filter').value;
-    
-    let filtered = fullData.filter(d => 
-        d.type === currentCategory && 
-        (year === 'ALL' || d.year === year) &&
-        (d.title?.toLowerCase().includes(search) || d.code?.toLowerCase().includes(search))
-    );
-
-    filtered.sort((a, b) => {
-        // 1. Compare by year first
-        const yearDiff = sort === 'NEWEST' ? b.year - a.year : a.year - b.year;
-        if (yearDiff !== 0) return yearDiff;
-
-        // 2. Extract the first sequence of numbers found in the code string
-        const getSeq = (d) => {
-            const match = (d.code || '').match(/(\d+)/); 
-            return match ? parseInt(match[0]) : 0;
-        };
-
-        const seqA = getSeq(a);
-        const seqB = getSeq(b);
-
-        // 3. Compare sequence
-        return sort === 'NEWEST' ? seqB - seqA : seqA - seqB;
-    });
-
-    tbody.innerHTML = filtered.map(d => `
-        <tr class="hover:bg-slate-50">
-            <td class="py-4 px-4 font-mono text-xs text-blue-600 font-bold">${d.code || ''}</td>
-            <td class="py-4 px-4 text-slate-800 font-medium">${d.title || ''}</td>
-            <td class="py-4 px-4 text-right"><a href="${d.link}" target="_blank" class="text-blue-600 font-bold underline text-xs">VIEW</a></td>
-        </tr>
-    `).join('');
-}
-        
-        init();
-    </script>
+    <script src="script/main.js"></script>
+<script src="script/documents.js"></script>
 </body>
 </html>
