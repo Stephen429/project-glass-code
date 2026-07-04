@@ -35,13 +35,16 @@ function loadLogo(config) {
 
 function buildNavigation(config) {
     const nav = document.getElementById('nav-links');
-    const mobile =
-        document.getElementById('mobile-menu');
+    const mobile = document.getElementById('mobile-menu');
 
     if (!nav || !mobile) return;
 
-    const path =
-        window.location.pathname.split('/').pop();
+    nav.innerHTML = "";
+    mobile.innerHTML = "";
+
+    const currentPage =
+        window.location.pathname.split('/').pop() ||
+        'index.html';
 
     const pages = [
         { name: 'Home', id: '0' },
@@ -55,27 +58,35 @@ function buildNavigation(config) {
         const url =
             config[`LINK_${p.id}_PATH`] || '#';
 
+        // Extract only the filename
+        let pageName = url.split('/').pop();
+
+        // Treat "/" as index.html
+        if (pageName === '' || pageName === '/') {
+            pageName = 'index.html';
+        }
+
         const isActive =
-            url.includes(path) ||
-            (p.name === 'Officers' &&
-             path.includes('officers')) ||
-            (p.name === 'Gazettes' &&
-             path.includes('document')) ||
-            (p.name === 'Home' &&
-             path.includes('index')) ||
-            (p.name === 'About Us' &&
-             path.includes('about'));
+            currentPage === pageName;
 
         const cls = isActive
             ? 'text-blue-600 font-bold'
             : 'text-slate-500 hover:text-blue-600';
 
-        nav.innerHTML +=
-            `<a href="${url}" class="${cls} text-sm">${p.name}</a>`;
+        nav.innerHTML += `
+            <a href="${url}"
+               class="${cls} text-sm">
+                ${p.name}
+            </a>
+        `;
 
-        mobile.innerHTML +=
-            `<a href="${url}" class="block py-3 px-2 ${cls} border-b border-slate-50">${p.name}</a>`;
+        mobile.innerHTML += `
+            <a href="${url}"
+               class="block py-3 px-2 ${cls} border-b border-slate-50">
+                ${p.name}
+            </a>
+        `;
     });
-    
+
     lucide.createIcons();
-      }
+        }
