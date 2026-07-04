@@ -47,22 +47,41 @@ function buildNavigation(config) {
         'index.html';
 
     const pages = [
-        { name: 'Home', id: '0' },
-        { name: 'Gazettes', id: '1' },
-        { name: 'Officers', id: '2' },
-        { name: 'Feedback', id: '3' },
-        { name: 'About Us', id: '5' }
+        {
+            name: 'Home',
+            id: '0',
+            file: 'index.html'
+        },
+        {
+            name: 'Gazettes',
+            id: '1',
+            file: 'documents.html'
+        },
+        {
+            name: 'Officers',
+            id: '2',
+            file: 'officers-and-committees.html'
+        },
+        {
+            name: 'Feedback',
+            id: '3',
+            file: 'feedback.html'
+        },
+        {
+            name: 'About Us',
+            id: '5',
+            file: 'about.html'
+        }
     ];
 
     pages.forEach(p => {
         const url =
-            config[`LINK_${p.id}_PATH`] || '#';
+            config[`LINK_${p.id}_PATH`] || p.file;
 
-        // Extract only the filename
-        let pageName = url.split('/').pop();
+        let pageName =
+            url.split('/').pop();
 
-        // Treat "/" as index.html
-        if (pageName === '' || pageName === '/') {
+        if (!pageName || pageName === '/') {
             pageName = 'index.html';
         }
 
@@ -89,4 +108,4 @@ function buildNavigation(config) {
     });
 
     lucide.createIcons();
-        }
+}
