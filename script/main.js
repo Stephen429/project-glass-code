@@ -60,7 +60,9 @@ function buildNavigation(config) {
             (p.name === 'Officers' &&
              path.includes('officers')) ||
             (p.name === 'Gazettes' &&
-             path.includes('document'));
+             path.includes('document')) ||
+            (p.name === 'Home' &&
+             path.includes('index')) ||
             (p.name === 'About Us' &&
              path.includes('about'));
 
