@@ -42,51 +42,37 @@ function buildNavigation(config) {
     nav.innerHTML = "";
     mobile.innerHTML = "";
 
-    const currentPage =
+    const path =
         window.location.pathname.split('/').pop() ||
         'index.html';
 
     const pages = [
-        {
-            name: 'Home',
-            id: '0',
-            file: 'index.html'
-        },
-        {
-            name: 'Gazettes',
-            id: '1',
-            file: 'documents.html'
-        },
-        {
-            name: 'Officers',
-            id: '2',
-            file: 'officers-and-committees.html'
-        },
-        {
-            name: 'Feedback',
-            id: '3',
-            file: 'feedback.html'
-        },
-        {
-            name: 'About Us',
-            id: '5',
-            file: 'about.html'
-        }
+        { name: 'Home', id: '0' },
+        { name: 'Gazettes', id: '1' },
+        { name: 'Officers', id: '2' },
+        { name: 'Feedback', id: '3' },
+        { name: 'About Us', id: '5' }
     ];
 
     pages.forEach(p => {
         const url =
-            config[`LINK_${p.id}_PATH`] || p.file;
-
-        let pageName =
-            url.split('/').pop();
-
-        if (!pageName || pageName === '/') {
-            pageName = 'index.html';
-        }
+            config[`LINK_${p.id}_PATH`] || '#';
 
         const isActive =
-            currentPage === pageName;
+            // Home page
+            (p.name === 'Home' &&
+                (path === '' ||
+                 path === 'index.html')) ||
+
+            // Existing logic
+            url.includes(path) ||
+            (p.name === 'Officers' &&
+                path.includes('officers')) ||
+            (p.name === 'Gazettes' &&
+                (path.includes('document') ||
+                 path.includes('gazette'))) ||
+            (p.name === 'About Us' &&
+                path.includes('about'));
 
         const cls = isActive
             ? 'text-blue-600 font-bold'
