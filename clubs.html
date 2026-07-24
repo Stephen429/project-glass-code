@@ -10,17 +10,21 @@
 </head>
 
 <body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col">
-    <header class="border-b border-slate-100 sticky top-0 z-50 bg-white">
-        <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-            <a id="logo-link" href="#" class="flex items-center">
-                <img id="header-logo" src="" class="h-8" alt="">
-            </a>
-            <nav id="nav-links" class="hidden md:flex items-center space-x-6 text-xs font-bold uppercase text-slate-500"></nav>
-            <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="md:hidden p-2 text-slate-600"><i data-lucide="menu"></i></button>
-        </div>
-        <div id="mobile-menu" class="hidden md:hidden border-t border-slate-100 bg-white px-4 py-2 space-y-1 text-xs font-bold uppercase text-slate-500 flex flex-col"></div>
-    </header>
-
+    <header class="sticky top-0 z-50 bg-white border-b border-slate-100 shadow-sm">
+    <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+        <a id="logo-link" href="#" class="flex items-center shrink-0">
+            <img id="header-logo" src="assets/sslg.png" class="h-8" alt="">
+        </a>
+        <nav id="nav-links" class="hidden md:flex items-center gap-6 text-xs font-bold uppercase tracking-wide">
+        </nav>
+        <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg hover:bg-slate-100 transition-colors">
+            <i data-lucide="menu"></i>
+        </button>
+    </div>
+    <div id="mobile-menu" class="hidden md:hidden overflow-hidden border-t border-slate-100 bg-white transition-all duration-300">
+    </div>
+</header>
+    
     <!-- Main Content -->
     <main class="flex-grow max-w-4xl mx-auto px-4 py-12 fade-in">
         <div class="text-center mb-12">
@@ -35,20 +39,21 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-white border-t border-slate-100 py-16">
-        <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-12">
-            <div>
-                <h3 class="font-black text-lg mb-4">LDVTS-SSLG'S Project GLASS</h3>
-                <p class="text-slate-500 text-sm leading-relaxed max-w-sm">
-                    This transparency dashboard is an open-initiative led by the Supreme Secondary Learner Government of Lydia D. Villangca Trade School. 
-                    Built to foster accountability and ease of access to school records, policies, and student-led initiatives.
-                </p>
-            </div>
+    <footer class="bg-white border-t border-slate-100 mt-20">
+    <div class="max-w-6xl mx-auto px-4 py-16">
+        <h3 class="font-black text-lg mb-4">
+            A Window into Student Leadership
+        </h3>
+        <p class="text-slate-500 text-sm leading-relaxed max-w-lg">
+            Serving the Lydian community through transparent leadership, student empowerment, and accessible public records. Hosted on the Project GLASS infrastructure.
+        </p>
+        <div class="mt-12 pt-8 border-t border-slate-100 flex flex-col md:flex-row md:justify-between md:items-center gap-4 text-[11px] font-bold uppercase tracking-widest text-slate-400">
+            <p>
+                © 2026 LDVTS Supreme Secondary Learner Government.
+                All Rights Reserved.
+            </p>
         </div>
-        <div class="max-w-6xl mx-auto px-4 mt-12 pt-8 border-t border-slate-100 flex flex-col md:flex-row justify-between items-center text-[11px] font-bold text-slate-400 uppercase tracking-widest">
-            <p class="mb-4 md:mb-0">© 2026 LDVTS Supreme Secondary Learner Government. All Rights Reserved.</p>
-            </div>
-        </div>
+    </div>
     </footer>
     
     <script src="script/main.js"></script>
