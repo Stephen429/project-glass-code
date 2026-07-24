@@ -4,6 +4,10 @@ const BASE_URL =
 const CSV_URL = `${BASE_URL}?output=csv`;
 const CONFIG_GID = "229901204";
 
+/* -----------------------------
+   Load Configuration
+----------------------------- */
+
 async function loadConfig() {
     const res = await fetch(`${CSV_URL}&gid=${CONFIG_GID}`);
 
@@ -16,26 +20,37 @@ async function loadConfig() {
     );
 }
 
-function loadLogo(config) {
-    const logo = document.getElementById('header-logo');
-    const logoLink = document.getElementById('logo-link');
+/* -----------------------------
+   Logo
+----------------------------- */
+
+function loadLogo(config = {}) {
+    const logo = document.getElementById("header-logo");
+    const logoLink = document.getElementById("logo-link");
 
     if (!logo || !logoLink) return;
 
-    if (config.IMG_LOGO_URL) {
-        // Works with assets/sslg.png or any relative path
+    // Default logo while config loads
+    logo.src = "assets/sslg.png";
+    logoLink.href = "index.html";
+
+    // Replace with configured values if available
+    if (config.IMG_LOGO_URL)
         logo.src = config.IMG_LOGO_URL;
 
-        // Reveal the logo
-        document.documentElement.classList.add('logo-loaded');
-    }
+    if (config.LINK_0_PATH)
+        logoLink.href = config.LINK_0_PATH;
 
-    logoLink.href = config.LINK_0_PATH || 'index.html';
+    document.documentElement.classList.add("logo-loaded");
 }
 
-function buildNavigation(config) {
-    const nav = document.getElementById('nav-links');
-    const mobile = document.getElementById('mobile-menu');
+/* -----------------------------
+   Navigation
+----------------------------- */
+
+function buildNavigation(config = {}) {
+    const nav = document.getElementById("nav-links");
+    const mobile = document.getElementById("mobile-menu");
 
     if (!nav || !mobile) return;
 
@@ -43,40 +58,90 @@ function buildNavigation(config) {
     mobile.innerHTML = "";
 
     const path =
-        window.location.pathname.split('/').pop() ||
-        'index.html';
+        window.location.pathname
+            .split("/")
+            .pop() ||
+        "index.html";
 
     const pages = [
-        { name: 'Home', id: '0' },
-        { name: 'Gazettes', id: '1' },
-        { name: 'Officers', id: '2' },
-        { name: 'Feedback', id: '3' },
-        { name: 'About Us', id: '5' }
+        {
+            name: "Home",
+            id: "0",
+            fallback: "index.html"
+        },
+        {
+            name: "Gazettes",
+            id: "1",
+            fallback: "documents.html"
+        },
+        {
+            name: "Officers",
+            id: "2",
+            fallback: "officers-and-committees.html"
+        },
+        {
+            name: "Feedback",
+            id: "3",
+            fallback: "feedback.html"
+        },
+        {
+            name: "About Us",
+            id: "5",
+            fallback: "about.html"
+        }
     ];
 
     pages.forEach(p => {
         const url =
-            config[`LINK_${p.id}_PATH`] || '#';
+            config[`LINK_${p.id}_PATH`] ||
+            p.fallback;
 
         const isActive =
+
             // Home page
-            (p.name === 'Home' &&
-                (path === '' ||
-                 path === 'index.html')) ||
+            (
+                p.name === "Home" &&
+                (
+                    path === "" ||
+                    path === "index.html" ||
+                    path === "home.html"
+                )
+            )
 
-            // Existing logic
-            url.includes(path) ||
-            (p.name === 'Officers' &&
-                path.includes('officers')) ||
-            (p.name === 'Gazettes' &&
-                (path.includes('document') ||
-                 path.includes('gazette'))) ||
-            (p.name === 'About Us' &&
-                path.includes('about'));
+            ||
 
-        const cls = isActive
-            ? 'text-blue-600 font-bold'
-            : 'text-slate-500 hover:text-blue-600';
+            // Direct filename match
+            url.split("/").pop() === path
+
+            ||
+
+            // Existing matching logic
+            (
+                p.name === "Officers" &&
+                path.includes("officers")
+            )
+
+            ||
+
+            (
+                p.name === "Gazettes" &&
+                (
+                    path.includes("document") ||
+                    path.includes("gazette")
+                )
+            )
+
+            ||
+
+            (
+                p.name === "About Us" &&
+                path.includes("about")
+            );
+
+        const cls =
+            isActive
+                ? "text-blue-600 font-bold"
+                : "text-slate-500 hover:text-blue-600 transition-colors";
 
         nav.innerHTML += `
             <a href="${url}"
@@ -95,3 +160,14 @@ function buildNavigation(config) {
 
     lucide.createIcons();
 }
+
+/* -----------------------------
+   Mobile Menu
+----------------------------- */
+
+function toggleMobileMenu() {
+    const menu =
+        document.getElementById("mobile-menu");
+    if (!menu) return;
+    menu.classList.toggle("open");
+                          }
