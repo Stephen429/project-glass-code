@@ -1,8 +1,14 @@
 const GID_ROSTER = "416625956";
 
 async function init() {
+    // Draw immediately
+    loadLogo();
+    buildNavigation();
+
+    // Load config
     const config = await loadConfig();
 
+    // Update with config values
     loadLogo(config);
     buildNavigation(config);
 
