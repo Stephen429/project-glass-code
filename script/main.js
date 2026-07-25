@@ -12,8 +12,8 @@ async function loadConfig() {
     const res = await fetch(`${CSV_URL}&gid=${CONFIG_GID}`);
 
     const rows = (await res.text())
-        .split('\n')
-        .map(r => r.split(','));
+        .split("\n")
+        .map(r => r.split(","));
 
     return Object.fromEntries(
         rows.map(r => [r[0]?.trim(), r[1]?.trim()])
@@ -30,11 +30,11 @@ function loadLogo(config = {}) {
 
     if (!logo || !logoLink) return;
 
-    // Default logo while config loads
+    // Default values
     logo.src = "assets/sslg.png";
     logoLink.href = "index.html";
 
-    // Replace with configured values if available
+    // Spreadsheet overrides
     if (config.IMG_LOGO_URL)
         logo.src = config.IMG_LOGO_URL;
 
@@ -49,13 +49,9 @@ function loadLogo(config = {}) {
 ----------------------------- */
 
 function buildNavigation(config = {}) {
+
     const nav = document.getElementById("nav-links");
     const mobile = document.getElementById("mobile-menu");
-    const button = document.getElementById("mobile-menu-btn");
-
-if (button) {
-    button.onclick = toggleMobileMenu;
-}
 
     if (!nav || !mobile) return;
 
@@ -97,13 +93,13 @@ if (button) {
     ];
 
     pages.forEach(p => {
+
         const url =
             config[`LINK_${p.id}_PATH`] ||
             p.fallback;
 
         const isActive =
 
-            // Home page
             (
                 p.name === "Home" &&
                 (
@@ -115,12 +111,10 @@ if (button) {
 
             ||
 
-            // Direct filename match
             url.split("/").pop() === path
 
             ||
 
-            // Existing matching logic
             (
                 p.name === "Officers" &&
                 path.includes("officers")
@@ -149,15 +143,13 @@ if (button) {
                 : "text-slate-500 hover:text-blue-600 transition-colors";
 
         nav.innerHTML += `
-            <a href="${url}"
-               class="${cls} text-sm">
+            <a href="${url}" class="${cls} text-sm">
                 ${p.name}
             </a>
         `;
 
         mobile.innerHTML += `
-            <a href="${url}"
-               class="block py-3 px-2 ${cls} border-b border-slate-50">
+            <a href="${url}" class="block py-3 px-4 ${cls} border-b border-slate-100">
                 ${p.name}
             </a>
         `;
@@ -171,10 +163,26 @@ if (button) {
 ----------------------------- */
 
 function toggleMobileMenu() {
-    const menu = document.getElementById("mobile-menu");
+
+    const menu =
+        document.getElementById("mobile-menu");
 
     if (!menu) return;
 
     menu.classList.remove("hidden");
     menu.classList.toggle("open");
-            }
+}
+
+/* -----------------------------
+   Global Event Listeners
+----------------------------- */
+
+document.addEventListener("click", function (e) {
+
+    const button =
+        e.target.closest("#mobile-menu-btn");
+
+    if (button) {
+        toggleMobileMenu();
+    }
+});
