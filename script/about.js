@@ -1,6 +1,17 @@
 async function init() {
+
+    /* -----------------------------
+       Header
+    ----------------------------- */
+
+    // Draw immediately
+    loadLogo();
+    buildNavigation();
+
+    // Load config
     const config = await loadConfig();
 
+    // Update with config values
     loadLogo(config);
     buildNavigation(config);
 
