@@ -51,6 +51,11 @@ function loadLogo(config = {}) {
 function buildNavigation(config = {}) {
     const nav = document.getElementById("nav-links");
     const mobile = document.getElementById("mobile-menu");
+    const button = document.getElementById("mobile-menu-btn");
+
+if (button) {
+    button.onclick = toggleMobileMenu;
+}
 
     if (!nav || !mobile) return;
 
@@ -166,8 +171,10 @@ function buildNavigation(config = {}) {
 ----------------------------- */
 
 function toggleMobileMenu() {
-    const menu =
-        document.getElementById("mobile-menu");
+    const menu = document.getElementById("mobile-menu");
+
     if (!menu) return;
+
+    menu.classList.remove("hidden");
     menu.classList.toggle("open");
-                          }
+            }
