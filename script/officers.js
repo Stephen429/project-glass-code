@@ -2,21 +2,22 @@ const GID_ROSTER = "416625956";
 
 async function init() {
 
-    // Show default logo + default navigation instantly
     loadLogo();
     buildNavigation();
 
-    // Load config in background
     const config = await loadConfig();
 
-    // Update links afterwards
     loadLogo(config);
     buildNavigation(config);
 
+    document
+        .getElementById("mobile-menu-btn")
+        ?.addEventListener("click", toggleMobileMenu);
+
+    lucide.createIcons();
+
     fetchRoster();
 }
-
-init();
 
 function showTab(t) {
     document.querySelectorAll('[id^="panel-"]').forEach(p =>
