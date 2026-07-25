@@ -1,19 +1,22 @@
 const GID_ROSTER = "416625956";
 
 async function init() {
-    // Draw immediately
+
+    // Show default logo + default navigation instantly
     loadLogo();
     buildNavigation();
 
-    // Load config
+    // Load config in background
     const config = await loadConfig();
 
-    // Update with config values
+    // Update links afterwards
     loadLogo(config);
     buildNavigation(config);
 
     fetchRoster();
 }
+
+init();
 
 function showTab(t) {
     document.querySelectorAll('[id^="panel-"]').forEach(p =>
