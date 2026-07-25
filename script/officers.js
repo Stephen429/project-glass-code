@@ -1,363 +1,208 @@
 const GID_ROSTER = "416625956";
 
-/* -----------------------------
-   Initialize Page
------------------------------ */
-
 async function init() {
-    try {
 
-        // Show default header immediately
-        loadLogo();
-        buildNavigation();
+    loadLogo();
+    buildNavigation();
 
-        // Load configuration in the background
-        const config = await loadConfig();
+    const config = await loadConfig();
 
-        // Update header using configuration
-        loadLogo(config);
-        buildNavigation(config);
+    loadLogo(config);
+    buildNavigation(config);
 
-        // Mobile menu
-        document
-            .getElementById("mobile-menu-btn")
-            ?.addEventListener("click", toggleMobileMenu);
+    document
+        .getElementById("mobile-menu-btn")
+        ?.addEventListener("click", toggleMobileMenu);
 
-        // Load roster
-        await fetchRoster();
+    lucide.createIcons();
 
-    } catch (err) {
-        console.error("Initialization Error:", err);
+    fetchRoster();
+}
 
-        document.getElementById("loader").innerHTML =
-            "Unable to load roster data.";
+function showTab(t) {
+    document.querySelectorAll('[id^="panel-"]').forEach(p =>
+        p.classList.add('hidden')
+    );
+
+    document
+        .getElementById('panel-' + t)
+        .classList.remove('hidden');
+
+    document
+        .querySelectorAll('#tab-group button')
+        .forEach(b => {
+            b.className =
+                b.id === 'btn-' + t
+                    ? "flex-1 px-3 py-3 rounded-md bg-white text-blue-600 shadow-sm transition-all whitespace-nowrap"
+                    : "flex-1 px-3 py-3 rounded-md text-slate-600 transition-all whitespace-nowrap";
+        });
+}
+
+async function fetchRoster() {
+    const res = await fetch(`${CSV_URL}&gid=${GID_ROSTER}`);
+    const rows = (await res.text())
+        .split('\n')
+        .map(r => r.split(','));
+
+    document
+        .getElementById('loader')
+        .classList.add('hidden');
+
+    let execs = [];
+    let reps = {
+        7: [],
+        8: [],
+        9: [],
+        10: [],
+        11: [],
+        12: []
+    };
+    let comms = {};
+
+    for (let i = 1; i < rows.length; i++) {
+        let [
+            name,
+            role,
+            img,
+            commRaw
+        ] = [
+            rows[i][0]?.trim(),
+            rows[i][1]?.trim(),
+            rows[i][2]?.trim(),
+            rows[i][3]?.trim()
+        ];
+
+        if (!name) continue;
+
+        let rl = role.toLowerCase();
+
+        if (
+            rl.match(
+                /president|secretary|treasurer|auditor|public information officer|protocol|vice/
+            )
+        ) {
+            execs.push({ name, role, img });
+        } else if (rl.includes('grade')) {
+            let g = rl.match(/\d+/);
+            if (g && reps[g[0]]) {
+                reps[g[0]].push(name);
+            }
+        }
+
+        if (commRaw) {
+            let parts = commRaw.split(' ');
+            let pos = parts.pop();
+            let cName = parts.join(' ');
+
+            if (!comms[cName]) {
+                comms[cName] = {
+                    Chair: [],
+                    Co: [],
+                    Mem: []
+                };
+            }
+
+            if (pos === 'Chairperson') {
+                comms[cName].Chair.push(name);
+            } else if (pos === 'Co-Chairperson') {
+                comms[cName].Co.push(name);
+            } else {
+                comms[cName].Mem.push(name);
+            }
+        }
+    }
+
+    const pPanel =
+        document.getElementById('panel-executive');
+
+    const pres = execs.find(e =>
+        e.role.toLowerCase().includes('president')
+    );
+
+    pPanel.innerHTML = pres
+        ? `<div class="bg-white p-6 rounded-2xl border text-center mx-auto w-64 hover:scale-105 transition-transform">
+                <img src="${pres.img}" class="w-24 h-24 rounded-lg mx-auto mb-4 object-cover">
+                <p class="font-black text-lg">${pres.name}</p>
+                <p class="text-blue-600 font-bold text-sm">${pres.role}</p>
+           </div>
+           <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                ${execs
+                    .filter(e => e !== pres)
+                    .map(e => `
+                        <div class="bg-white p-4 rounded-xl border text-center hover:scale-105 transition-transform">
+                            <img src="${e.img}" class="w-16 h-16 rounded-lg mx-auto mb-2 object-cover">
+                            <p class="font-bold text-sm">${e.name}</p>
+                            <p class="text-blue-600 font-bold text-[10px] uppercase">${e.role}</p>
+                        </div>
+                    `)
+                    .join('')}
+           </div>`
+        : "";
+
+    const rPanel =
+        document.getElementById(
+            'panel-representatives'
+        );
+
+    [[7, 8], [9, 10], [11, 12]].forEach(pair => {
+        rPanel.innerHTML += `
+            <div class="bg-white p-6 rounded-2xl border">
+                ${pair
+                    .map(g => `
+                        <h3 class="text-blue-600 font-black text-sm uppercase mb-2">
+                            Grade ${g}
+                        </h3>
+                        <ul class="mb-4">
+                            ${reps[g]
+                                .map(n => `
+                                    <li class="py-1 text-sm list-disc ml-4">
+                                        ${n}
+                                    </li>
+                                `)
+                                .join('')}
+                        </ul>
+                    `)
+                    .join('')}
+            </div>`;
+    });
+
+    const cPanel =
+        document.getElementById(
+            'panel-committees'
+        );
+
+    for (let name in comms) {
+        cPanel.innerHTML += `
+            <div class="bg-white p-6 rounded-2xl border hover:shadow-lg transition-shadow">
+                <h4 class="font-black text-lg mb-4">${name}</h4>
+
+                <p class="font-bold text-sm">
+                    Chair:
+                    <span class="text-blue-600">
+                        ${comms[name].Chair.join(', ') || 'TBD'}
+                    </span>
+                </p>
+
+                <p class="font-bold text-sm mb-4">
+                    Co-Chair:
+                    <span class="text-blue-600">
+                        ${comms[name].Co.join(', ') || 'TBD'}
+                    </span>
+                </p>
+
+                <p class="text-xs font-bold text-slate-400 uppercase mb-2">
+                    Members
+                </p>
+
+                <ul class="list-disc pl-5 text-sm">
+                    ${comms[name].Mem
+                        .map(m => `<li>${m}</li>`)
+                        .join('')}
+                </ul>
+            </div>`;
     }
 
     lucide.createIcons();
 }
 
 init();
-
-/* -----------------------------
-   Tabs
------------------------------ */
-
-function showTab(tab) {
-
-    document
-        .querySelectorAll('[id^="panel-"]')
-        .forEach(panel =>
-            panel.classList.add("hidden")
-        );
-
-    document
-        .getElementById(`panel-${tab}`)
-        .classList.remove("hidden");
-
-    document
-        .querySelectorAll("#tab-group button")
-        .forEach(button => {
-
-            const active =
-                button.id === `btn-${tab}`;
-
-            button.className = active
-                ? "flex-1 py-3 rounded-lg bg-white text-blue-600 font-bold text-xs uppercase shadow transition-all"
-                : "flex-1 py-3 rounded-lg text-slate-600 font-bold text-xs uppercase transition-all";
-
-        });
-
-}
-
-/* -----------------------------
-   Fetch Roster
------------------------------ */
-
-async function fetchRoster() {
-
-    const loader =
-        document.getElementById("loader");
-
-    const executivePanel =
-        document.getElementById("panel-executive");
-
-    const representativePanel =
-        document.getElementById("panel-representatives");
-
-    const committeePanel =
-        document.getElementById("panel-committees");
-
-    try {
-
-        const res =
-            await fetch(`${CSV_URL}&gid=${GID_ROSTER}`);
-
-        const rows =
-            (await res.text())
-            .split("\n")
-            .map(row => row.split(","));
-
-        loader.classList.add("hidden");
-
-        const executives = [];
-
-        const representatives = {
-            7: [],
-            8: [],
-            9: [],
-            10: [],
-            11: [],
-            12: []
-        };
-
-        const committees = {};
-
-        for (let i = 1; i < rows.length; i++) {
-
-            const name =
-                rows[i][0]?.trim();
-
-            const role =
-                rows[i][1]?.trim();
-
-            const image =
-                rows[i][2]?.trim();
-
-            const committee =
-                rows[i][3]?.trim();
-
-            if (!name || !role)
-                continue;
-
-            const roleLower =
-                role.toLowerCase();
-
-            if (
-                roleLower.match(
-                    /president|vice|secretary|treasurer|auditor|public information officer|protocol/
-                )
-            ) {
-
-                executives.push({
-                    name,
-                    role,
-                    image
-                });
-
-            }
-
-            else if (roleLower.includes("grade")) {
-
-                const grade =
-                    roleLower.match(/\d+/);
-
-                if (
-                    grade &&
-                    representatives[grade[0]]
-                ) {
-
-                    representatives[grade[0]]
-                        .push(name);
-
-                }
-
-            }
-
-            if (committee) {
-
-                const words =
-                    committee.split(" ");
-
-                const position =
-                    words.pop();
-
-                const committeeName =
-                    words.join(" ");
-
-                if (!committees[committeeName]) {
-
-                    committees[committeeName] = {
-                        Chair: [],
-                        Co: [],
-                        Mem: []
-                    };
-
-                }
-
-                if (position === "Chairperson") {
-
-                    committees[committeeName]
-                        .Chair.push(name);
-
-                }
-
-                else if (position === "Co-Chairperson") {
-
-                    committees[committeeName]
-                        .Co.push(name);
-
-                }
-
-                else {
-
-                    committees[committeeName]
-                        .Mem.push(name);
-
-                }
-
-            }
-
-        }
-
-        /* -----------------------------
-           Executive Officers
-        ----------------------------- */
-
-        const president =
-            executives.find(e =>
-                e.role
-                    .toLowerCase()
-                    .includes("president")
-            );
-
-        executivePanel.innerHTML = "";
-
-        if (president) {
-
-            executivePanel.innerHTML += `
-
-<div class="bg-white rounded-3xl border border-slate-100 shadow-sm p-8 text-center max-w-xs mx-auto">
-
-<img src="${president.image}" class="w-28 h-28 rounded-2xl object-cover mx-auto mb-4">
-
-<h2 class="font-black text-xl">
-${president.name}
-</h2>
-
-<p class="text-blue-600 font-bold uppercase text-sm">
-${president.role}
-</p>
-
-</div>
-
-<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
-
-${executives
-.filter(e => e !== president)
-.map(e => `
-
-<div class="bg-white rounded-2xl border border-slate-100 p-4 text-center">
-
-<img src="${e.image}" class="w-16 h-16 rounded-xl object-cover mx-auto mb-3">
-
-<div class="font-bold text-sm">
-${e.name}
-</div>
-
-<div class="text-blue-600 text-[10px] uppercase font-bold">
-${e.role}
-</div>
-
-</div>
-
-`).join("")}
-
-</div>`;
-
-        }
-
-        /* -----------------------------
-           Representatives
-        ----------------------------- */
-
-        representativePanel.innerHTML = "";
-
-        [[7,8],[9,10],[11,12]].forEach(pair=>{
-
-            representativePanel.innerHTML += `
-
-<div class="bg-white rounded-2xl border border-slate-100 p-6">
-
-${pair.map(g=>`
-
-<h3 class="font-black text-blue-600 uppercase text-sm mb-2">
-Grade ${g}
-</h3>
-
-<ul class="list-disc ml-5 mb-5">
-
-${representatives[g]
-.map(name=>`<li>${name}</li>`)
-.join("")}
-
-</ul>
-
-`).join("")}
-
-</div>`;
-
-        });
-
-        /* -----------------------------
-           Committees
-        ----------------------------- */
-
-        committeePanel.innerHTML = "";
-
-        Object.keys(committees).forEach(name=>{
-
-            const committee =
-                committees[name];
-
-            committeePanel.innerHTML += `
-
-<div class="bg-white rounded-2xl border border-slate-100 p-6">
-
-<h2 class="font-black text-lg mb-4">
-${name}
-</h2>
-
-<p class="mb-2">
-<strong>Chair:</strong>
-<span class="text-blue-600">
-${committee.Chair.join(", ") || "TBD"}
-</span>
-</p>
-
-<p class="mb-4">
-<strong>Co-Chair:</strong>
-<span class="text-blue-600">
-${committee.Co.join(", ") || "TBD"}
-</span>
-</p>
-
-<p class="text-xs uppercase font-bold text-slate-400 mb-2">
-Members
-</p>
-
-<ul class="list-disc ml-5">
-
-${committee.Mem
-.map(member=>`<li>${member}</li>`)
-.join("")}
-
-</ul>
-
-</div>`;
-
-        });
-
-    }
-
-    catch (err) {
-
-        console.error(err);
-
-        loader.innerHTML =
-            "Unable to load roster data.";
-
-    }
-
-    lucide.createIcons();
-
-}
