@@ -30,11 +30,12 @@ function loadLogo(config = {}) {
 
     if (!logo || !logoLink) return;
 
-    if (config.IMG_LOGO_URL) {
-        logo.src = config.IMG_LOGO_URL;
+    if (config.IMG_LOGO_URL && config.IMG_LOGO_URL.trim() !== "") {
+        logo.src = config.IMG_LOGO_URL.trim();
     }
-
-    logoLink.href = config.LINK_0_PATH || "index.html";
+    if (config.LINK_0_PATH && config.LINK_0_PATH.trim() !== "") {
+        logoLink.href = config.LINK_0_PATH.trim();
+    }
 }
 /* -----------------------------
    Navigation
