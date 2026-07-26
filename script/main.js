@@ -30,20 +30,12 @@ function loadLogo(config = {}) {
 
     if (!logo || !logoLink) return;
 
-    // Default values
-    if (!logo.getAttribute("src")) {
-    logo.src = "assets/sslg.png";
-    }
-    logoLink.href = "index.html";
-
-    // Spreadsheet overrides
-    if (config.IMG_LOGO_URL)
+    if (config.IMG_LOGO_URL) {
         logo.src = config.IMG_LOGO_URL;
+    }
 
-    if (config.LINK_0_PATH)
-        logoLink.href = config.LINK_0_PATH;
+    logoLink.href = config.LINK_0_PATH || "index.html";
 }
-
 /* -----------------------------
    Navigation
 ----------------------------- */
