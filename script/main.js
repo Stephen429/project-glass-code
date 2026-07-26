@@ -33,9 +33,12 @@ function loadLogo(config = {}) {
     if (config.IMG_LOGO_URL && config.IMG_LOGO_URL.trim() !== "") {
         logo.src = config.IMG_LOGO_URL.trim();
     }
+
     if (config.LINK_0_PATH && config.LINK_0_PATH.trim() !== "") {
         logoLink.href = config.LINK_0_PATH.trim();
     }
+
+    document.documentElement.classList.add("logo-loaded");
 }
 /* -----------------------------
    Navigation
