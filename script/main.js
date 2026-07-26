@@ -42,8 +42,6 @@ function loadLogo(config = {}) {
 
     if (config.LINK_0_PATH)
         logoLink.href = config.LINK_0_PATH;
-
-    document.documentElement.classList.add("logo-loaded");
 }
 
 /* -----------------------------
