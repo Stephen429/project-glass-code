@@ -163,26 +163,31 @@ function buildNavigation(config = {}) {
 ----------------------------- */
 
 function toggleMobileMenu() {
-
-    const menu =
-        document.getElementById("mobile-menu");
+    const menu = document.getElementById("mobile-menu");
 
     if (!menu) return;
 
-    menu.classList.remove("hidden");
     menu.classList.toggle("open");
 }
 
 /* -----------------------------
-   Global Event Listeners
+   Initialize Project GLASS
 ----------------------------- */
 
-document.addEventListener("click", function (e) {
+document.addEventListener("DOMContentLoaded", async () => {
+    try {
+        const config = await loadConfig();
 
-    const button =
-        e.target.closest("#mobile-menu-btn");
+        loadLogo(config);
+        buildNavigation(config);
+    } catch (error) {
+        console.error("Project GLASS initialization failed:", error);
 
-    if (button) {
-        toggleMobileMenu();
+        loadLogo({});
+        buildNavigation({});
+    }
+
+    if (typeof lucide !== "undefined") {
+        lucide.createIcons();
     }
 });
